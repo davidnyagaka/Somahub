@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#153e75">
+<title>SomaHub — Learn. Teach. Grow.</title>
+<style>
+:root{--navy:#153e75;--blue:#2563eb;--sky:#eaf2ff;--ink:#182230;--muted:#657286;--line:#e3e9f2;--paper:#f6f8fc;--white:#fff;--green:#16794b;--amber:#8a5700}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--paper);color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer}.topbar{background:linear-gradient(115deg,#153e75,#2563eb);color:white;padding:20px max(18px,calc((100% - 1120px)/2));display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:11px}.logo{width:43px;height:43px;border-radius:14px;background:#fff;color:var(--blue);display:grid;place-items:center;font-weight:900;font-size:20px}.brand h1{font-size:21px;line-height:1.1;margin:0}.brand p{margin:4px 0 0;color:#dce8ff;font-size:12px}.role-switch{display:flex;gap:4px;padding:4px;border-radius:13px;background:#ffffff25}.role-switch button{border:0;border-radius:9px;background:transparent;color:white;padding:9px 13px;font-weight:700}.role-switch button.active{background:white;color:var(--navy)}main{max-width:1120px;margin:auto;padding:25px 18px 50px}.hero{display:grid;grid-template-columns:1.4fr .8fr;gap:18px;margin-bottom:22px}.hero-copy,.hero-side{border-radius:22px;padding:25px;background:white;border:1px solid var(--line)}.eyebrow{text-transform:uppercase;letter-spacing:.12em;color:var(--blue);font-size:11px;font-weight:800}.hero h2{font-size:clamp(27px,4vw,39px);letter-spacing:-.04em;line-height:1.1;margin:10px 0}.hero p{color:var(--muted);line-height:1.55;margin:0}.hero-side{background:var(--sky);display:flex;flex-direction:column;justify-content:center}.statline{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #cbdcf9}.statline:last-child{border:0}.statline strong{color:var(--navy)}.nav{display:flex;gap:8px;overflow:auto;padding:3px 0 15px;margin-bottom:6px}.nav button{white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:10px 16px;background:white;color:#526074;font-weight:700}.nav button.active{background:var(--navy);color:white;border-color:var(--navy)}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin:10px 0 15px}.section-head h3{font-size:22px;margin:0 0 4px}.section-head p{margin:0;color:var(--muted);font-size:14px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{background:white;border:1px solid var(--line);border-radius:17px;padding:18px;min-width:0}.card h4{font-size:16px;margin:10px 0 7px}.card p{font-size:14px;line-height:1.5;color:var(--muted);margin:0 0 12px}.tag{display:inline-flex;border-radius:999px;padding:5px 9px;background:var(--sky);color:var(--navy);font-size:11px;font-weight:800}.card-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px}.small{font-size:12px;color:var(--muted)}.btn{border:0;border-radius:11px;padding:10px 14px;background:var(--blue);color:white;font-weight:750}.btn.secondary{background:#edf2fa;color:var(--navy)}.btn.danger{background:#fff0f0;color:#a62a2a}.btn:focus,input:focus,select:focus,textarea:focus{outline:3px solid #93c5fd;outline-offset:1px}.form-card{max-width:740px;margin:0 auto;background:white;border:1px solid var(--line);border-radius:20px;padding:22px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:13px}.field label{font-size:13px;font-weight:750;color:#35445a}.field input,.field select,.field textarea,.search{width:100%;border:1px solid #d6deea;border-radius:10px;padding:11px 12px;background:white;color:var(--ink)}.field textarea{min-height:100px;resize:vertical}.field.full{grid-column:1/-1}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:6px}.empty{border:1px dashed #cbd5e1;border-radius:16px;padding:30px;text-align:center;color:var(--muted);background:#fff}.notice{margin-top:14px;padding:12px 14px;border-radius:12px;background:#eefbf3;color:var(--green);font-size:14px;display:none}.quiz-question{border:1px solid var(--line);border-radius:13px;padding:14px;margin:12px 0}.quiz-question label{display:block;margin:9px 0;color:#35445a;font-size:14px}.score{font-weight:800;color:var(--green);margin-top:12px}.footer{text-align:center;color:#7b8798;font-size:12px;margin-top:32px;line-height:1.6}.hidden{display:none!important}.search{max-width:330px}.delete-link{border:0;background:none;color:#a62a2a;font-size:12px;font-weight:700;padding:5px}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.topbar{align-items:flex-start}.role-switch{width:100%}.role-switch button{flex:1}main{padding-top:16px}.hero-copy,.hero-side{padding:20px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="logo">S</div><div><h1>SomaHub</h1><p>Learn. Teach. Grow.</p></div></div>
+  <div class="role-switch" aria-label="Choose your workspace">
+    <button class="active" data-role="student">🎓 Student</button><button data-role="teacher">📚 Teacher</button>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <div class="hero-copy"><span class="eyebrow">Your learning space</span><h2>Small steps.<br>Stronger learning.</h2><p>Find revision resources, practise a quick quiz, and share useful learning materials. Teachers can add resources for their learners.</p></div>
+    <div class="hero-side"><span class="eyebrow">SomaHub starter</span><div class="statline"><span>Learning resources</span><strong id="resourceCount">3</strong></div><div class="statline"><span>Quick practice</span><strong>1 quiz</strong></div><div class="statline"><span>Starting cost</span><strong>KSh 0</strong></div></div>
+  </section>
+  <nav class="nav" aria-label="Main navigation">
+    <button class="active" data-page="home">Discover</button><button data-page="quiz">Practice quiz</button><button data-page="library">Resource library</button><button data-page="create" id="createTab">Add a resource</button>
+  </nav>
+  <section id="homePage">
+    <div class="section-head"><div><h3 id="welcomeTitle">Welcome, learner!</h3><p id="welcomeText">Choose a resource or test what you know.</p></div><input class="search" id="searchHome" placeholder="Search subjects or resources…" aria-label="Search resources"></div>
+    <div class="grid" id="homeResources"></div>
+    <div class="section-head" style="margin-top:28px"><div><h3>Ready for a quick challenge?</h3><p>Try a short learning check and see your score.</p></div><button class="btn" data-goto="quiz">Start quiz →</button></div>
+  </section>
+  <section id="quizPage" class="hidden">
+    <div class="section-head"><div><h3>Quick practice</h3><p>Sample questions for revision. Choose one answer for each question.</p></div><span class="tag">3 questions</span></div>
+    <div class="card" id="quizBox">
+      <div class="quiz-question"><strong>1. Which competency involves working together to achieve a goal?</strong><label><input type="radio" name="q1" value="a"> Self-efficacy</label><label><input type="radio" name="q1" value="b"> Collaboration and communication</label><label><input type="radio" name="q1" value="c"> Digital literacy</label></div>
+      <div class="quiz-question"><strong>2. Which sentence is grammatically correct in French?</strong><label><input type="radio" name="q2" value="a"> Je vais visiter Paris.</label><label><input type="radio" name="q2" value="b"> Je vais visitera Paris.</label><label><input type="radio" name="q2" value="c"> Je vais visité Paris.</label></div>
+      <div class="quiz-question"><strong>3. What is the main purpose of a lesson plan?</strong><label><input type="radio" name="q3" value="a"> To replace teaching</label><label><input type="radio" name="q3" value="b"> To record school fees</label><label><input type="radio" name="q3" value="c"> To guide teaching and learning activities</label></div>
+      <button class="btn" id="checkQuiz">Check my answers</button> <button class="btn secondary" id="resetQuiz">Try again</button><div id="quizResult" class="score" aria-live="polite"></div>
+    </div>
+  </section>
+  <section id="libraryPage" class="hidden">
+    <div class="section-head"><div><h3>Resource library</h3><p>Browse starter resources and materials added in this browser.</p></div><input class="search" id="searchLibrary" placeholder="Search library…" aria-label="Search library"></div>
+    <div class="grid" id="libraryResources"></div>
+  </section>
+  <section id="createPage" class="hidden">
+    <div class="section-head"><div><h3>Add a learning resource</h3><p>Teacher workspace · Add notes, links, or activity descriptions.</p></div></div>
+    <form class="form-card" id="resourceForm">
+      <div class="form-grid">
+        <div class="field"><label for="resourceTitle">Resource title *</label><input id="resourceTitle" required maxlength="90" placeholder="e.g. Introduction to map skills"></div>
+        <div class="field"><label for="resourceSubject">Subject *</label><select id="resourceSubject" required><option value="">Choose subject</option><option>French</option><option>Geography</option><option>Social Studies</option><option>Education</option><option>Mathematics</option><option>Science</option><option>English</option><option>Other</option></select></div>
+        <div class="field"><label for="resourceLevel">Class / level</label><select id="resourceLevel"><option>All levels</option><option>Primary</option><option>Junior School (Grades 7–9)</option><option>Senior School</option><option>University</option></select></div>
+        <div class="field"><label for="resourceType">Resource type</label><select id="resourceType"><option>Revision notes</option><option>Lesson plan</option><option>Quiz / assessment</option><option>Activity</option><option>Useful link</option></select></div>
+        <div class="field full"><label for="resourceDescription">Description or notes *</label><textarea id="resourceDescription" required maxlength="1200" placeholder="Explain what learners will find or learn…"></textarea></div>
+        <div class="field full"><label for="resourceUrl">Optional link (https://…)</label><input id="resourceUrl" type="url" placeholder="https://example.com/resource"></div>
+      </div>
+      <div class="actions"><button class="btn" type="submit">Save resource</button><button class="btn secondary" type="reset">Clear form</button></div>
+      <div id="formNotice" class="notice" role="status"></div>
+      <p class="small" style="margin-top:15px">Prototype note: resources are saved only in this browser on this device. They are not yet shared with other users.</p>
+    </form>
+  </section>
+  <footer class="footer">SomaHub MVP · Built as a free prototype<br>Demo content only. Please verify educational materials before using them in class.</footer>
+</main>
+<script>
+const starter = [
+ {id:"s1",title:"CBC Core Competencies",subject:"Education",level:"Junior School (Grades 7–9)",type:"Revision notes",description:"A starter summary of competencies such as communication and collaboration, critical thinking, creativity, citizenship, digital literacy, learning to learn, and self-efficacy.",url:""},
+ {id:"s2",title:"French: Near Future (Le futur proche)",subject:"French",level:"All levels",type:"Revision notes",description:"Use aller in the present tense + an infinitive. Example: Je vais visiter Paris. Practise building sentences about your plans.",url:""},
+ {id:"s3",title:"Introduction to Map Skills",subject:"Geography",level:"Junior School (Grades 7–9)",type:"Activity",description:"Practise reading a map title, key, scale, direction, and symbols. Explain how each helps a map reader interpret a place.",url:""}
+];
+const storeKey="somahub_resources_v1";
+let resources = loadResources();
+let role="student", page="home";
+function loadResources(){try{const x=JSON.parse(localStorage.getItem(storeKey));return Array.isArray(x)?x:starter.slice()}catch(e){return starter.slice()}}
+function saveResources(){try{localStorage.setItem(storeKey,JSON.stringify(resources))}catch(e){}}
+function esc(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function resourceCard(r){return `<article class="card"><span class="tag">${esc(r.subject)}</span><h4>${esc(r.title)}</h4><p>${esc(r.description)}</p><div class="small">${esc(r.level||"All levels")} · ${esc(r.type||"Resource")}</div><div class="card-foot">${r.url?`<a class="btn secondary" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">Open link ↗</a>`:`<span class="small">SomaHub resource</span>`}${r.id.startsWith("u")?`<button class="delete-link" data-delete="${esc(r.id)}">Delete</button>`:""}</div></article>`}
+function drawResources(){const query=(document.getElementById("searchHome").value||"").toLowerCase();const libq=(document.getElementById("searchLibrary").value||"").toLowerCase();const filter=(r,q)=>[r.title,r.subject,r.description,r.level,r.type].join(" ").toLowerCase().includes(q);document.getElementById("homeResources").innerHTML=resources.filter(r=>filter(r,query)).slice().reverse().map(resourceCard).join("")||'<div class="empty">No matching resources yet. Try another search.</div>';document.getElementById("libraryResources").innerHTML=resources.filter(r=>filter(r,libq)).slice().reverse().map(resourceCard).join("")||'<div class="empty">No matching resources yet. Try another search.</div>';document.getElementById("resourceCount").textContent=resources.length;document.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>{if(confirm("Delete this resource from this browser?")){resources=resources.filter(r=>r.id!==b.dataset.delete);saveResources();drawResources()}}))}
+function go(p){page=p;document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===p));["home","quiz","library","create"].forEach(n=>document.getElementById(n+"Page").classList.toggle("hidden",n!==p));if(p==="create"&&role!=="teacher"){document.getElementById("createPage").classList.remove("hidden");document.getElementById("createTab").textContent="Add a resource";}window.scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.goto)));
+document.querySelectorAll("[data-role]").forEach(b=>b.addEventListener("click",()=>{role=b.dataset.role;document.querySelectorAll("[data-role]").forEach(x=>x.classList.toggle("active",x.dataset.role===role));document.getElementById("welcomeTitle").textContent=role==="teacher"?"Welcome, teacher!":"Welcome, learner!";document.getElementById("welcomeText").textContent=role==="teacher"?"Share a learning resource or explore the library.":"Choose a resource or test what you know.";document.getElementById("createTab").textContent=role==="teacher"?"Add a resource":"Teacher: add resource";}));
+document.getElementById("searchHome").addEventListener("input",drawResources);document.getElementById("searchLibrary").addEventListener("input",drawResources);
+document.getElementById("resourceForm").addEventListener("submit",e=>{e.preventDefault();const title=document.getElementById("resourceTitle").value.trim(),subject=document.getElementById("resourceSubject").value,description=document.getElementById("resourceDescription").value.trim(),url=document.getElementById("resourceUrl").value.trim();if(url&&!/^https?:\/\//i.test(url)){alert("Please enter a link beginning with https:// or http://");return}resources.push({id:"u"+Date.now(),title,subject,level:document.getElementById("resourceLevel").value,type:document.getElementById("resourceType").value,description,url});saveResources();drawResources();e.target.reset();const n=document.getElementById("formNotice");n.textContent="Resource saved on this device. It now appears in the resource library.";n.style.display="block";setTimeout(()=>n.style.display="none",5000)});
+document.getElementById("checkQuiz").addEventListener("click",()=>{const correct={q1:"b",q2:"a",q3:"c"};let score=0;for(const [q,a] of Object.entries(correct)){const selected=document.querySelector(`input[name="${q}"]:checked`);if(selected&&selected.value===a)score++}document.getElementById("quizResult").textContent=`You scored ${score}/3. ${score===3?"Excellent work!":score===2?"Good effort — review the missed question.":"Keep practising; read the notes and try again."}`});
+document.getElementById("resetQuiz").addEventListener("click",()=>{document.querySelectorAll('#quizBox input[type="radio"]').forEach(x=>x.checked=false);document.getElementById("quizResult").textContent=""});
+drawResources();
+</script>
+</body>
+</html>
