@@ -1,179 +1,403 @@
 
-<script>
-  // QUIZ
-  const quizForm = document.getElementById("quizForm");
-  const quizResult = document.getElementById("quizResult");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#155eef">
+  <meta name="description" content="SomaHub is a learning platform for students and teachers.">
+  <title>SomaHub - Learn Together</title>
 
-  // Correct answers: update these values to match your quiz questions.
-  const answers = {
-    q1: "b",
-    q2: "a",
-    q3: "c"
-  };
+  <link rel="manifest" href="/Somahub/manifest.json">
 
-  quizForm.addEventListener("submit", function(event) {
-    event.preventDefault();
+  <style>
+    * { box-sizing: border-box; }
 
-    let score = 0;
-    let answered = 0;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #243047;
+      background: #f3f7ff;
+    }
 
-    for (const question in answers) {
-      const selected = quizForm.querySelector(
-        'input[name="' + question + '"]:checked'
-      );
+    header {
+      background: #155eef;
+      color: white;
+      padding: 28px 16px;
+      text-align: center;
+    }
 
-      if (selected) {
-        answered++;
-        if (selected.value === answers[question]) {
-          score++;
-        }
+    header h1 { margin: 0; font-size: 2rem; }
+    header p { margin: 5px 0; }
+
+    nav {
+      background: #12305a;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    main {
+      width: min(950px, 100%);
+      margin: auto;
+      padding: 16px;
+    }
+
+    section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 18px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px #0000000d;
+    }
+
+    h2 { color: #12305a; margin-top: 0; }
+
+    input:not([type="radio"]), textarea {
+      width: 100%;
+      padding: 11px;
+      margin: 6px 0 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      font: inherit;
+    }
+
+    input[type="radio"] {
+      margin-right: 7px;
+    }
+
+    label { display: block; margin: 7px 0; }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border: 0;
+      border-radius: 7px;
+      background: #155eef;
+      color: white;
+      font: inherit;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover { opacity: 0.9; }
+    .secondary { background: #12305a; }
+
+    .card {
+      padding: 14px;
+      margin: 12px 0;
+      background: #f3f7ff;
+      border-radius: 8px;
+    }
+
+    .feedback { font-weight: bold; }
+    footer {
+      padding: 20px;
+      background: #12305a;
+      color: white;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 15px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>📚 SomaHub</h1>
+    <p>Learn together. Grow together.</p>
+    <p>Your learning journey starts here!</p>
+  </header>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#notes">Notes</a>
+    <a href="#quiz">Quizzes</a>
+    <a href="#goals">My Goal</a>
+    <a href="#teachers">Teachers</a>
+  </nav>
+
+  <main>
+    <section id="home">
+      <h2>Welcome to SomaHub!</h2>
+      <p>
+        SomaHub is a learning space for students and teachers.
+        Revise topics, test your knowledge, set learning goals,
+        and organise educational resources in one place.
+      </p>
+      <div class="card">
+        <strong>For students</strong>
+        <p>Revise topics, take quizzes, and set learning goals.</p>
+      </div>
+      <div class="card">
+        <strong>For teachers</strong>
+        <p>Save lesson ideas and teaching resources.</p>
+      </div>
+      <p>Notes and resources are saved locally in this browser.</p>
+    </section>
+
+    <section id="notes">
+      <h2>📝 Learning Notes</h2>
+      <form id="notesForm">
+        <label for="noteTitle">Note title</label>
+        <input id="noteTitle" required placeholder="e.g. Geography: Weather">
+
+        <label for="noteContent">Your notes</label>
+        <textarea id="noteContent" rows="4" required
+          placeholder="Write your revision notes..."></textarea>
+
+        <button type="submit">Save Notes</button>
+      </form>
+      <div id="notesList"></div>
+    </section>
+
+    <section id="quiz">
+      <h2>🎯 Quick Quiz</h2>
+      <p>Answer all three questions.</p>
+
+      <form id="quizForm">
+        <div class="card">
+          <p><strong>1. Which planet do we live on?</strong></p>
+          <label><input type="radio" name="q1" value="a" required> Mars</label>
+          <label><input type="radio" name="q1" value="b"> Earth</label>
+          <label><input type="radio" name="q1" value="c"> Jupiter</label>
+        </div>
+
+        <div class="card">
+          <p><strong>2. What is 5 × 3?</strong></p>
+          <label><input type="radio" name="q2" value="a" required> 15</label>
+          <label><input type="radio" name="q2" value="b"> 8</label>
+          <label><input type="radio" name="q2" value="c"> 10</label>
+        </div>
+
+        <div class="card">
+          <p><strong>3. Which language is spoken in France?</strong></p>
+          <label><input type="radio" name="q3" value="a" required> French</label>
+          <label><input type="radio" name="q3" value="b"> Japanese</label>
+          <label><input type="radio" name="q3" value="c"> Arabic</label>
+        </div>
+
+        <button type="submit">Check My Answers</button>
+      </form>
+      <p id="quizResult" class="feedback" aria-live="polite"></p>
+    </section>
+
+    <section id="goals">
+      <h2>🏆 My Learning Goal</h2>
+      <form id="goalForm">
+        <label for="learningGoal">My goal</label>
+        <input id="learningGoal" required
+          placeholder="e.g. Revise French every day">
+        <button type="submit">Save My Goal</button>
+      </form>
+      <p id="savedGoal" aria-live="polite"></p>
+    </section>
+
+    <section id="teachers">
+      <h2>👩‍🏫 Teacher Resources</h2>
+      <form id="resourceForm">
+        <label for="resourceTitle">Resource title</label>
+        <input id="resourceTitle" required
+          placeholder="e.g. Grade 7 Geography lesson">
+
+        <label for="resourceDetails">Description or lesson idea</label>
+        <textarea id="resourceDetails" rows="4" required
+          placeholder="Describe your resource..."></textarea>
+
+        <button type="submit">Save Resource</button>
+      </form>
+      <div id="resourceList"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 SomaHub</p>
+    <p>Learning made easier for everyone.</p>
+  </footer>
+
+  <script>
+    function loadData(key, fallback) {
+      try {
+        const value = localStorage.getItem(key);
+        return value === null ? fallback : JSON.parse(value);
+      } catch (error) {
+        return fallback;
       }
     }
 
-    if (answered < 3) {
-      quizResult.textContent =
-        "Please answer all three questions first.";
-      quizResult.style.color = "#b91c1c";
-      return;
+    function saveData(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+      } catch (error) {
+        alert("Unable to save data in this browser.");
+        return false;
+      }
     }
 
-    quizResult.textContent =
-      "Your score is " + score + "/3. " +
-      (score === 3
-        ? "Excellent work! 🎉"
-        : "Good effort! Review the notes and try again.");
+    // QUIZ
+    document.getElementById("quizForm").addEventListener("submit", function(event) {
+      event.preventDefault();
 
-    quizResult.style.color =
-      score === 3 ? "#15803d" : "#1d4ed8";
-  });
+      const answers = { q1: "b", q2: "a", q3: "a" };
+      const data = new FormData(event.target);
+      let score = 0;
 
-  quizForm.addEventListener("reset", function() {
-    quizResult.textContent = "";
-  });
+      Object.keys(answers).forEach(function(question) {
+        if (data.get(question) === answers[question]) score++;
+      });
 
-  // STUDENT GOAL
-  const goalForm = document.getElementById("goalForm");
-  const goalResult = document.getElementById("goalResult");
-
-  function loadGoal() {
-    try {
-      const saved = localStorage.getItem("somahubGoal");
-      if (!saved) return;
-
-      const data = JSON.parse(saved);
-      document.getElementById("studentName").value = data.name || "";
-      document.getElementById("studyGoal").value = data.goal || "";
-    } catch (error) {
-      console.log("Could not load saved goal.");
-    }
-  }
-
-  goalForm.addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const name = document.getElementById("studentName").value.trim();
-    const goal = document.getElementById("studyGoal").value.trim();
-
-    if (!goal) {
-      goalResult.hidden = false;
-      goalResult.textContent = "Please enter a learning goal.";
-      return;
-    }
-
-    try {
-      localStorage.setItem(
-        "somahubGoal",
-        JSON.stringify({ name: name, goal: goal })
-      );
-
-      goalResult.textContent =
-        (name ? name + ", y" : "Y") +
-        "our learning goal has been saved on this device.";
-    } catch (error) {
-      goalResult.textContent =
-        "Your goal is entered, but this browser could not save it.";
-    }
-
-    goalResult.hidden = false;
-  });
-
-  // TEACHER RESOURCES
-  const resourceForm = document.getElementById("resourceForm");
-  const resourceList = document.getElementById("resourceList");
-
-  function getResources() {
-    try {
-      return JSON.parse(
-        localStorage.getItem("somahubResources") || "[]"
-      );
-    } catch (error) {
-      return [];
-    }
-  }
-
-  function showResources() {
-    const resources = getResources();
-    resourceList.replaceChildren();
-
-    if (resources.length === 0) {
-      const message = document.createElement("p");
-      message.textContent = "No resources added yet.";
-      resourceList.appendChild(message);
-      return;
-    }
-
-    resources.forEach(function(resource) {
-      const item = document.createElement("article");
-      item.className = "resource";
-
-      const title = document.createElement("h3");
-      title.textContent = resource.title;
-
-      const subject = document.createElement("p");
-      subject.textContent = "Subject: " + resource.subject;
-
-      const description = document.createElement("p");
-      description.textContent = resource.description;
-
-      const author = document.createElement("p");
-      author.className = "small";
-      author.textContent = "Added by " + resource.teacher;
-
-      item.append(title, subject, description, author);
-      resourceList.appendChild(item);
+      document.getElementById("quizResult").textContent =
+        "Your score: " + score + "/3. " +
+        (score === 3 ? "Excellent work!" : "Keep practising!");
     });
-  }
 
-  resourceForm.addEventListener("submit", function(event) {
-    event.preventDefault();
+    // NOTES
+    let notes = loadData("somahubNotes", []);
 
-    const resource = {
-      teacher: document.getElementById("teacherName").value.trim(),
-      title: document.getElementById("resourceTitle").value.trim(),
-      subject: document.getElementById("resourceSubject").value,
-      description: document.getElementById("resourceDescription").value.trim()
-    };
+    function renderNotes() {
+      const list = document.getElementById("notesList");
+      list.replaceChildren();
 
-    try {
-      const resources = getResources();
-      resources.unshift(resource);
+      if (!notes.length) {
+        list.textContent = "Your saved notes will appear here.";
+        return;
+      }
 
-      localStorage.setItem(
-        "somahubResources",
-        JSON.stringify(resources)
-      );
+      notes.forEach(function(note, index) {
+        const card = document.createElement("div");
+        card.className = "card";
 
-      showResources();
-      resourceForm.reset();
-    } catch (error) {
-      alert("This browser could not save the resource. Please try again.");
+        const title = document.createElement("h3");
+        title.textContent = note.title;
+
+        const content = document.createElement("p");
+        content.textContent = note.content;
+        content.style.whiteSpace = "pre-wrap";
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "secondary";
+        remove.textContent = "Delete Note";
+        remove.addEventListener("click", function() {
+          notes.splice(index, 1);
+          if (saveData("somahubNotes", notes)) renderNotes();
+        });
+
+        card.append(title, content, remove);
+        list.appendChild(card);
+      });
     }
-  });
 
-  // INITIALISE SOMAHUB
-  loadGoal();
-  showResources();
-</script>
+    document.getElementById("notesForm").addEventListener("submit", function(event) {
+      event.preventDefault();
 
+      notes.unshift({
+        title: document.getElementById("noteTitle").value.trim(),
+        content: document.getElementById("noteContent").value.trim()
+      });
+
+      if (saveData("somahubNotes", notes)) {
+        event.target.reset();
+        renderNotes();
+      }
+    });
+
+    // LEARNING GOAL
+    const goalInput = document.getElementById("learningGoal");
+    const savedGoal = document.getElementById("savedGoal");
+    goalInput.value = loadData("somahubGoal", "");
+
+    function renderGoal() {
+      const goal = loadData("somahubGoal", "");
+      savedGoal.textContent = goal
+        ? "Your current goal: " + goal
+        : "You have not set a goal yet.";
+    }
+
+    document.getElementById("goalForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const goal = goalInput.value.trim();
+
+      if (goal && saveData("somahubGoal", goal)) renderGoal();
+    });
+
+    // TEACHER RESOURCES
+    let resources = loadData("somahubResources", []);
+
+    function renderResources() {
+      const list = document.getElementById("resourceList");
+      list.replaceChildren();
+
+      if (!resources.length) {
+        list.textContent = "Your saved resources will appear here.";
+        return;
+      }
+
+      resources.forEach(function(resource, index) {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const title = document.createElement("h3");
+        title.textContent = resource.title;
+
+        const details = document.createElement("p");
+        details.textContent = resource.details;
+        details.style.whiteSpace = "pre-wrap";
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "secondary";
+        remove.textContent = "Delete Resource";
+        remove.addEventListener("click", function() {
+          resources.splice(index, 1);
+          if (saveData("somahubResources", resources)) renderResources();
+        });
+
+        card.append(title, details, remove);
+        list.appendChild(card);
+      });
+    }
+
+    document.getElementById("resourceForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      resources.unshift({
+        title: document.getElementById("resourceTitle").value.trim(),
+        details: document.getElementById("resourceDetails").value.trim()
+      });
+
+      if (saveData("somahubResources", resources)) {
+        event.target.reset();
+        renderResources();
+      }
+    });
+
+    renderNotes();
+    renderGoal();
+    renderResources();
+
+    // SERVICE WORKER
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function() {
+        navigator.serviceWorker.register("/Somahub/service-worker.js")
+          .catch(function(error) {
+            console.error("Service worker registration failed:", error);
+          });
+      });
+    }
+  </script>
 </body>
-</html>
+                   </html>
