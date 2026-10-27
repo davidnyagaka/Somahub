@@ -1,207 +1,650 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SomaHub - Learn Together</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#17324d}
-header{background:#123c69;color:white;padding:20px}
-nav{max-width:1000px;margin:auto;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:26px;font-weight:bold}
-.logo span{color:#8db8ff}
-main{max-width:1000px;margin:auto;padding:20px}
-.hero{background:linear-gradient(120deg,#123c69,#2878ef);color:white;padding:30px 22px;border-radius:18px}
-.hero h1{font-size:34px;margin-top:0}
-p{line-height:1.6}
-button{padding:12px 16px;border:0;border-radius:9px;cursor:pointer;font-weight:bold;margin:4px}
-.primary{background:#246bfd;color:white}
-.light{background:white;color:#123c69}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px;margin-top:18px}
-.card,.panel{background:white;padding:20px;border-radius:14px;border:1px solid #e0e7ef}
-.card .emoji{font-size:32px}
-.card p{color:#64748b}
-.panel{display:none;margin-top:20px}
-.panel.active{display:block}
-input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #cbd5e1;border-radius:8px;font:inherit}
-.notice{background:#e8f5ed;padding:14px;border-radius:9px;line-height:1.6}
-footer{text-align:center;background:#123c69;color:white;padding:22px;margin-top:30px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SomaHub is a learning hub for students and teachers.">
+  <title>SomaHub | Learn Together</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fc;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #15304b;
+      color: white;
+      padding: 16px 5%;
+    }
+
+    .navbar {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    nav a:hover { color: #93c5fd; }
+
+    .hero {
+      padding: 70px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #dbeafe, #ecfdf5);
+    }
+
+    .hero h1 {
+      color: #15304b;
+      font-size: clamp(34px, 6vw, 54px);
+      line-height: 1.15;
+      margin: 0 0 18px;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 0 auto 25px;
+      font-size: 18px;
+      color: #475569;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 11px 17px;
+      margin: 5px 3px;
+      border: none;
+      border-radius: 9px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .button:hover { background: #1d4ed8; }
+
+    .button.secondary {
+      background: white;
+      color: #15304b;
+      border: 1px solid #cbd5e1;
+    }
+
+    .button.secondary:hover { background: #eff6ff; }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 20px 50px;
+    }
+
+    section {
+      margin: 38px 0;
+      scroll-margin-top: 20px;
+    }
+
+    h2 {
+      color: #15304b;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .intro { color: #64748b; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 5px 18px rgba(21, 48, 75, 0.05);
+      min-width: 0;
+    }
+
+    .card h3 { color: #15304b; }
+
+    .emoji { font-size: 34px; }
+
+    .note {
+      background: white;
+      border-left: 4px solid #2563eb;
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin: 14px 0;
+      box-shadow: 0 3px 12px rgba(21, 48, 75, 0.04);
+    }
+
+    .note h3 { margin-top: 0; color: #15304b; }
+
+    label.field-label {
+      display: block;
+      margin: 12px 0 5px;
+      font-weight: bold;
+    }
+
+    input:not([type="radio"]),
+    textarea,
+    select {
+      width: 100%;
+      padding: 11px;
+      margin: 5px 0 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font: inherit;
+      background: white;
+    }
+
+    textarea { resize: vertical; }
+
+    input:focus, textarea:focus, select:focus {
+      outline: 2px solid #93c5fd;
+      border-color: #2563eb;
+    }
+
+    .question {
+      margin: 18px 0;
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 10px;
+    }
+
+    .question p { margin-top: 0; font-weight: bold; }
+
+    .question label {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+
+    .question input[type="radio"] {
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    .result {
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .resource {
+      padding: 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      margin: 12px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .resource h3 { margin-top: 0; }
+
+    .small {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .message {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #eff6ff;
+      color: #1e40af;
+    }
+
+    footer {
+      background: #15304b;
+      color: white;
+      text-align: center;
+      padding: 28px 16px;
+    }
+
+    footer p { margin: 6px; }
+
+    @media (max-width: 600px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav { gap: 10px; }
+
+      .hero { padding: 48px 17px; }
+
+      main { padding-left: 15px; padding-right: 15px; }
+
+      h2 { font-size: 25px; }
+    }
+  </style>
 </head>
+
 <body>
-<header>
-<nav>
-<div>
-<div class="logo">Soma<span>Hub</span> 📚</div>
-<div>Learn together. Grow together.</div>
-</div>
-<button class="light" onclick="show('welcome')">Get started</button>
-</nav>
-</header>
 
-<main>
-<section class="hero">
-<h1>Your learning journey starts here!</h1>
-<p>A learning space for students and teachers. Explore notes, practise quizzes and prepare better lessons.</p>
-<button class="light" onclick="show('welcome')">Explore SomaHub →</button>
-</section>
+  <header>
+    <div class="navbar">
+      <div class="logo">📚 SomaHub</div>
 
-<section id="welcome" class="panel">
-<h2>Welcome to SomaHub!</h2>
-<p>Choose your learning space.</p>
-<button class="primary" onclick="show('student')">🎓 Student</button>
-<button class="primary" onclick="show('teacher')">🧑‍🏫 Teacher</button>
-</section>
+      <nav aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#notes">Study Notes</a>
+        <a href="#quiz">Quizzes</a>
+        <a href="#student">Students</a>
+        <a href="#teacher">Teachers</a>
+      </nav>
+    </div>
+  </header>
 
-<h2>Explore your learning tools</h2>
-<div class="grid">
-<div class="card">
-<div class="emoji">📖</div>
-<h3>Study Notes</h3>
-<p>Explore sample notes in different subjects.</p>
-<button class="primary" onclick="show('notes')">Open notes</button>
-</div>
-<div class="card">
-<div class="emoji">🧠</div>
-<h3>Revision Quiz</h3>
-<p>Test your knowledge with quick questions.</p>
-<button class="primary" onclick="show('quiz')">Start quiz</button>
-</div>
-<div class="card">
-<div class="emoji">🎓</div>
-<h3>Student Space</h3>
-<p>Set study goals and get helpful study tips.</p>
-<button class="primary" onclick="show('student')">Open student space</button>
-</div>
-<div class="card">
-<div class="emoji">🧑‍🏫</div>
-<h3>Teacher Space</h3>
-<p>Prepare a simple lesson outline.</p>
-<button class="primary" onclick="show('teacher')">Open teacher space</button>
-</div>
-</div>
+  <section class="hero" id="home">
+    <h1>Your learning journey starts here!</h1>
 
-<section id="notes" class="panel">
-<h2>📖 Study Notes</h2>
-<label for="subject">Choose a subject</label>
-<select id="subject" onchange="updateNote()">
-<option value="geography">Geography</option>
-<option value="french">French</option>
-<option value="education">Education</option>
-<option value="science">Science</option>
-</select>
-<div id="note" class="notice">Geography studies people, places, environments and their relationships.</div>
-</section>
+    <p>
+      Welcome to SomaHub — a learning platform where students
+      and teachers connect, share knowledge, practise questions,
+      and grow together.
+    </p>
 
-<section id="quiz" class="panel">
-<h2>🧠 Revision Quiz</h2>
-<p id="question"></p>
-<div id="answers"></div>
-<p id="result" aria-live="polite"></p>
-<button class="primary" onclick="nextQuestion()">Next question →</button>
-</section>
+    <a class="button" href="#notes">Start Learning →</a>
+    <a class="button secondary" href="#quiz">Try a Quiz</a>
+  </section>
 
-<section id="student" class="panel">
-<h2>🎓 Student Space</h2>
-<p>What do you want to study today?</p>
-<input id="goal" placeholder="e.g. Revise Geography">
-<button class="primary" onclick="saveGoal()">Save study goal</button>
-<p id="goalResult" aria-live="polite"></p>
-<h3>Study tips</h3>
-<ul>
-<li>Divide large topics into smaller sections.</li>
-<li>Test yourself without looking at your notes.</li>
-<li>Review your work regularly.</li>
-</ul>
-</section>
+  <main>
 
-<section id="teacher" class="panel">
-<h2>🧑‍🏫 Teacher Space</h2>
-<p>Create a basic lesson outline.</p>
-<input id="lessonSubject" placeholder="Subject">
-<input id="lessonTopic" placeholder="Lesson topic">
-<textarea id="objective" rows="3" placeholder="Learning objective"></textarea>
-<button class="primary" onclick="createLesson()">Create lesson outline</button>
-<div id="lessonResult" aria-live="polite"></div>
-</section>
-</main>
+    <section id="features">
+      <h2>Welcome to SomaHub</h2>
+      <p class="intro">Everything you need to take your next learning step.</p>
 
-<footer>
-<strong>SomaHub 📚</strong>
-<p>Supporting students and teachers through learning.</p>
-<small>Starter version — more features coming soon!</small>
-</footer>
+      <div class="cards">
+        <article class="card">
+          <div class="emoji">📖</div>
+          <h3>Study Notes</h3>
+          <p>Review key concepts in Geography, French, and study skills.</p>
+          <a href="#notes">Explore notes →</a>
+        </article>
 
-<script>
-function show(id){
-document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-const panel=document.getElementById(id);
-if(panel){
-panel.classList.add('active');
-panel.scrollIntoView({behavior:'smooth',block:'start'});
-}
-}
-const notes={
-geography:'Geography studies people, places, environments and their relationships. Physical geography examines natural features, while human geography examines people and their activities.',
-french:'Bonjour means hello. Merci means thank you. Au revoir means goodbye. Comment allez-vous ? means how are you?',
-education:'Effective teaching includes clear learning objectives, learner participation, suitable teaching resources and assessment.',
-science:'Science uses observation, investigation and evidence to explain the natural world.'
-};
-function updateNote(){
-document.getElementById('note').textContent=notes[document.getElementById('subject').value];
-}
-const questions=[
-{q:'Which instrument measures rainfall?',a:['Thermometer','Rain gauge','Barometer'],c:1,e:'A rain gauge measures rainfall.'},
-{q:'What does Merci mean in English?',a:['Hello','Goodbye','Thank you'],c:2,e:'Merci means thank you.'},
-{q:'What does a lesson objective describe?',a:['What learners should achieve','The school uniform','The lunch menu'],c:0,e:'A lesson objective describes what learners should achieve.'}
-];
-let qi=0,answered=false;
-function renderQuiz(){
-const q=questions[qi];
-document.getElementById('question').textContent=(qi+1)+'. '+q.q;
-const box=document.getElementById('answers');
-box.replaceChildren();
-q.a.forEach((answer,i)=>{
-const b=document.createElement('button');
-b.className='primary';
-b.textContent=answer;
-b.onclick=()=>checkAnswer(i);
-box.appendChild(b);
-});
-document.getElementById('result').textContent='';
-answered=false;
-}
-function checkAnswer(i){
-if(answered)return;
-answered=true;
-const q=questions[qi];
-document.getElementById('result').textContent=i===q.c?'Correct! '+q.e:'Not quite. '+q.e;
-}
-function nextQuestion(){
-qi=(qi+1)%questions.length;
-renderQuiz();
-}
-function saveGoal(){
-const g=document.getElementById('goal').value.trim();
-document.getElementById('goalResult').textContent=g?'Your study goal: '+g:'Please enter a study goal first.';
-}
-function createLesson(){
-const s=document.getElementById('lessonSubject').value.trim();
-const t=document.getElementById('lessonTopic').value.trim();
-const o=document.getElementById('objective').value.trim();
-const r=document.getElementById('lessonResult');
-r.replaceChildren();
-if(!s||!t||!o){r.textContent='Please complete all three fields.';return;}
-const h=document.createElement('h3');
-h.textContent=s+': '+t;
-const p=document.createElement('p');
-p.textContent='Learning objective: '+o;
-const p2=document.createElement('p');
-p2.textContent='Suggested lesson structure: introduction, learning activity, assessment and conclusion.';
-r.append(h,p,p2);
-}
-renderQuiz();
-</script>
+        <article class="card">
+          <div class="emoji">🧠</div>
+          <h3>Revision Quizzes</h3>
+          <p>Answer practice questions and check your score immediately.</p>
+          <a href="#quiz">Take a quiz →</a>
+        </article>
+
+        <article class="card">
+          <div class="emoji">🎓</div>
+          <h3>Student Space</h3>
+          <p>Set a learning goal and save it in your browser.</p>
+          <a href="#student">Set a goal →</a>
+        </article>
+
+        <article class="card">
+          <div class="emoji">👩‍🏫</div>
+          <h3>Teacher Space</h3>
+          <p>Create and display learning resources on this device.</p>
+          <a href="#teacher">Add a resource →</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="notes">
+      <h2>📖 Study Notes</h2>
+      <p class="intro">Read, understand, and revise at your own pace.</p>
+
+      <article class="note">
+        <h3>🌍 Geography: The Water Cycle</h3>
+        <p>
+          The water cycle is the continuous movement of water between
+          Earth's surface and the atmosphere.
+        </p>
+        <ul>
+          <li><strong>Evaporation:</strong> liquid water changes into water vapour.</li>
+          <li><strong>Condensation:</strong> water vapour cools and forms droplets.</li>
+          <li><strong>Precipitation:</strong> water falls from clouds as rain, snow, or hail.</li>
+          <li><strong>Collection:</strong> water gathers in rivers, lakes, and oceans.</li>
+        </ul>
+      </article>
+
+      <article class="note">
+        <h3>🇫🇷 French: Regular -ER Verbs</h3>
+        <p>
+          To conjugate a regular verb ending in <em>-er</em>, remove
+          <em>-er</em> and add the appropriate ending.
+        </p>
+        <p>
+          Example: <strong>parler</strong> (to speak)
+        </p>
+        <ul>
+          <li>Je parle — I speak.</li>
+          <li>Tu parles — You speak.</li>
+          <li>Il/Elle parle — He/She speaks.</li>
+          <li>Nous parlons — We speak.</li>
+          <li>Vous parlez — You speak.</li>
+          <li>Ils/Elles parlent — They speak.</li>
+        </ul>
+      </article>
+
+      <article class="note">
+        <h3>📚 Study Skills: Active Recall</h3>
+        <p>
+          Active recall means trying to remember information without
+          looking at your notes.
+        </p>
+        <ol>
+          <li>Read a short topic carefully.</li>
+          <li>Close your book or notes.</li>
+          <li>Explain or write what you remember.</li>
+          <li>Check your notes and correct mistakes.</li>
+        </ol>
+      </article>
+    </section>
+
+    <section id="quiz">
+      <h2>🧠 Revision Quiz</h2>
+      <p class="intro">Answer all three questions and check your score.</p>
+
+      <div class="card">
+        <form id="quizForm">
+
+          <div class="question">
+            <p>1. What is evaporation?</p>
+            <label><input type="radio" name="q1" value="a"> Water vapour changing into droplets</label>
+            <label><input type="radio" name="q1" value="b"> Liquid water changing into vapour</label>
+            <label><input type="radio" name="q1" value="c"> Rain falling from clouds</label>
+          </div>
+
+          <div class="question">
+            <p>2. What is the French for “we speak”?</p>
+            <label><input type="radio" name="q2" value="a"> Je parle</label>
+            <label><input type="radio" name="q2" value="b"> Ils parlent</label>
+            <label><input type="radio" name="q2" value="c"> Nous parlons</label>
+          </div>
+
+          <div class="question">
+            <p>3. Which is an example of active recall?</p>
+            <label><input type="radio" name="q3" value="a"> Copying notes without thinking</label>
+            <label><input type="radio" name="q3" value="b"> Remembering a topic without looking at notes</label>
+            <label><input type="radio" name="q3" value="c"> Skipping revision</label>
+          </div>
+
+          <button class="button" type="submit">Check My Score</button>
+          <button class="button secondary" type="reset">Try Again</button>
+
+          <p id="quizResult" class="result" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <section id="student">
+      <h2>🎓 Student Space</h2>
+      <p class="intro">Set a goal and make a plan for your learning.</p>
+
+      <div class="card">
+        <form id="goalForm">
+          <label class="field-label" for="studentName">Your name (optional)</label>
+          <input id="studentName" type="text" placeholder="Enter your name">
+
+          <label class="field-label" for="studyGoal">My learning goal</label>
+          <textarea id="studyGoal" rows="4"
+            placeholder="Example: Revise French for 20 minutes daily."
+            required></textarea>
+
+          <button class="button" type="submit">Save My Goal</button>
+        </form>
+
+        <div id="goalResult" class="message" hidden aria-live="polite"></div>
+
+        <p class="small">
+          Your goal is saved in this browser on this device. It is not
+          uploaded to a shared account.
+        </p>
+      </div>
+    </section>
+
+    <section id="teacher">
+      <h2>🧑‍🏫 Teacher Space</h2>
+      <p class="intro">Prepare a learning resource for your learners.</p>
+
+      <div class="card">
+        <form id="resourceForm">
+          <label class="field-label" for="teacherName">Teacher name</label>
+          <input id="teacherName" type="text" placeholder="Enter your name" required>
+
+          <label class="field-label" for="resourceTitle">Resource title</label>
+          <input id="resourceTitle" type="text"
+            placeholder="Example: Introduction to maps" required>
+
+          <label class="field-label" for="resourceSubject">Subject</label>
+          <select id="resourceSubject" required>
+            <option value="">Choose a subject</option>
+            <option>Geography</option>
+            <option>French</option>
+            <option>English</option>
+            <option>Mathematics</option>
+            <option>Science</option>
+            <option>Other</option>
+          </select>
+
+          <label class="field-label" for="resourceDescription">Description</label>
+          <textarea id="resourceDescription" rows="4"
+            placeholder="Describe what students will learn." required></textarea>
+
+          <button class="button" type="submit">Add Resource</button>
+        </form>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <h3>Learning Resources</h3>
+        <p class="small">Resources added on this device appear below.</p>
+        <div id="resourceList">
+          <p>No resources added yet.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <h3>📚 SomaHub — Learn Together</h3>
+    <p>Helping students and teachers learn, revise, and grow.</p>
+    <p>&copy; 2026 SomaHub. Built for learning.</p>
+    <p class="small" style="color:#cbd5e1">
+      Starter version — shared accounts and online storage are not yet connected.
+    </p>
+  </footer>
+
+  <script>
+    // REVISION QUIZ
+    const quizForm = document.getElementById("quizForm");
+    const quizResult = document.getElementById("quizResult");
+
+    quizForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const answers = {
+        q1: "b",
+        q2: "c",
+        q3: "b"
+      };
+
+      let score = 0;
+      let answered = 0;
+
+      for (const question in answers) {
+        const selected = quizForm.querySelector(
+          'input[name="' + question + '"]:checked'
+        );
+
+        if (selected) {
+          answered++;
+          if (selected.value === answers[question]) score++;
+        }
+      }
+
+      if (answered < 3) {
+        quizResult.textContent = "Please answer all three questions first.";
+        quizResult.style.color = "#b91c1c";
+        return;
+      }
+
+      quizResult.textContent =
+        "Your score is " + score + "/3. " +
+        (score === 3
+          ? "Excellent work! 🎉"
+          : "Good effort! Review the notes and try again.");
+
+      quizResult.style.color = score === 3 ? "#15803d" : "#1d4ed8";
+    });
+
+    quizForm.addEventListener("reset", function() {
+      quizResult.textContent = "";
+    });
+
+    // STUDENT GOAL
+    const goalForm = document.getElementById("goalForm");
+    const goalResult = document.getElementById("goalResult");
+
+    function loadGoal() {
+      try {
+        const saved = localStorage.getItem("somahubGoal");
+        if (!saved) return;
+
+        const data = JSON.parse(saved);
+        document.getElementById("studentName").value = data.name || "";
+        document.getElementById("studyGoal").value = data.goal || "";
+      } catch (error) {
+        // The page remains usable if browser storage is unavailable.
+      }
+    }
+
+    goalForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("studentName").value.trim();
+      const goal = document.getElementById("studyGoal").value.trim();
+
+      if (!goal) {
+        goalResult.hidden = false;
+        goalResult.textContent = "Please enter a learning goal.";
+        return;
+      }
+
+      try {
+        localStorage.setItem(
+          "somahubGoal",
+          JSON.stringify({ name: name, goal: goal })
+        );
+
+        goalResult.textContent =
+          (name ? name + ", y" : "Y") +
+          "our learning goal has been saved on this device.";
+      } catch (error) {
+        goalResult.textContent =
+          "Your goal is entered, but this browser could not save it.";
+      }
+
+      goalResult.hidden = false;
+    });
+
+    // TEACHER RESOURCES
+    const resourceForm = document.getElementById("resourceForm");
+    const resourceList = document.getElementById("resourceList");
+
+    function getResources() {
+      try {
+        return JSON.parse(localStorage.getItem("somahubResources") || "[]");
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function showResources() {
+      const resources = getResources();
+      resourceList.replaceChildren();
+
+      if (resources.length === 0) {
+        const message = document.createElement("p");
+        message.textContent = "No resources added yet.";
+        resourceList.appendChild(message);
+        return;
+      }
+
+      resources.forEach(function(resource) {
+        const item = document.createElement("article");
+        item.className = "resource";
+
+        const title = document.createElement("h3");
+        title.textContent = resource.title;
+
+        const subject = document.createElement("p");
+        subject.textContent = "Subject: " + resource.subject;
+
+        const description = document.createElement("p");
+        description.textContent = resource.description;
+
+        const author = document.createElement("p");
+        author.className = "small";
+        author.textContent = "Added by " + resource.teacher;
+
+        item.append(title, subject, description, author);
+        resourceList.appendChild(item);
+      });
+    }
+
+    resourceForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const resource = {
+        teacher: document.getElementById("teacherName").value.trim(),
+        title: document.getElementById("resourceTitle").value.trim(),
+        subject: document.getElementById("resourceSubject").value,
+        description: document.getElementById("resourceDescription").value.trim()
+      };
+
+      try {
+        const resources = getResources();
+        resources.unshift(resource);
+
+        localStorage.setItem("somahubResources", JSON.stringify(resources));
+        showResources();
+        resourceForm.reset();
+      } catch (error) {
+        alert("This browser could not save the resource. Please try again.");
+      }
+    });
+
+    loadGoal();
+    showResources();
+  </script>
+
 </body>
 </html>
