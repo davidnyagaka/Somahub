@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#155eef">
+
+  <title>SomaHub - Learning Together</title>
+
+  <meta name="description"
+    content="SomaHub is a learning platform for students and teachers to share notes, practise quizzes and set learning goals.">
+
+  <link rel="manifest" href="/Somahub/manifest.json">
+
+  <style>
+    :root {
+      --blue: #155eef;
+      --dark-blue: #103c9e;
+      --light-blue: #edf4ff;
+      --white: #ffffff;
+      --text: #172b4d;
+      --muted: #667085;
+      --border: #dce5f2;
+      --green: #16803c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7fc;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--white);
+      padding: 15px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      color: var(--blue);
+      font-size: 25px;
+      font-weight: 800;
+    }
+
+    .logo span {
+      color: var(--text);
+    }
+
+    nav {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: var(--blue);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #155eef, #103c9e);
+      color: white;
+      padding: 65px 6%;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(30px, 5vw, 48px);
+      margin: 0 0 12px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 0 auto 25px;
+      font-size: 17px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 9px;
+      background: var(--blue);
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .button:hover {
+      opacity: 0.9;
+    }
+
+    .button-white {
+      background: white;
+      color: var(--blue);
+    }
+
+    .button-light {
+      background: var(--light-blue);
+      color: var(--blue);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 18px 45px;
+    }
+
+    .section-heading {
+      margin: 30px 0 15px;
+    }
+
+    .section-heading h2 {
+      margin-bottom: 5px;
+      font-size: 25px;
+    }
+
+    .section-heading p {
+      margin-top: 0;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 15px rgba(23, 43, 77, 0.04);
+      min-width: 0;
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .feature-icon {
+      font-size: 30px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin: 12px 0 5px;
+    }
+
+    input,
+    textarea,
+    select {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font: inherit;
+      background: white;
+      color: var(--text);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: 2px solid #9bbcff;
+      border-color: var(--blue);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .note {
+      background: var(--light-blue);
+      border-radius: 9px;
+      padding: 13px;
+      margin-top: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .note h4 {
+      margin: 0 0 5px;
+    }
+
+    .note p {
+      white-space: pre-wrap;
+      margin: 5px 0;
+    }
+
+    .note button {
+      margin-top: 7px;
+    }
+
+    .question {
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+    }
+
+    .question p {
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+
+    .question label {
+      font-weight: 400;
+      margin: 7px 0;
+    }
+
+    .question input {
+      display: inline-block;
+      width: auto;
+      margin-right: 8px;
+    }
+
+    .result {
+      margin-top: 15px;
+      padding: 12px;
+      background: var(--light-blue);
+      border-radius: 9px;
+      font-weight: 700;
+    }
+
+    .success {
+      color: var(--green);
+    }
+
+    .goal-progress {
+      height: 10px;
+      background: #e6edf8;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+
+    .goal-progress div {
+      height: 100%;
+      width: 0;
+      background: var(--blue);
+      transition: width 0.2s;
+    }
+
+    .goal-list {
+      padding-left: 22px;
+    }
+
+    .goal-list li {
+      padding: 6px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .goal-list input {
+      display: inline-block;
+      width: auto;
+      margin-right: 8px;
+    }
+
+    .resource-link {
+      display: block;
+      padding: 12px;
+      margin-top: 10px;
+      background: var(--light-blue);
+      color: var(--blue);
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .resource-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background: #102c63;
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+    }
+
+    footer p {
+      margin: 5px;
+    }
+
+    .small-print {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 14px 5%;
+      }
+
+      nav {
+        gap: 12px;
+      }
+
+      .hero {
+        padding: 45px 5%;
+      }
+
+      main {
+        padding: 15px 12px 35px;
+      }
+
+      .card {
+        padding: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">Soma<span>Hub</span> 📚</div>
+
+    <nav aria-label="Main navigation">
+      <a href="#home">Home</a>
+      <a href="#notes">Notes</a>
+      <a href="#quiz">Quizzes</a>
+      <a href="#goals">My Goals</a>
+      <a href="#teachers">Teachers</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <h1>Your learning journey starts here!</h1>
+
+    <p>
+      Learn together, share knowledge and grow together.
+      SomaHub connects students and teachers in one learning space.
+    </p>
+
+    <div class="hero-buttons">
+      <a class="button button-white" href="#notes">Explore Notes</a>
+      <a class="button button-white" href="#quiz">Try a Quiz</a>
+    </div>
+  </section>
+
+  <main>
+
+    <section>
+      <div class="section-heading">
+        <h2>Welcome to SomaHub 👋</h2>
+        <p>Your learning space for study, practice and teaching.</p>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="feature-icon">📖</div>
+          <h3>Study Notes</h3>
+          <p>Write and save your own revision notes in your browser.</p>
+          <a class="button" href="#notes">Open Notes</a>
+        </article>
+
+        <article class="card">
+          <div class="feature-icon">🧠</div>
+          <h3>Quizzes</h3>
+          <p>Test your knowledge with a short educational quiz.</p>
+          <a class="button" href="#quiz">Start Quiz</a>
+        </article>
+
+        <article class="card">
+          <div class="feature-icon">🎯</div>
+          <h3>Learning Goals</h3>
+          <p>Set learning targets and track the tasks you complete.</p>
+          <a class="button" href="#goals">Set a Goal</a>
+        </article>
+
+        <article class="card">
+          <div class="feature-icon">👩‍🏫</div>
+          <h3>Teacher Resources</h3>
+          <p>Find useful starting points for lesson planning and teaching.</p>
+          <a class="button" href="#teachers">Explore Resources</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- STUDENT NOTES -->
+
+    <section id="notes">
+      <div class="section-heading">
+        <h2>📚 My Study Notes</h2>
+        <p>Create notes for your subjects and keep them for revision.</p>
+      </div>
+
+      <div class="card">
+        <form id="noteForm">
+          <label for="noteTitle">Note title</label>
+          <input
+            id="noteTitle"
+            type="text"
+            placeholder="e.g. Introduction to Geography"
+            required
+          >
+
+          <label for="noteSubject">Subject</label>
+          <input
+            id="noteSubject"
+            type="text"
+            placeholder="e.g. French, Geography or Education"
+            required
+          >
+
+          <label for="noteContent">Your notes</label>
+          <textarea
+            id="noteContent"
+            placeholder="Write your study notes here..."
+            required
+          ></textarea>
+
+          <div class="form-actions">
+            <button class="button" type="submit">Save Note</button>
+            <button class="button button-light" type="reset">Clear Form</button>
+          </div>
+        </form>
+
+        <p class="muted" id="notesMessage" aria-live="polite"></p>
+        <div id="notesList"></div>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+
+    <section id="quiz">
+      <div class="section-heading">
+        <h2>🧠 Quick Learning Quiz</h2>
+        <p>Choose one answer for each question and check your score.</p>
+      </div>
+
+      <div class="card">
+        <form id="quizForm">
+
+          <div class="question">
+            <p>1. Which planet is known as the Red Planet?</p>
+            <label>
+              <input type="radio" name="q1" value="a">
+              Earth
+            </label>
+            <label>
+              <input type="radio" name="q1" value="b">
+              Mars
+            </label>
+            <label>
+              <input type="radio" name="q1" value="c">
+              Jupiter
+            </label>
+          </div>
+
+          <div class="question">
+            <p>2. What is the French word for "hello"?</p>
+            <label>
+              <input type="radio" name="q2" value="a">
+              Merci
+            </label>
+            <label>
+              <input type="radio" name="q2" value="b">
+              Au revoir
+            </label>
+            <label>
+              <input type="radio" name="q2" value="c">
+              Bonjour
+            </label>
+          </div>
+
+          <div class="question">
+            <p>3. Which of these is a core competency in CBC?</p>
+            <label>
+              <input type="radio" name="q3" value="a">
+              Communication and collaboration
+            </label>
+            <label>
+              <input type="radio" name="q3" value="b">
+              Memorisation only
+            </label>
+            <label>
+              <input type="radio" name="q3" value="c">
+              Silence at all times
+            </label>
+          </div>
+
+          <button class="button" type="submit">Check My Answers</button>
+          <button class="button button-light" type="reset">Try Again</button>
+        </form>
+
+        <div
+          id="quizResult"
+          class="result"
+          aria-live="polite"
+          hidden
+        ></div>
+      </div>
+    </section>
+
+    <!-- LEARNING GOALS -->
+
+    <section id="goals">
+      <div class="section-heading">
+        <h2>🎯 My Learning Goals</h2>
+        <p>Write down what you want to learn and track your progress.</p>
+      </div>
+
+      <div class="card">
+        <form id="goalForm">
+          <label for="goalInput">What do you want to achieve?</label>
+          <input
+            id="goalInput"
+            type="text"
+            placeholder="e.g. Revise French grammar"
+            required
+          >
+
+          <button class="button" type="submit" style="margin-top:12px">
+            Add Goal
+          </button>
+        </form>
+
+        <h3>My progress</h3>
+        <div
+          class="goal-progress"
+          role="progressbar"
+          aria-label="Learning goal completion"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          id="goalProgressBar"
+        >
+          <div id="goalProgress"></div>
+        </div>
+
+        <p id="goalProgressText" class="muted" aria-live="polite">
+          No goals yet.
+        </p>
+
+        <ul id="goalList" class="goal-list"></ul>
+      </div>
+    </section>
+
+    <!-- TEACHER RESOURCES -->
+
+    <section id="teachers">
+      <div class="section-heading">
+        <h2>👩‍🏫 Teacher Resources</h2>
+        <p>Useful starting points for teachers and student teachers.</p>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="feature-icon">📝</div>
+          <h3>Lesson Planning</h3>
+          <p>
+            Organise lesson objectives, learning activities,
+            teaching materials and assessment.
+          </p>
+          <a
+            class="resource-link"
+            href="https://kicd.ac.ke/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Visit KICD →
+          </a>
+        </article>
+
+        <article class="card">
+          <div class="feature-icon">📘</div>
+          <h3>Curriculum Resources</h3>
+          <p>
+            Explore curriculum information and educational
+            materials relevant to Kenyan schools.
+          </p>
+          <a
+            class="resource-link"
+            href="https://www.education.go.ke/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Ministry of Education →
+          </a>
+        </article>
+
+        <article class="card">
+          <div class="feature-icon">💻</div>
+          <h3>Digital Learning</h3>
+          <p>
+            Explore digital tools that can support classroom
+            teaching, research and collaboration.
+          </p>
+          <a
+            class="resource-link"
+            href="https://www.google.com/intl/en/education/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Google for Education →
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+
+    <section id="about">
+      <div class="section-heading">
+        <h2>About SomaHub</h2>
+      </div>
+
+      <div class="card">
+        <p>
+          SomaHub is an educational platform concept designed to
+          bring students and teachers together through learning
+          resources, revision notes, quizzes and goal setting.
+        </p>
+
+        <p>
+          Our mission is to make learning more organised,
+          accessible and collaborative.
+        </p>
+
+        <p class="muted">
+          This is an early-stage MVP. Notes and goals are saved
+          locally in the browser on the device being used.
+          A shared student-teacher account system is not yet included.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p><strong>SomaHub 📚</strong></p>
+    <p>Learn Together. Grow Together.</p>
+    <p>© <span id="year"></span> SomaHub</p>
+  </footer>
+
+  <script>
+    "use strict";
+
+    // LOCAL STORAGE
+    // Data stays in this browser on this device.
+
+    const STORAGE_KEYS = {
+      notes: "somahub_notes_v1",
+      goals: "somahub_goals_v1"
+    };
+
+    function loadData(key) {
+      try {
+        const value = localStorage.getItem(key);
+        return value ? JSON.parse(value) : [];
+      } catch (error) {
+        console.error("Could not load saved data:", error);
+        return [];
+      }
+    }
+
+    function saveData(key, data) {
+      try {
+        localStorage.setItem(key, JSON.stringify(data));
+        return true;
+      } catch (error) {
+        console.error("Could not save data:", error);
+        alert("Your browser could not save this data. Check your browser storage settings.");
+        return false;
+      }
+    }
+
+    let notes = loadData(STORAGE_KEYS.notes);
+    let goals = loadData(STORAGE_KEYS.goals);
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    // NOTES
+
+    const noteForm = document.getElementById("noteForm");
+    const notesList = document.getElementById("notesList");
+    const notesMessage = document.getElementById("notesMessage");
+
+    function renderNotes() {
+      notesList.replaceChildren();
+
+      if (notes.length === 0) {
+        const message = document.createElement("p");
+        message.className = "muted";
+        message.textContent = "Your saved notes will appear here.";
+        notesList.appendChild(message);
+        return;
+      }
+
+      notes.forEach(function(note, index) {
+        const article = document.createElement("article");
+        article.className = "note";
+
+        const title = document.createElement("h4");
+        title.textContent = note.title;
+
+        const subject = document.createElement("p");
+        subject.className = "muted";
+        subject.textContent = "Subject: " + note.subject;
+
+        const content = document.createElement("p");
+        content.textContent = note.content;
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "button button-light";
+        deleteButton.textContent = "Delete Note";
+
+        deleteButton.addEventListener("click", function() {
+          if (!confirm("Delete this note?")) return;
+
+          notes.splice(index, 1);
+
+          if (saveData(STORAGE_KEYS.notes, notes)) {
+            renderNotes();
+            notesMessage.textContent = "Note deleted.";
+          }
+        });
+
+        article.append(title, subject, content, deleteButton);
+        notesList.appendChild(article);
+      });
+    }
+
+    noteForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const title = document.getElementById("noteTitle").value.trim();
+      const subject = document.getElementById("noteSubject").value.trim();
+      const content = document.getElementById("noteContent").value.trim();
+
+      if (!title || !subject || !content) {
+        notesMessage.textContent = "Please complete all fields.";
+        return;
+      }
+
+      notes.unshift({
+        title: title,
+        subject: subject,
+        content: content,
+        createdAt: new Date().toISOString()
+      });
+
+      if (saveData(STORAGE_KEYS.notes, notes)) {
+        noteForm.reset();
+        renderNotes();
+        notesMessage.textContent = "Your note has been saved!";
+      }
+    });
+
+    // QUIZ
+
+    const quizForm = document.getElementById("quizForm");
+    const quizResult = document.getElementById("quizResult");
+
+    quizForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const answers = {
+        q1: "b",
+        q2: "c",
+        q3: "a"
+      };
+
+      let score = 0;
+      let unanswered = 0;
+
+      Object.keys(answers).forEach(function(question) {
+        const selected = quizForm.querySelector(
+          'input[name="' + question + '"]:checked'
+        );
+
+        if (!selected) {
+          unanswered++;
+        } else if (selected.value === answers[question]) {
+          score++;
+        }
+      });
+
+      quizResult.hidden = false;
+      quizResult.className = "result";
+
+      if (unanswered > 0) {
+        quizResult.textContent =
+          "You scored " + score + "/3. You left " +
+          unanswered + " question(s) unanswered.";
+      } else if (score === 3) {
+        quizResult.textContent =
+          "Excellent! You scored 3/3. Keep learning!";
+      } else {
+        quizResult.textContent =
+          "You scored " + score + "/3. Review your answers and try again.";
+      }
+    });
+
+    quizForm.addEventListener("reset", function() {
+      quizResult.hidden = true;
+      quizResult.textContent = "";
+    });
+
+    // LEARNING GOALS
+
+    const goalForm = document.getElementById("goalForm");
+    const goalInput = document.getElementById("goalInput");
+    const goalList = document.getElementById("goalList");
+    const goalProgress = document.getElementById("goalProgress");
+    const goalProgressText = document.getElementById("goalProgressText");
+    const goalProgressBar = document.getElementById("goalProgressBar");
+
+    function renderGoals() {
+      goalList.replaceChildren();
+
+      goals.forEach(function(goal, index) {
+        const item = document.createElement("li");
+        const checkbox = document.createElement("input");
+
+        checkbox.type = "checkbox";
+        checkbox.checked = Boolean(goal.completed);
+        checkbox.setAttribute("aria-label", "Mark goal as completed");
+
+        checkbox.addEventListener("change", function() {
+          goals[index].completed = checkbox.checked;
+
+          if (saveData(STORAGE_KEYS.goals, goals)) {
+            renderGoals();
+          } else {
+            checkbox.checked = !checkbox.checked;
+          }
+        });
+
+        const text = document.createElement("span");
+        text.textContent = goal.text;
+
+        if (goal.completed) {
+          text.style.textDecoration = "line-through";
+          text.style.color = "#667085";
+        }
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "button button-light";
+        deleteButton.textContent = "Remove";
+        deleteButton.style.marginLeft = "8px";
+
+        deleteButton.addEventListener("click", function() {
+          goals.splice(index, 1);
+
+          if (saveData(STORAGE_KEYS.goals, goals)) {
+            renderGoals();
+          }
+        });
+
+        item.append(checkbox, text, deleteButton);
+        goalList.appendChild(item);
+      });
+
+      const total = goals.length;
+      const completed = goals.filter(function(goal) {
+        return goal.completed;
+      }).length;
+
+      const percentage = total === 0
+        ? 0
+        : Math.round((completed / total) * 100);
+
+      goalProgress.style.width = percentage + "%";
+      goalProgressBar.setAttribute("aria-valuenow", percentage);
+
+      goalProgressText.textContent = total === 0
+        ? "No goals yet. Add your first learning goal above."
+        : completed + " of " + total +
+          " goals completed (" + percentage + "%).";
+    }
+
+    goalForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const text = goalInput.value.trim();
+      if (!text) return;
+
+      goals.push({
+        text: text,
+        completed: false,
+        createdAt: new Date().toISOString()
+      });
+
+      if (saveData(STORAGE_KEYS.goals, goals)) {
+        goalForm.reset();
+        renderGoals();
+      }
+    });
+
+    // INITIALISE THE PAGE
+
+    renderNotes();
+    renderGoals();
+
+    // SERVICE WORKER: OFFLINE SUPPORT
+
+    if ("serviceWorker" in navigator && location.protocol === "https:") {
+      window.addEventListener("load", function() {
+        navigator.serviceWorker.register("/Somahub/service-worker.js")
+          .catch(function(error) {
+            console.error("Service worker registration failed:", error);
+          });
+      });
+    }
+  </script>
+
+</body>
+  </html>
