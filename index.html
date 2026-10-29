@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#123c69">
 <title>SomaHub | Learn Together, Grow Together</title>
 <style>
-:root{--blue:#123c69;--teal:#087e8b;--bg:#f3f6fb;--ink:#202b3c;--muted:#667085;--line:#dce4ed;--white:#fff}
+:root{--blue:#123c69;--teal:#087e8b;--bg:#f3f6fb;--ink:#202b3c;--muted:#667085;--line:#dce4ed}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Arial,sans-serif}
 header{background:var(--blue);color:white;padding:22px 16px}
@@ -36,7 +36,6 @@ button,.navbutton{display:inline-block;border:0;border-radius:9px;padding:10px 1
 .tile{border:1px solid var(--line);border-radius:11px;padding:14px;background:#fbfdff}
 .tile a{color:var(--blue);font-weight:700}
 .question{border:1px solid var(--line);border-radius:11px;padding:14px;margin:12px 0}
-.question p{margin:8px 0}
 .option{display:flex;gap:9px;align-items:flex-start;padding:6px 0;font-weight:400;cursor:pointer}
 .option input{width:auto;margin-top:5px}
 .pill{display:inline-block;background:#e8f0fa;border-radius:20px;padding:2px 8px;font-size:12px;margin:2px}
@@ -53,10 +52,11 @@ th{background:#eef3f8}
 @media(max-width:500px){header h1{font-size:24px}.card{padding:13px}button{max-width:100%}}
 @media print{
  body{background:white;font-size:12pt}
- header,nav,footer,.no-print,#home,#tools,#quizSetup,#paperSetup,.noprint{display:none!important}
+ header,nav,footer,#home,#tools,#quizSetup,#paperSetup,.noprint{display:none!important}
  main{padding:0}
  .card{box-shadow:none;border:0;padding:0}
- #paper{display:block!important}
+ body.print-paper #paper{display:block!important}
+ body.print-lesson #lessonPrint,body.print-scheme #schemePrint,body.print-rubric #rubricPrint{display:block!important}
  .paper-question{break-inside:avoid}
  .answer-key{break-before:page}
 }
@@ -71,11 +71,12 @@ th{background:#eef3f8}
 <nav>
 <a href="#home">Home</a>
 <a href="#revision">Revision Centre</a>
+<a href="#search">Question Search</a>
 <a href="#quinnex">Quinnex Textbook</a>
 <a href="#planner">Lesson Planner</a>
 <a href="#schemes">Schemes of Work</a>
-<a href="#rubric">CBC Rubric Builder</a>
-<a href="#records">Assessment Records</a>
+<a href="#rubric">CBC Rubric</a>
+<a href="#records">Assessment</a>
 <a href="#support">Learner Support</a>
 <a href="#backup">Backup</a>
 </nav>
@@ -87,17 +88,17 @@ th{background:#eef3f8}
 <h2>Your learning journey starts here!</h2>
 <p>Welcome to SomaHub, a learning and teaching workspace for junior school learners and teachers.</p>
 <div class="grid">
-<div class="tile"><h3>🧠 Quizzes</h3><p>Practise questions, get scores and understand answers.</p><a href="#revision">Start revising →</a></div>
-<div class="tile"><h3>📄 Practice papers</h3><p>Create printable practice papers and answer guides.</p><a href="#revision">Create a paper →</a></div>
-<div class="tile"><h3>📘 Quinnex Textbook</h3><p>Read starter notes and save your own study notes.</p><a href="#quinnex">Open notes →</a></div>
-<div class="tile"><h3>👩‍🏫 Teacher tools</h3><p>Prepare lessons, schemes of work and assessment rubrics.</p><a href="#planner">Open teacher tools →</a></div>
+<div class="tile"><h3>🧠 Quizzes</h3><p>Practise questions and understand answers.</p><a href="#revision">Start revising →</a></div>
+<div class="tile"><h3>📄 Practice papers</h3><p>Create printable revision papers.</p><a href="#revision">Create a paper →</a></div>
+<div class="tile"><h3>📘 Quinnex Textbook</h3><p>Read and save study notes.</p><a href="#quinnex">Open textbook →</a></div>
+<div class="tile"><h3>👩‍🏫 Teacher tools</h3><p>Plan lessons, schemes and assessments.</p><a href="#planner">Teacher tools →</a></div>
 </div>
-<p class="small">Your saved notes and records are stored in this browser on this device. They are not automatically shared with other users.</p>
+<p class="small">Saved records are stored in this browser on this device. They are not automatically synchronized across devices.</p>
 </section>
 
 <section class="card" id="revision">
 <h2>🎯 CBC Revision Centre</h2>
-<p>Choose a grade, subject, topic and difficulty. The quiz and practice-paper generator use the matching questions available in the bank.</p>
+<p>Select a grade, learning area, topic and difficulty to generate a randomized quiz or practice paper.</p>
 <div id="quizSetup">
 <div class="filters">
 <div><label for="grade">Grade</label><select id="grade"><option value="7">Grade 7</option><option value="8">Grade 8</option><option value="9">Grade 9</option></select></div>
@@ -117,11 +118,9 @@ th{background:#eef3f8}
 <div id="quizArea"><p class="small">Choose your options and start a quiz.</p></div>
 <div id="quizControls" class="actions"></div>
 <div id="quizResults" aria-live="polite"></div>
-
 <hr style="border:0;border-top:1px solid var(--line);margin:22px 0">
 <div id="paperSetup">
 <h2>📝 Practice-paper generator</h2>
-<p>Create a fresh paper from the selected grade, subject and topic.</p>
 <div class="filters">
 <div><label for="paperCount">Number of questions</label><select id="paperCount"><option>5</option><option selected>10</option><option>15</option><option>20</option></select></div>
 <div><label for="paperAnswers">Answer guide</label><select id="paperAnswers"><option value="yes">Include explanations</option><option value="no">Questions only</option></select></div>
@@ -136,14 +135,14 @@ th{background:#eef3f8}
 
 <section class="card" id="search">
 <h2>🔎 Search questions</h2>
-<p>Search the question bank by keyword, subject or topic.</p>
-<input id="searchBox" placeholder="For example: fractions, environment, French..." aria-label="Search question bank">
+<p>Search by keyword, subject, grade or topic.</p>
+<input id="searchBox" placeholder="For example: fractions, environment, French...">
 <div id="searchResults"></div>
 </section>
 
 <section class="card" id="quinnex">
 <h2>📘 Quinnex Combined Textbook</h2>
-<p>Starter revision notes across the listed learning areas. These notes are concise introductions, not a complete official textbook.</p>
+<p class="small">Starter revision notes. These are not yet a complete official CBC textbook.</p>
 <div class="filters">
 <div><label for="noteGrade">Grade</label><select id="noteGrade"><option value="7">Grade 7</option><option value="8">Grade 8</option><option value="9">Grade 9</option></select></div>
 <div><label for="noteSubject">Subject</label><select id="noteSubject">
@@ -153,11 +152,11 @@ th{background:#eef3f8}
 <div id="textbookNotes"></div>
 <h3>Add your own notes</h3>
 <div class="filters">
-<div><label for="customNoteTitle">Title</label><input id="customNoteTitle" placeholder="Topic title"></div>
-<div><label for="customNoteSubject">Subject</label><input id="customNoteSubject" placeholder="Subject"></div>
+<div><label for="customNoteTitle">Title</label><input id="customNoteTitle"></div>
+<div><label for="customNoteSubject">Subject</label><input id="customNoteSubject"></div>
 <div><label for="customNoteGrade">Grade</label><select id="customNoteGrade"><option>7</option><option>8</option><option>9</option></select></div>
 </div>
-<label for="customNoteBody">Notes</label><textarea id="customNoteBody" placeholder="Write your study notes here..."></textarea>
+<label for="customNoteBody">Notes</label><textarea id="customNoteBody"></textarea>
 <button class="primary" id="saveNote">Save note</button>
 <div id="savedNotes"></div>
 </section>
@@ -166,42 +165,44 @@ th{background:#eef3f8}
 <h2>👩‍🏫 Lesson Planner</h2>
 <div class="filters">
 <div><label for="lpGrade">Grade</label><select id="lpGrade"><option>7</option><option>8</option><option>9</option></select></div>
-<div><label for="lpSubject">Subject</label><input id="lpSubject" placeholder="Learning area"></div>
+<div><label for="lpSubject">Subject</label><input id="lpSubject"></div>
 <div><label for="lpDate">Date</label><input type="date" id="lpDate"></div>
 <div><label for="lpDuration">Duration (minutes)</label><input id="lpDuration" type="number" min="1" value="40"></div>
 </div>
-<label for="lpTopic">Topic / strand</label><input id="lpTopic" placeholder="Lesson topic">
-<label for="lpObjectives">Learning outcomes</label><textarea id="lpObjectives" placeholder="By the end of the lesson, learners should be able to..."></textarea>
-<label for="lpActivities">Learning activities and resources</label><textarea id="lpActivities" placeholder="Introduction, learner activities, resources and conclusion"></textarea>
-<label for="lpAssessment">Assessment and reflection</label><textarea id="lpAssessment" placeholder="How will learning be assessed?"></textarea>
+<label for="lpTopic">Topic / strand</label><input id="lpTopic">
+<label for="lpObjectives">Learning outcomes</label><textarea id="lpObjectives"></textarea>
+<label for="lpActivities">Learning activities and resources</label><textarea id="lpActivities"></textarea>
+<label for="lpAssessment">Assessment and reflection</label><textarea id="lpAssessment"></textarea>
 <div class="actions"><button class="primary" id="saveLesson">Save lesson</button><button class="secondary" id="printLesson">Print lesson plan</button></div>
 <div id="lessonList"></div>
+<div id="lessonPrint"></div>
 </section>
 
 <section class="card" id="schemes">
 <h2>📅 Schemes of Work Builder</h2>
 <div class="filters">
 <div><label for="swGrade">Grade</label><select id="swGrade"><option>7</option><option>8</option><option>9</option></select></div>
-<div><label for="swSubject">Subject</label><input id="swSubject" placeholder="Learning area"></div>
+<div><label for="swSubject">Subject</label><input id="swSubject"></div>
 <div><label for="swTerm">Term</label><select id="swTerm"><option>Term 1</option><option>Term 2</option><option>Term 3</option></select></div>
 <div><label for="swWeek">Week</label><input id="swWeek" type="number" min="1" value="1"></div>
 </div>
 <label for="swStrand">Strand / sub-strand</label><input id="swStrand">
 <label for="swOutcomes">Learning outcomes</label><textarea id="swOutcomes"></textarea>
 <label for="swActivities">Learning experiences and resources</label><textarea id="swActivities"></textarea>
-<label for="swAssessment">Assessment methods</label><input id="swAssessment" placeholder="Observation, oral questions, written task...">
+<label for="swAssessment">Assessment methods</label><input id="swAssessment">
 <div class="actions"><button class="primary" id="saveScheme">Save scheme entry</button><button class="secondary" id="printScheme">Print schemes</button></div>
 <div id="schemeList"></div>
+<div id="schemePrint"></div>
 </section>
 
 <section class="card" id="rubric">
 <h2>📊 CBC Rubric Builder</h2>
 <div class="filters">
 <div><label for="rubricGrade">Grade</label><select id="rubricGrade"><option>7</option><option>8</option><option>9</option></select></div>
-<div><label for="rubricSubject">Subject</label><input id="rubricSubject" placeholder="Learning area"></div>
-<div><label for="rubricTask">Task / project</label><input id="rubricTask" placeholder="Task title"></div>
+<div><label for="rubricSubject">Subject</label><input id="rubricSubject"></div>
+<div><label for="rubricTask">Task / project</label><input id="rubricTask"></div>
 </div>
-<p class="small">Enter a performance description for each level. Adapt the descriptors to your actual task and curriculum design.</p>
+<p class="small">Adapt the performance descriptors to the actual task.</p>
 <div class="filters">
 <div><label for="r4">Level 4 — Exceeds expectation</label><textarea id="r4">Demonstrates the skill accurately, independently and consistently.</textarea></div>
 <div><label for="r3">Level 3 — Meets expectation</label><textarea id="r3">Demonstrates the expected skill with minor support.</textarea></div>
@@ -211,15 +212,16 @@ th{background:#eef3f8}
 <button class="primary" id="saveRubric">Save rubric</button>
 <button class="secondary" id="printRubric">Print rubric</button>
 <div id="rubricList"></div>
+<div id="rubricPrint"></div>
 </section>
 
 <section class="card" id="records">
 <h2>🗂️ Assessment Tracker</h2>
-<p class="small">Store learner assessment records locally. Avoid entering sensitive personal information on a shared device.</p>
+<p class="small">Use learner codes rather than full names on shared devices.</p>
 <div class="filters">
-<div><label for="recordLearner">Learner identifier</label><input id="recordLearner" placeholder="Use a code rather than full name"></div>
+<div><label for="recordLearner">Learner identifier</label><input id="recordLearner"></div>
 <div><label for="recordGrade">Grade</label><select id="recordGrade"><option>7</option><option>8</option><option>9</option></select></div>
-<div><label for="recordSubject">Subject</label><input id="recordSubject" placeholder="Learning area"></div>
+<div><label for="recordSubject">Subject</label><input id="recordSubject"></div>
 <div><label for="recordScore">Score (%)</label><input id="recordScore" type="number" min="0" max="100"></div>
 </div>
 <label for="recordComment">Feedback / next step</label><textarea id="recordComment"></textarea>
@@ -229,18 +231,18 @@ th{background:#eef3f8}
 
 <section class="card" id="support">
 <h2>🤝 Learner Support Planner</h2>
-<p>Plan classroom support and inclusive learning strategies. This tool does not diagnose learning or health conditions.</p>
+<p>Plan classroom support and inclusive learning strategies. This tool does not diagnose conditions.</p>
 <div class="filters">
-<div><label for="supportCode">Learner code</label><input id="supportCode" placeholder="Avoid full names"></div>
+<div><label for="supportCode">Learner code</label><input id="supportCode"></div>
 <div><label for="supportGrade">Grade</label><select id="supportGrade"><option>7</option><option>8</option><option>9</option></select></div>
 </div>
 <label for="supportNeed">Learning barrier or classroom need</label><textarea id="supportNeed"></textarea>
 <label for="supportStrategy">Support strategy / reasonable adjustment</label><textarea id="supportStrategy"></textarea>
-<label for="supportReview">Review date and progress</label><input id="supportReview" placeholder="Date or progress notes">
+<label for="supportReview">Review date and progress</label><input id="supportReview">
 <button class="primary" id="saveSupport">Save support plan</button>
 <div id="supportList"></div>
 <h3>Parent / guardian learning plan</h3>
-<label for="parentGoal">Learning goal</label><input id="parentGoal" placeholder="For example, regular reading practice">
+<label for="parentGoal">Learning goal</label><input id="parentGoal">
 <label for="parentActivity">Home activity and communication plan</label><textarea id="parentActivity"></textarea>
 <button class="secondary" id="saveParent">Save parent learning plan</button>
 <div id="parentList"></div>
@@ -248,14 +250,14 @@ th{background:#eef3f8}
 
 <section class="card" id="backup">
 <h2>💾 Backup and Settings</h2>
-<p>Export your SomaHub records as a JSON backup or restore a backup previously exported from this page.</p>
+<p>Export your records as a JSON backup or restore an earlier backup.</p>
 <div class="actions">
 <button class="primary" id="exportData">Download backup</button>
 <label class="navbutton secondary" for="importFile">Import backup</label>
 <input class="hidden" id="importFile" type="file" accept=".json,application/json">
 <button class="danger" id="clearData">Clear saved SomaHub data</button>
 </div>
-<p class="small">Keep backup files private. Importing a backup replaces the current saved SomaHub records on this browser. Quiz answers are generated from the built-in question bank and are not part of the backup.</p>
+<p class="small">Importing replaces saved records on this browser. Export a backup before importing or clearing data.</p>
 <div id="backupStatus" aria-live="polite"></div>
 </section>
 </main>
@@ -264,56 +266,104 @@ th{background:#eef3f8}
 <script>
 "use strict";
 const $=id=>document.getElementById(id);
-const STORE="somahub_complete_v2";
+const STORE="somahub_complete_v3";
 const BANK=[
 {g:7,s:"Mathematics",t:"Fractions",d:"Easy",q:"What is 1/2 + 1/4?",o:["2/6","3/4","1/6","2/4"],a:1,e:"1/2 = 2/4, so 2/4 + 1/4 = 3/4."},
 {g:7,s:"Mathematics",t:"Integers",d:"Easy",q:"What is -3 + 8?",o:["-11","-5","5","11"],a:2,e:"Starting at -3 and moving 8 places right gives 5."},
 {g:7,s:"Mathematics",t:"Geometry",d:"Easy",q:"What is the sum of the interior angles of a triangle?",o:["90°","180°","270°","360°"],a:1,e:"The interior angles of a triangle add up to 180°."},
-{g:7,s:"Mathematics",t:"Fractions",d:"Medium",q:"Simplify 12/18.",o:["2/3","3/4","6/8","4/5"],a:0,e:"Divide numerator and denominator by 6 to obtain 2/3."},
+{g:7,s:"Mathematics",t:"Fractions",d:"Medium",q:"Simplify 12/18.",o:["2/3","3/4","6/8","4/5"],a:0,e:"Divide numerator and denominator by 6."},
 {g:8,s:"Mathematics",t:"Percentages",d:"Medium",q:"What is a 10% discount on KSh 800?",o:["KSh 8","KSh 40","KSh 80","KSh 100"],a:2,e:"0.10 × 800 = KSh 80."},
-{g:8,s:"Mathematics",t:"Algebra",d:"Medium",q:"If x + 7 = 15, find x.",o:["7","8","15","22"],a:1,e:"Subtract 7 from both sides: x = 8."},
-{g:8,s:"Mathematics",t:"Ratio",d:"Medium",q:"Simplify the ratio 12:18.",o:["2:3","3:2","4:9","6:8"],a:0,e:"Divide both terms by 6 to get 2:3."},
-{g:9,s:"Mathematics",t:"Linear equations",d:"Medium",q:"Solve 3x - 4 = 11.",o:["3","4","5","7"],a:2,e:"Add 4, giving 3x = 15. Divide by 3: x = 5."},
-{g:9,s:"Mathematics",t:"Probability",d:"Challenge",q:"A fair six-sided die is rolled. What is the probability of an even number?",o:["1/6","1/3","1/2","2/3"],a:2,e:"Three of six outcomes are even, so the probability is 3/6 = 1/2."},
-{g:9,s:"Mathematics",t:"Area",d:"Medium",q:"A rectangle is 9 cm long and 4 cm wide. Find its area.",o:["13 cm²","26 cm²","36 cm²","72 cm²"],a:2,e:"Area = length × width = 9 × 4 = 36 cm²."},
-{g:7,s:"English",t:"Parts of speech",d:"Easy",q:"Identify the adjective in “The tall learner answered.”",o:["learner","answered","tall","the"],a:2,e:"“Tall” describes the noun “learner”."},
-{g:7,s:"English",t:"Tenses",d:"Easy",q:"Choose the correct past tense: “They ___ football yesterday.”",o:["play","played","playing","plays"],a:1,e:"“Yesterday” signals the past tense: played."},
+{g:8,s:"Mathematics",t:"Algebra",d:"Medium",q:"If x + 7 = 15, find x.",o:["7","8","15","22"],a:1,e:"Subtract 7 from both sides."},
+{g:8,s:"Mathematics",t:"Ratio",d:"Medium",q:"Simplify the ratio 12:18.",o:["2:3","3:2","4:9","6:8"],a:0,e:"Divide both terms by 6."},
+{g:9,s:"Mathematics",t:"Linear equations",d:"Medium",q:"Solve 3x - 4 = 11.",o:["3","4","5","7"],a:2,e:"Add 4, giving 3x = 15. Divide by 3."},
+{g:9,s:"Mathematics",t:"Probability",d:"Challenge",q:"A fair six-sided die is rolled. What is the probability of an even number?",o:["1/6","1/3","1/2","2/3"],a:2,e:"Three of six outcomes are even, so probability is 1/2."},
+{g:9,s:"Mathematics",t:"Area",d:"Medium",q:"A rectangle is 9 cm long and 4 cm wide. Find its area.",o:["13 cm²","26 cm²","36 cm²","72 cm²"],a:2,e:"Area = length × width = 36 cm²."},
+{g:7,s:"English",t:"Parts of speech",d:"Easy",q:"Identify the adjective in 'The tall learner answered.'",o:["learner","answered","tall","the"],a:2,e:"Tall describes the noun learner."},
+{g:7,s:"English",t:"Tenses",d:"Easy",q:"Choose the correct past tense: 'They ___ football yesterday.'",o:["play","played","playing","plays"],a:1,e:"Yesterday signals the past tense: played."},
 {g:8,s:"English",t:"Punctuation",d:"Medium",q:"Which sentence correctly shows that a book belongs to one girl?",o:["The girls book is here.","The girl's book is here.","The girls' is book here.","The girls book's is here."],a:1,e:"The singular possessive form is girl's."},
-{g:8,s:"English",t:"Comprehension",d:"Medium",q:"“Despite the rain, Amina continued walking.” What does despite suggest?",o:["Rain stopped her","She continued although it rained","She caused rain","She stayed home"],a:1,e:"Despite introduces a difficulty that did not prevent the action."},
-{g:9,s:"English",t:"Active and passive voice",d:"Medium",q:"Change to passive voice: “The teacher marked the books.”",o:["The books marked the teacher.","The books were marked by the teacher.","The teacher was marked by the books.","The books are marking."],a:1,e:"The books become the subject: “The books were marked by the teacher.”"},
-{g:7,s:"Kiswahili",t:"Aina za maneno",d:"Easy",q:"Katika “Mtoto mdogo anacheza”, neno “mdogo” ni nini?",o:["Kitenzi","Kivumishi","Kielezi","Kiunganishi"],a:1,e:"“Mdogo” linaeleza sifa ya mtoto; ni kivumishi."},
-{g:8,s:"Kiswahili",t:"Nyakati",d:"Easy",q:"Chagua sentensi ya wakati uliopita.",o:["Ninasoma kitabu.","Nitasoma kitabu.","Nilisoma kitabu.","Ninasoma vitabu."],a:2,e:"Kiambishi -li- kinaonyesha wakati uliopita katika “nilisoma”."},
-{g:9,s:"Kiswahili",t:"Methali",d:"Medium",q:"“Haraka haraka haina baraka” inafundisha nini?",o:["Pupa ni nzuri","Pupa inaweza kuleta makosa","Kukimbia kila siku","Kuepuka kazi"],a:1,e:"Methali hii inashauri kufanya mambo kwa utulivu na umakini."},
-{g:7,s:"Integrated Science",t:"Plants",d:"Easy",q:"Which plant structure absorbs water from soil?",o:["Flower","Root hairs","Fruit","Petal"],a:1,e:"Root hairs provide a large surface area for absorbing water and minerals."},
-{g:7,s:"Integrated Science",t:"Matter",d:"Easy",q:"Which state of matter has a fixed volume but takes its container's shape?",o:["Solid","Liquid","Gas","Vacuum"],a:1,e:"A liquid has a fixed volume but takes the shape of its container."},
+{g:8,s:"English",t:"Comprehension",d:"Medium",q:"'Despite the rain, Amina continued walking.' What does despite suggest?",o:["Rain stopped her","She continued although it rained","She caused rain","She stayed home"],a:1,e:"Despite introduces a difficulty that did not prevent the action."},
+{g:9,s:"English",t:"Active and passive voice",d:"Medium",q:"Change to passive voice: 'The teacher marked the books.'",o:["The books marked the teacher.","The books were marked by the teacher.","The teacher was marked by the books.","The books are marking."],a:1,e:"The books become the subject: The books were marked by the teacher."},
+{g:7,s:"Kiswahili",t:"Aina za maneno",d:"Easy",q:"Katika 'Mtoto mdogo anacheza', neno 'mdogo' ni nini?",o:["Kitenzi","Kivumishi","Kielezi","Kiunganishi"],a:1,e:"Mdogo linaeleza sifa ya mtoto; ni kivumishi."},
+{g:8,s:"Kiswahili",t:"Nyakati",d:"Easy",q:"Chagua sentensi ya wakati uliopita.",o:["Ninasoma kitabu.","Nitasoma kitabu.","Nilisoma kitabu.","Ninasoma vitabu."],a:2,e:"Kiambishi -li- kinaonyesha wakati uliopita."},
+{g:9,s:"Kiswahili",t:"Methali",d:"Medium",q:"'Haraka haraka haina baraka' inafundisha nini?",o:["Pupa ni nzuri","Pupa inaweza kuleta makosa","Kukimbia kila siku","Kuepuka kazi"],a:1,e:"Methali hii inashauri kufanya mambo kwa utulivu."},
+{g:7,s:"Integrated Science",t:"Plants",d:"Easy",q:"Which plant structure absorbs water from soil?",o:["Flower","Root hairs","Fruit","Petal"],a:1,e:"Root hairs absorb water and minerals."},
+{g:7,s:"Integrated Science",t:"Matter",d:"Easy",q:"Which state of matter has a fixed volume but takes its container's shape?",o:["Solid","Liquid","Gas","Vacuum"],a:1,e:"A liquid has fixed volume but takes the shape of its container."},
 {g:8,s:"Integrated Science",t:"Forces",d:"Medium",q:"Which force opposes motion between surfaces in contact?",o:["Gravity","Magnetism","Friction","Upthrust"],a:2,e:"Friction opposes relative movement between contacting surfaces."},
 {g:8,s:"Integrated Science",t:"Human body",d:"Easy",q:"Which organ pumps blood around the human body?",o:["Lungs","Kidneys","Heart","Stomach"],a:2,e:"The heart pumps blood through the circulatory system."},
-{g:9,s:"Integrated Science",t:"Electricity",d:"Medium",q:"Which instrument measures electric current?",o:["Voltmeter","Ammeter","Thermometer","Barometer"],a:1,e:"An ammeter measures current and is connected in series."},
-{g:9,s:"Integrated Science",t:"Environment",d:"Medium",q:"Which action can reduce biodegradable waste sent to a landfill?",o:["Burning plastic","Composting food scraps","Mixing all waste","Dumping waste in rivers"],a:1,e:"Composting turns suitable organic waste into useful material."},
-{g:7,s:"Social Studies",t:"Maps",d:"Easy",q:"What does a map key explain?",o:["Map age","The meaning of symbols","Weather forecast","Every place's population"],a:1,e:"A key or legend explains the symbols used on a map."},
-{g:8,s:"Social Studies",t:"Environment",d:"Medium",q:"Which action helps protect a water catchment?",o:["Clear all vegetation","Protect vegetation and plant suitable trees","Dump waste","Block every drain"],a:1,e:"Vegetation helps reduce erosion and supports water infiltration."},
-{g:9,s:"Social Studies",t:"Citizenship",d:"Medium",q:"Which action demonstrates responsible citizenship?",o:["Destroy public property","Ignore community needs","Join a lawful community clean-up","Spread unverified claims"],a:2,e:"Constructive community participation supports shared responsibility."},
-{g:7,s:"Agriculture and Nutrition",t:"Soil",d:"Easy",q:"Which soil generally retains the most water?",o:["Sandy soil","Clay soil","Gravel","Coarse stones"],a:1,e:"Clay's small particles generally allow it to retain more water than sandy soil."},
-{g:8,s:"Agriculture and Nutrition",t:"Crop production",d:"Medium",q:"Why should weeds be controlled around young crops?",o:["They compete for resources","They produce rain","They replace sunlight","They make all soil fertile"],a:0,e:"Weeds compete with crops for light, water, nutrients and space."},
-{g:9,s:"Agriculture and Nutrition",t:"Food safety",d:"Easy",q:"What should you do before preparing food?",o:["Use unwashed hands","Wash hands with clean water and soap","Leave food near waste","Use dirty utensils"],a:1,e:"Handwashing helps prevent germs from contaminating food."},
+{g:9,s:"Integrated Science",t:"Electricity",d:"Medium",q:"Which instrument measures electric current?",o:["Voltmeter","Ammeter","Thermometer","Barometer"],a:1,e:"An ammeter measures current."},
+{g:9,s:"Integrated Science",t:"Environment",d:"Medium",q:"Which action can reduce biodegradable waste sent to a landfill?",o:["Burning plastic","Composting food scraps","Mixing all waste","Dumping waste in rivers"],a:1,e:"Composting turns organic waste into useful material."},
+{g:7,s:"Social Studies",t:"Maps",d:"Easy",q:"What does a map key explain?",o:["Map age","The meaning of symbols","Weather forecast","Population"],a:1,e:"A map key explains symbols used on a map."},
+{g:8,s:"Social Studies",t:"Environment",d:"Medium",q:"Which action helps protect a water catchment?",o:["Clear all vegetation","Protect vegetation and plant suitable trees","Dump waste","Block every drain"],a:1,e:"Vegetation helps reduce erosion."},
+{g:9,s:"Social Studies",t:"Citizenship",d:"Medium",q:"Which action demonstrates responsible citizenship?",o:["Destroy public property","Ignore community needs","Join a lawful community clean-up","Spread unverified claims"],a:2,e:"Community participation supports shared responsibility."},
+{g:7,s:"Agriculture and Nutrition",t:"Soil",d:"Easy",q:"Which soil generally retains the most water?",o:["Sandy soil","Clay soil","Gravel","Coarse stones"],a:1,e:"Clay generally retains more water than sandy soil."},
+{g:8,s:"Agriculture and Nutrition",t:"Crop production",d:"Medium",q:"Why should weeds be controlled around young crops?",o:["They compete for resources","They produce rain","They replace sunlight","They make all soil fertile"],a:0,e:"Weeds compete for light, water, nutrients and space."},
+{g:9,s:"Agriculture and Nutrition",t:"Food safety",d:"Easy",q:"What should you do before preparing food?",o:["Use unwashed hands","Wash hands with clean water and soap","Leave food near waste","Use dirty utensils"],a:1,e:"Handwashing helps prevent contamination."},
 {g:7,s:"Pre-Technical Studies",t:"Workshop safety",d:"Easy",q:"Why follow workshop safety instructions?",o:["Increase accidents","Protect people and equipment","Waste materials","Avoid learning"],a:1,e:"Safety procedures help prevent injuries and damage."},
 {g:8,s:"Pre-Technical Studies",t:"Materials",d:"Medium",q:"Why is copper useful for electrical wiring?",o:["It conducts poorly","It conducts electricity well","It is very brittle","It dissolves in water"],a:1,e:"Copper is a good electrical conductor."},
-{g:9,s:"Pre-Technical Studies",t:"Design process",d:"Medium",q:"What is a useful early step in solving a design problem?",o:["Ignore user needs","Identify the problem and requirements","Discard all ideas","Build without planning"],a:1,e:"Defining the problem helps guide a suitable design."},
-{g:7,s:"Creative Arts and Sports",t:"Art elements",d:"Easy",q:"Which art element describes how light or dark a colour appears?",o:["Value","Rhythm","Pitch","Tempo"],a:0,e:"Value refers to the lightness or darkness of a colour or tone."},
-{g:8,s:"Creative Arts and Sports",t:"Sports safety",d:"Easy",q:"Why warm up before vigorous exercise?",o:["Prepare the body for activity","Replace drinking water","Guarantee no injury","Prevent all tiredness"],a:0,e:"A warm-up gradually prepares the body for more intense activity."},
-{g:9,s:"Creative Arts and Sports",t:"Music",d:"Medium",q:"What does tempo describe in music?",o:["Speed of the music","Costume colour","Stage height","Instrument shape"],a:0,e:"Tempo is the speed or pace of a musical performance."},
-{g:7,s:"CRE",t:"Values",d:"Easy",q:"Which quality is shown by helping someone in need?",o:["Compassion","Greed","Dishonesty","Selfishness"],a:0,e:"Compassion involves caring about others and responding to their needs."},
-{g:8,s:"CRE",t:"Stewardship",d:"Medium",q:"Which action demonstrates environmental stewardship?",o:["Waste water","Dump rubbish","Plant trees and reduce waste","Destroy habitats"],a:2,e:"Stewardship means caring responsibly for resources and the environment."},
+{g:9,s:"Pre-Technical Studies",t:"Design process",d:"Medium",q:"What is a useful early step in solving a design problem?",o:["Ignore user needs","Identify the problem and requirements","Discard all ideas","Build without planning"],a:1,e:"Defining the problem guides a suitable design."},
+{g:7,s:"Creative Arts and Sports",t:"Art elements",d:"Easy",q:"Which art element describes how light or dark a colour appears?",o:["Value","Rhythm","Pitch","Tempo"],a:0,e:"Value refers to lightness or darkness."},
+{g:8,s:"Creative Arts and Sports",t:"Sports safety",d:"Easy",q:"Why warm up before vigorous exercise?",o:["Prepare the body for activity","Replace drinking water","Guarantee no injury","Prevent all tiredness"],a:0,e:"A warm-up gradually prepares the body."},
+{g:9,s:"Creative Arts and Sports",t:"Music",d:"Medium",q:"What does tempo describe in music?",o:["Speed of the music","Costume colour","Stage height","Instrument shape"],a:0,e:"Tempo is the speed of music."},
+{g:7,s:"CRE",t:"Values",d:"Easy",q:"Which quality is shown by helping someone in need?",o:["Compassion","Greed","Dishonesty","Selfishness"],a:0,e:"Compassion means caring about others."},
+{g:8,s:"CRE",t:"Stewardship",d:"Medium",q:"Which action demonstrates environmental stewardship?",o:["Waste water","Dump rubbish","Plant trees and reduce waste","Destroy habitats"],a:2,e:"Stewardship means caring responsibly for resources."},
 {g:9,s:"CRE",t:"Honesty",d:"Medium",q:"A learner finds a lost wallet at school. What should they do?",o:["Keep the money","Hide it","Hand it to a responsible teacher","Sell it"],a:2,e:"Handing in lost property demonstrates honesty."},
-{g:7,s:"IRE",t:"Good character",d:"Easy",q:"Which action demonstrates honesty?",o:["Telling the truth","Cheating","Taking property","Blaming others unfairly"],a:0,e:"Honesty means being truthful and acting with integrity."},
-{g:8,s:"IRE",t:"Community",d:"Medium",q:"Which action supports peaceful relations?",o:["Spread rumours","Resolve disagreements respectfully","Encourage discrimination","Damage property"],a:1,e:"Respectful dialogue helps people resolve disagreements peacefully."},
-{g:9,s:"IRE",t:"Responsibility",d:"Medium",q:"Why is keeping a promise important?",o:["It builds trust","It encourages dishonesty","It removes responsibility","It always avoids work"],a:0,e:"Keeping promises demonstrates responsibility and builds trust."},
-{g:7,s:"HRE",t:"Respect",d:"Easy",q:"How can you respect another person's beliefs?",o:["Mock them","Listen politely even if you disagree","Force agreement","Stop them speaking"],a:1,e:"Respect includes listening courteously and allowing others to express their views."},
-{g:8,s:"HRE",t:"Inclusion",d:"Medium",q:"A classmate is excluded from a group activity. What is constructive?",o:["Join the exclusion","Invite them to participate","Spread rumours","Ignore bullying"],a:1,e:"Inclusion helps create a safe and respectful learning environment."},
-{g:9,s:"HRE",t:"Ethical decisions",d:"Medium",q:"What supports a fair decision when classmates disagree?",o:["Favouritism","Consider evidence and perspectives","Choose the loudest person","Ignore the issue"],a:1,e:"Fair decisions consider relevant facts and allow people to be heard."},
-{g:7,s:"French",t:"Greetings",d:"Easy",q:"What does “Bonjour” usually mean?",o:["Hello / good day","Good night","Thank you","Goodbye forever"],a:0,e:"Bonjour is a common French greeting used during the day."},
-{g:8,s:"French",t:"Être",d:"Easy",q:"Complete: “Nous ___ élèves.”",o:["suis","êtes","sommes","sont"],a:2,e:"The correct form of être with nous is sommes."},
-{g:9,s:"French",t:"Passé composé",d:"Medium",q:"Choose the correct translation of “I visited Paris.”",o:["Je visite Paris.","Je vais visiter Paris.","J'ai visité Paris.","Je visiter Paris."],a:2,e:"The passé composé of visiter with avoir is j'ai visité."}
+{g:7,s:"IRE",t:"Good character",d:"Easy",q:"Which action demonstrates honesty?",o:["Telling the truth","Cheating","Taking property","Blaming others unfairly"],a:0,e:"Honesty means being truthful."},
+{g:8,s:"IRE",t:"Community",d:"Medium",q:"Which action supports peaceful relations?",o:["Spread rumours","Resolve disagreements respectfully","Encourage discrimination","Damage property"],a:1,e:"Respectful dialogue helps resolve disagreements."},
+{g:9,s:"IRE",t:"Responsibility",d:"Medium",q:"Why is keeping a promise important?",o:["It builds trust","It encourages dishonesty","It removes responsibility","It always avoids work"],a:0,e:"Keeping promises builds trust."},
+{g:7,s:"HRE",t:"Respect",d:"Easy",q:"How can you respect another person's beliefs?",o:["Mock them","Listen politely even if you disagree","Force agreement","Stop them speaking"],a:1,e:"Respect includes listening courteously."},
+{g:8,s:"HRE",t:"Inclusion",d:"Medium",q:"A classmate is excluded from a group activity. What is constructive?",o:["Join the exclusion","Invite them to participate","Spread rumours","Ignore bullying"],a:1,e:"Inclusion supports a safe learning environment."},
+{g:9,s:"HRE",t:"Ethical decisions",d:"Medium",q:"What supports a fair decision when classmates disagree?",o:["Favouritism","Consider evidence and perspectives","Choose the loudest person","Ignore the issue"],a:1,e:"Fair decisions consider facts and listen to people."},
+{g:7,s:"French",t:"Greetings",d:"Easy",q:"What does 'Bonjour' usually mean?",o:["Hello / good day","Good night","Thank you","Goodbye forever"],a:0,e:"Bonjour is a common daytime French greeting."},
+{g:8,s:"French",t:"Être",d:"Easy",q:"Complete: 'Nous ___ élèves.'",o:["suis","êtes","sommes","sont"],a:2,e:"The correct form of être with nous is sommes."},
+{g:9,s:"French",t:"Passé composé",d:"Medium",q:"Choose the correct translation of 'I visited Paris.'",o:["Je visite Paris.","Je vais visiter Paris.","J'ai visité Paris.","Je visiter Paris."],a:2,e:"The passé composé of visiter with avoir is j'ai visité."},
+
+/* ADDITIONAL MATHEMATICS */
+{g:7,s:"Mathematics",t:"Decimals",d:"Easy",q:"What is 0.5 + 0.25?",o:["0.30","0.75","0.80","1.25"],a:1,e:"0.50 + 0.25 = 0.75."},
+{g:7,s:"Mathematics",t:"Measurement",d:"Easy",q:"How many centimetres are in one metre?",o:["10","100","1000","50"],a:1,e:"One metre equals 100 centimetres."},
+{g:8,s:"Mathematics",t:"Algebra",d:"Medium",q:"Simplify 4x + 3x.",o:["7","7x","12x","x"],a:1,e:"Collect like terms: 4x + 3x = 7x."},
+{g:8,s:"Mathematics",t:"Decimals",d:"Medium",q:"Calculate 2.5 × 4.",o:["6","8","10","12"],a:2,e:"2.5 multiplied by 4 equals 10."},
+{g:9,s:"Mathematics",t:"Indices",d:"Medium",q:"What is 2³?",o:["6","8","9","12"],a:1,e:"2 × 2 × 2 = 8."},
+{g:9,s:"Mathematics",t:"Statistics",d:"Medium",q:"Find the mean of 4, 6 and 8.",o:["5","6","7","8"],a:1,e:"Mean = (4 + 6 + 8) ÷ 3 = 6."},
+
+/* ADDITIONAL ENGLISH */
+{g:7,s:"English",t:"Nouns",d:"Easy",q:"Which of these is a proper noun?",o:["city","teacher","Nairobi","school"],a:2,e:"Nairobi is the specific name of a city."},
+{g:7,s:"English",t:"Synonyms",d:"Easy",q:"Which word is closest in meaning to happy?",o:["Joyful","Angry","Tired","Weak"],a:0,e:"Joyful means feeling happiness."},
+{g:8,s:"English",t:"Adverbs",d:"Medium",q:"Identify the adverb: She spoke politely.",o:["She","Spoke","Politely","None"],a:2,e:"Politely describes how she spoke."},
+{g:8,s:"English",t:"Conjunctions",d:"Easy",q:"Which word is a conjunction?",o:["Quickly","Although","Beautiful","Table"],a:1,e:"Although connects ideas and introduces contrast."},
+{g:9,s:"English",t:"Literature",d:"Medium",q:"What is the main purpose of a setting in a story?",o:["Identify the author only","Establish where and when events occur","List characters only","Provide a dictionary"],a:1,e:"Setting establishes the time and place of a story."},
+{g:9,s:"English",t:"Figures of speech",d:"Medium",q:"'As brave as a lion' is an example of:",o:["Metaphor","Simile","Irony","Personification"],a:1,e:"A simile compares using words such as as or like."},
+
+/* ADDITIONAL KISWAHILI */
+{g:7,s:"Kiswahili",t:"Nomino",d:"Easy",q:"Ni lipi kati ya haya ni nomino?",o:["Kukimbia","Mzuri","Mwalimu","Haraka"],a:2,e:"Mwalimu ni jina la mtu, hivyo ni nomino."},
+{g:7,s:"Kiswahili",t:"Vitenzi",d:"Easy",q:"Katika sentensi 'Juma anakula chakula', kitenzi ni kipi?",o:["Juma","Anakula","Chakula","Katika"],a:1,e:"Anakula linaonyesha tendo."},
+{g:8,s:"Kiswahili",t:"Methali",d:"Medium",q:"'Umoja ni nguvu, utengano ni udhaifu' inasisitiza nini?",o:["Ushindani","Ushirikiano","Uvivu","Ubinafsi"],a:1,e:"Methali hii inasisitiza umuhimu wa kushirikiana."},
+{g:8,s:"Kiswahili",t:"Vivumishi",d:"Easy",q:"Katika 'Mti mrefu umeanguka', kivumishi ni kipi?",o:["Mti","Mrefu","Umeanguka","Katika"],a:1,e:"Mrefu kinaeleza sifa ya mti."},
+{g:9,s:"Kiswahili",t:"Uandishi",d:"Medium",q:"Ni sehemu gani muhimu katika insha?",o:["Kichwa, utangulizi, mwili na hitimisho","Majina pekee","Namba pekee","Michoro pekee"],a:0,e:"Insha nzuri huwa na mpangilio wa mawazo."},
+{g:9,s:"Kiswahili",t:"Sarufi",d:"Medium",q:"Wingi wa neno kitabu ni upi?",o:["Vitabu","Mabitabu","Zitabu","Watabu"],a:0,e:"Kitabu ni umoja; vitabu ni wingi."},
+
+/* ADDITIONAL SCIENCE */
+{g:7,s:"Integrated Science",t:"Human body",d:"Easy",q:"Which organ is mainly responsible for breathing?",o:["Heart","Lungs","Stomach","Liver"],a:1,e:"The lungs are the main organs used for breathing."},
+{g:7,s:"Integrated Science",t:"Energy",d:"Easy",q:"Which is a natural source of light?",o:["Moon","Sun","Mirror","Book"],a:1,e:"The Sun produces its own light."},
+{g:8,s:"Integrated Science",t:"Nutrition",d:"Medium",q:"Which nutrient is mainly needed for growth and tissue repair?",o:["Proteins","Water","Vitamins","Fibre"],a:0,e:"Proteins help growth and repair body tissues."},
+{g:8,s:"Integrated Science",t:"Matter",d:"Medium",q:"What happens when liquid water freezes?",o:["It becomes gas","It becomes solid","It disappears","It becomes plasma"],a:1,e:"Freezing changes liquid water into solid ice."},
+{g:9,s:"Integrated Science",t:"Ecology",d:"Medium",q:"What is a producer in a food chain?",o:["An animal that hunts","A green plant that makes its own food","A decomposer","A consumer only"],a:1,e:"Green plants produce food through photosynthesis."},
+{g:9,s:"Integrated Science",t:"Electricity",d:"Medium",q:"What is the SI unit of electrical resistance?",o:["Ampere","Volt","Ohm","Watt"],a:2,e:"Electrical resistance is measured in ohms."},
+
+/* ADDITIONAL SOCIAL STUDIES */
+{g:7,s:"Social Studies",t:"Geography",d:"Easy",q:"Which direction is opposite to east?",o:["North","South","West","North-east"],a:2,e:"West is opposite to east."},
+{g:7,s:"Social Studies",t:"Maps",d:"Easy",q:"Which instrument is commonly used to find direction?",o:["Compass","Thermometer","Ruler","Microscope"],a:0,e:"A compass helps identify directions."},
+{g:8,s:"Social Studies",t:"Climate",d:"Medium",q:"Which instrument measures rainfall?",o:["Barometer","Rain gauge","Thermometer","Wind vane"],a:1,e:"A rain gauge measures rainfall."},
+{g:8,s:"Social Studies",t:"History",d:"Medium",q:"Why do historians study historical sources?",o:["To understand the past","To predict every event","To avoid evidence","To change dates"],a:0,e:"Historical sources provide evidence about past events."},
+{g:9,s:"Social Studies",t:"Citizenship",d:"Medium",q:"Which document is the supreme law of Kenya?",o:["School timetable","Constitution","Newspaper","County notice"],a:1,e:"The Constitution of Kenya is the supreme law."},
+{g:9,s:"Social Studies",t:"Environment",d:"Medium",q:"What is soil erosion?",o:["Formation of clouds","Removal of topsoil by water and wind","Planting crops","Formation of rainfall"],a:1,e:"Soil erosion is the removal of soil."},
+
+/* ADDITIONAL FRENCH */
+{g:7,s:"French",t:"Greetings",d:"Easy",q:"How do you say Thank you in French?",o:["Bonjour","Merci","Bonsoir","Salut"],a:1,e:"Merci means thank you."},
+{g:7,s:"French",t:"Numbers",d:"Easy",q:"What number is cinq?",o:["Three","Four","Five","Six"],a:2,e:"Cinq means five."},
+{g:8,s:"French",t:"Articles",d:"Medium",q:"Choose the correct article: ___ école.",o:["Le","La","L'","Les"],a:2,e:"École begins with a vowel, so the correct form is l'école."},
+{g:8,s:"French",t:"Être",d:"Easy",q:"Complete: Vous ___ professeur.",o:["suis","sommes","êtes","sont"],a:2,e:"The correct form of être with vous is êtes."},
+{g:9,s:"French",t:"Near future",d:"Medium",q:"Choose the correct sentence for I am going to study.",o:["Je vais étudier.","Je suis étudier.","Je étudie vais.","Je vais étudié."],a:0,e:"The near future uses aller + infinitive."},
+{g:9,s:"French",t:"Adjectives",d:"Medium",q:"Choose the correct feminine form of petit.",o:["Petits","Petite","Petites","Petito"],a:1,e:"The feminine singular form is petite."}
 ];
 
 function shuffle(arr){
@@ -322,12 +372,13 @@ function shuffle(arr){
  return arr;
 }
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+const emptyData=()=>({notes:[],lessons:[],schemes:[],rubrics:[],records:[],supports:[],parents:[]});
 function loadData(){
- try{return JSON.parse(localStorage.getItem(STORE))||{notes:[],lessons:[],schemes:[],rubrics:[],records:[],supports:[],parents:[]}}
- catch(e){return {notes:[],lessons:[],schemes:[],rubrics:[],records:[],supports:[],parents:[]}}
+ try{return JSON.parse(localStorage.getItem(STORE))||emptyData()}
+ catch(e){return emptyData()}
 }
 let data=loadData();
-function persist(){localStorage.setItem(STORE,JSON.stringify(data));}
+function persist(){try{localStorage.setItem(STORE,JSON.stringify(data));}catch(e){alert("Storage is full. Export a backup and remove some saved records.");}}
 function safeArray(k){if(!Array.isArray(data[k]))data[k]=[];}
 ["notes","lessons","schemes","rubrics","records","supports","parents"].forEach(safeArray);
 
@@ -342,25 +393,20 @@ function updateTopics(){
  if(topics.includes(old))$("topic").value=old;
  updateBankCount();
 }
-function updateBankCount(){
- $("bankCount").textContent=selectedBank().length+" matching starter question(s) available. This count reflects the current built-in bank.";
-}
+function updateBankCount(){$("bankCount").textContent=selectedBank().length+" matching questions available in the current built-in bank.";}
 let quiz=[],quizSubmitted=false,paperQuestions=[];
 function startQuiz(){
  const pool=shuffle(selectedBank());
- if(!pool.length){$("quizArea").innerHTML="<p>No questions match this selection yet. Choose another subject or grade.</p>";$("quizControls").innerHTML="";$("quizResults").innerHTML="";return;}
+ if(!pool.length){$("quizArea").innerHTML="<p>No matching questions yet. Choose another selection.</p>";$("quizControls").innerHTML="";$("quizResults").innerHTML="";return;}
  quiz=pool.slice(0,Math.min(Number($("quizCount").value),pool.length));quizSubmitted=false;
  $("quizResults").innerHTML="";
- $("quizArea").innerHTML=quiz.map((q,i)=>`<article class="question">
- <span class="pill">Question ${i+1}</span><span class="pill">${esc(q.t)}</span><span class="pill">${esc(q.d)}</span>
- <p><strong>${i+1}. ${esc(q.q)}</strong></p>
- ${q.o.map((o,j)=>`<label class="option"><input type="radio" name="quiz${i}" value="${j}"><span>${String.fromCharCode(65+j)}. ${esc(o)}</span></label>`).join("")}
- <div id="feedback${i}"></div></article>`).join("");
+ $("quizArea").innerHTML=quiz.map((q,i)=>`<article class="question"><span class="pill">Question ${i+1}</span><span class="pill">${esc(q.t)}</span><span class="pill">${esc(q.d)}</span><p><strong>${i+1}. ${esc(q.q)}</strong></p>${q.o.map((o,j)=>`<label class="option"><input type="radio" name="quiz${i}" value="${j}"><span>${String.fromCharCode(65+j)}. ${esc(o)}</span></label>`).join("")}<div id="feedback${i}"></div></article>`).join("");
  $("quizControls").innerHTML='<button class="primary" id="submitQuiz">Submit answers</button><button class="secondary" id="newQuiz">New randomized quiz</button>';
  $("submitQuiz").onclick=submitQuiz;$("newQuiz").onclick=startQuiz;
 }
 function submitQuiz(){
- if(quizSubmitted)return;let score=0,answered=0;
+ if(quizSubmitted)return;
+ let score=0,answered=0;
  quiz.forEach((q,i)=>{
  const selected=document.querySelector(`input[name="quiz${i}"]:checked`);
  if(selected){answered++;if(Number(selected.value)===q.a)score++;}
@@ -368,147 +414,157 @@ function submitQuiz(){
  $("feedback"+i).className="feedback";
  $("feedback"+i).innerHTML=`<div class="${ok?"correct":"wrong"}">${ok?"Correct!":selected?"Not quite.":"Not answered."} Correct answer: ${String.fromCharCode(65+q.a)}. ${esc(q.o[q.a])}</div><div><strong>Explanation:</strong> ${esc(q.e)}</div>`;
  });
- quizSubmitted=true;document.querySelectorAll('#quizArea input').forEach(x=>x.disabled=true);
- $("quizResults").innerHTML=`<h3>Your score: ${score}/${quiz.length}</h3><p>You answered ${answered} of ${quiz.length} questions. Review the explanations to improve your understanding.</p>`;
+ quizSubmitted=true;
+ document.querySelectorAll('#quizArea input').forEach(x=>x.disabled=true);
+ $("quizResults").innerHTML=`<h3>Your score: ${score}/${quiz.length}</h3><p>You answered ${answered} of ${quiz.length} questions. Review the explanations to improve.</p>`;
 }
 function generatePaper(){
  const pool=shuffle(selectedBank());
- if(!pool.length){$("paper").innerHTML="<p>No matching questions are available yet. Choose another selection.</p>";paperQuestions=[];return;}
+ if(!pool.length){$("paper").innerHTML="<p>No matching questions are available yet.</p>";paperQuestions=[];return;}
  paperQuestions=pool.slice(0,Math.min(Number($("paperCount").value),pool.length));
  const show=$("paperAnswers").value==="yes";
- $("paper").innerHTML=`<div class="paper-head"><h2>SomaHub CBC Practice Paper</h2>
- <p><strong>Grade:</strong> ${esc($("grade").value)} &nbsp; <strong>Subject:</strong> ${esc($("subject").value)}</p>
- <p><strong>Topic:</strong> ${esc($("topic").value==="all"?"Mixed available topics":$("topic").value)} &nbsp; <strong>Questions:</strong> ${paperQuestions.length}</p>
- <p>Name: __________________________ Date: __________________</p></div><hr>
- <p><strong>Instructions:</strong> Answer all questions. Choose one answer for each question. This is original revision material, not an official KNEC paper.</p>
- ${paperQuestions.map((q,i)=>`<div class="paper-question"><p><strong>${i+1}. ${esc(q.q)} (1 mark)</strong></p><ol type="A">${q.o.map(o=>`<li>${esc(o)}</li>`).join("")}</ol></div>`).join("")}
- <p><strong>Total: ${paperQuestions.length} marks</strong></p>
- ${show?`<div class="answer-key"><h2>Answer Guide and Explanations</h2>${paperQuestions.map((q,i)=>`<p><strong>${i+1}. ${String.fromCharCode(65+q.a)}. ${esc(q.o[q.a])}</strong><br>${esc(q.e)}</p>`).join("")}</div>`:""}`;
+ $("paper").innerHTML=`<div class="paper-head"><h2>SomaHub CBC Practice Paper</h2><p><strong>Grade:</strong> ${esc($("grade").value)} &nbsp; <strong>Subject:</strong> ${esc($("subject").value)}</p><p><strong>Topic:</strong> ${esc($("topic").value==="all"?"Mixed available topics":$("topic").value)} &nbsp; <strong>Questions:</strong> ${paperQuestions.length}</p><p>Name: __________________________ Date: __________________</p></div><hr><p><strong>Instructions:</strong> Answer all questions. Choose one answer for each question. Original revision material, not an official KNEC paper.</p>${paperQuestions.map((q,i)=>`<div class="paper-question"><p><strong>${i+1}. ${esc(q.q)} (1 mark)</strong></p><ol type="A">${q.o.map(o=>`<li>${esc(o)}</li>`).join("")}</ol></div>`).join("")}<p><strong>Total: ${paperQuestions.length} marks</strong></p>${show?`<div class="answer-key"><h2>Answer Guide and Explanations</h2>${paperQuestions.map((q,i)=>`<p><strong>${i+1}. ${String.fromCharCode(65+q.a)}. ${esc(q.o[q.a])}</strong><br>${esc(q.e)}</p>`).join("")}</div>`:""}`;
 }
 $("grade").onchange=()=>{updateTopics();$("quizArea").innerHTML="<p>Select Start randomized quiz to begin.</p>";};
 $("subject").onchange=()=>{updateTopics();$("quizArea").innerHTML="<p>Select Start randomized quiz to begin.</p>";};
-$("topic").onchange=updateBankCount;$("difficulty").onchange=updateBankCount;
-$("startQuiz").onclick=startQuiz;$("shuffleQuiz").onclick=startQuiz;
+$("topic").onchange=updateBankCount;
+$("difficulty").onchange=updateBankCount;
+$("startQuiz").onclick=startQuiz;
+$("shuffleQuiz").onclick=startQuiz;
 $("generatePaper").onclick=generatePaper;
-$("printPaper").onclick=()=>{if(!paperQuestions.length)generatePaper();if(paperQuestions.length)window.print();};
+$("printPaper").onclick=()=>{if(!paperQuestions.length)generatePaper();if(paperQuestions.length){document.body.classList.add("print-paper");window.print();document.body.classList.remove("print-paper");}};
 updateTopics();
 
 /* Question search */
 $("searchBox").addEventListener("input",()=>{
  const term=$("searchBox").value.trim().toLowerCase();
  if(!term){$("searchResults").innerHTML="";return;}
- const hits=BANK.filter(q=>(q.q+" "+q.s+" "+q.t+" "+q.g+" "+q.e).toLowerCase().includes(term)).slice(0,40);
- $("searchResults").innerHTML=hits.length?hits.map(q=>`<div class="question"><span class="pill">Grade ${q.g}</span><span class="pill">${esc(q.s)}</span><span class="pill">${esc(q.t)}</span><p><strong>${esc(q.q)}</strong></p><details><summary>Show answer and explanation</summary><p><strong>${String.fromCharCode(65+q.a)}. ${esc(q.o[q.a])}</strong></p><p>${esc(q.e)}</p></details></div>`).join(""):"<p>No matching questions found in the current starter bank.</p>";
+ const hits=BANK.filter(q=>(q.q+" "+q.s+" "+q.t+" "+q.g+" "+q.e).toLowerCase().includes(term)).slice(0,60);
+ $("searchResults").innerHTML=hits.length?hits.map(q=>`<div class="question"><span class="pill">Grade ${q.g}</span><span class="pill">${esc(q.s)}</span><span class="pill">${esc(q.t)}</span><p><strong>${esc(q.q)}</strong></p><details><summary>Show answer and explanation</summary><p><strong>${String.fromCharCode(65+q.a)}. ${esc(q.o[q.a])}</strong></p><p>${esc(q.e)}</p></details></div>`).join(""):"<p>No matching questions found.</p>";
 });
 
-/* Quinnex starter notes */
+/* Quinnex textbook */
 const NOTES={
 "Mathematics":{
 7:"Fractions represent parts of a whole. To add fractions, use a common denominator. Integers include positive numbers, negative numbers and zero. The angles inside a triangle add up to 180 degrees.",
-8:"Percentages are fractions out of 100. To find a percentage of a quantity, multiply the quantity by the percentage written as a decimal. Ratios compare quantities; simplify by dividing each term by the same common factor.",
-9:"A linear equation can be solved by performing the same operation on both sides. Probability is the number of favourable outcomes divided by the total equally likely outcomes. Rectangle area = length × width."
+8:"Percentages are fractions out of 100. To find a percentage, multiply the quantity by the percentage as a decimal. Ratios compare quantities; simplify by dividing each term by the same common factor.",
+9:"A linear equation can be solved by performing the same operation on both sides. Probability is favourable outcomes divided by total equally likely outcomes. Rectangle area = length × width."
 },
 "English":{
 7:"Parts of speech include nouns, pronouns, verbs, adjectives and adverbs. A verb expresses an action or state. An adjective describes a noun. Use context clues to understand unfamiliar words.",
-8:"Punctuation helps make meaning clear. An apostrophe can show possession or omitted letters. Tenses locate actions in time. In comprehension, identify the main idea and support answers with evidence from the passage.",
-9:"Active voice places the doer as the subject; passive voice makes the receiver the subject. Plan writing with a clear purpose, audience and structure. Edit for grammar, spelling, punctuation and coherence."
+8:"Punctuation helps make meaning clear. An apostrophe can show possession or omitted letters. Tenses locate actions in time. In comprehension, identify the main idea and support answers with evidence.",
+9:"Active voice places the doer as the subject; passive voice makes the receiver the subject. Plan writing with a clear purpose, audience and structure. Edit for grammar, spelling and coherence."
 },
 "Kiswahili":{
-7:"Aina za maneno ni pamoja na nomino, vitenzi, vivumishi, vielezi na viwakilishi. Kivumishi hueleza sifa ya nomino. Soma sentensi kwa makini ili kuelewa maana ya maneno.",
-8:"Nyakati huonyesha wakati wa tendo. Viambishi vya vitenzi husaidia kuonyesha nafsi na wakati. Tumia msamiati unaofaa na zingatia upatanisho wa kisarufi katika sentensi.",
-9:"Methali hutoa mafunzo au hekima. Ufahamu huhitaji kutambua wazo kuu na ushahidi katika kifungu. Katika insha, panga mawazo, tumia aya na uhakiki sarufi na tahajia."
+7:"Aina za maneno ni pamoja na nomino, vitenzi, vivumishi, vielezi na viwakilishi. Kivumishi hueleza sifa ya nomino.",
+8:"Nyakati huonyesha wakati wa tendo. Viambishi vya vitenzi husaidia kuonyesha nafsi na wakati. Tumia msamiati unaofaa.",
+9:"Methali hutoa mafunzo au hekima. Ufahamu huhitaji kutambua wazo kuu na ushahidi. Katika insha, panga mawazo na uhakiki sarufi."
 },
 "Integrated Science":{
-7:"Living things carry out life processes such as nutrition, respiration, growth and reproduction. Plants absorb water and mineral salts mainly through root hairs. Matter commonly exists as solids, liquids and gases.",
-8:"Forces can change an object's motion or shape. Friction opposes relative motion between surfaces. The human circulatory system transports materials around the body; the heart pumps blood.",
-9:"Electric current is measured in amperes using an ammeter. Protect the environment through waste reduction, reuse and suitable composting. Use evidence and fair tests when investigating scientific questions."
+7:"Living things carry out nutrition, respiration, growth and reproduction. Plants absorb water through root hairs. Matter commonly exists as solids, liquids and gases.",
+8:"Forces can change motion or shape. Friction opposes relative motion. The circulatory system transports materials around the body.",
+9:"Electric current is measured in amperes using an ammeter. Protect the environment through waste reduction, reuse and composting."
 },
 "Social Studies":{
-7:"Maps use symbols explained by a key or legend. A scale relates map distance to ground distance. Communities have cultural and environmental features that can be studied through observation and reliable sources.",
-8:"Environmental conservation includes protecting catchments, reducing erosion and managing waste. Responsible resource use helps support communities now and in the future.",
-9:"Responsible citizenship involves rights, duties, respect for diversity and participation in community life. Consider evidence and different perspectives when studying social issues."
+7:"Maps use symbols explained by a key. A scale relates map distance to ground distance. Communities have cultural and environmental features.",
+8:"Environmental conservation includes protecting catchments, reducing erosion and managing waste.",
+9:"Responsible citizenship involves rights, duties, respect for diversity and participation in community life."
 },
 "Agriculture and Nutrition":{
-7:"Soil supports plant growth by supplying anchorage, water and nutrients. Sandy soil drains quickly while clay generally retains more water. Suitable soil management helps reduce erosion.",
-8:"Crops need appropriate water, light, nutrients and space. Weeds compete with crops for resources. Select suitable control methods and follow safe practices.",
-9:"Food safety includes clean hands, clean utensils, safe storage and preventing cross-contamination. Balanced meals provide different nutrients needed for growth, energy and health."
+7:"Soil supports plant growth by supplying anchorage, water and nutrients. Sandy soil drains quickly while clay generally retains more water.",
+8:"Crops need appropriate water, light, nutrients and space. Weeds compete with crops for resources.",
+9:"Food safety includes clean hands, clean utensils, safe storage and preventing cross-contamination. Balanced meals provide different nutrients."
 },
 "Pre-Technical Studies":{
 7:"Workshop safety includes following instructions, using tools correctly, keeping workspaces tidy and wearing appropriate protective equipment.",
-8:"Materials have different properties. Copper conducts electricity well. Choose a material based on the intended use, safety, availability and cost.",
-9:"A design process starts by understanding the problem and user needs, developing ideas, selecting a solution, making a prototype and evaluating the result."
+8:"Materials have different properties. Copper conducts electricity well. Choose a material based on intended use, safety and cost.",
+9:"A design process starts by understanding the problem, developing ideas, selecting a solution, making a prototype and evaluating it."
 },
 "Creative Arts and Sports":{
-7:"Art elements include line, shape, form, colour, texture and value. Practice develops skills in making and interpreting creative work.",
-8:"A warm-up gradually prepares the body for physical activity. Follow activity rules, use appropriate equipment and respect other participants.",
-9:"Tempo describes the speed of music. Performances use practice, coordination, expression and feedback to improve quality."
+7:"Art elements include line, shape, form, colour, texture and value.",
+8:"A warm-up gradually prepares the body for physical activity. Follow activity rules and respect other participants.",
+9:"Tempo describes the speed of music. Performances use practice, coordination, expression and feedback."
 },
 "CRE":{
-7:"Compassion means caring for others. Many Christian teachings encourage kindness, honesty, responsibility and service to the community.",
-8:"Stewardship involves caring responsibly for people, resources and the environment. Everyday actions can demonstrate responsibility and concern for others.",
-9:"Moral decision-making involves considering values, consequences and responsibilities. Honesty includes telling the truth and returning lost property."
+7:"Compassion means caring for others. Christian teachings encourage kindness, honesty, responsibility and service.",
+8:"Stewardship involves caring responsibly for people, resources and the environment.",
+9:"Moral decision-making involves considering values, consequences and responsibilities. Honesty includes telling the truth."
 },
 "IRE":{
-7:"Good character includes honesty, respect, kindness and responsibility. These values guide relationships and decisions.",
-8:"Peaceful community relations are supported by respectful dialogue, fairness, cooperation and care for others.",
-9:"Keeping promises helps build trust. Ethical choices should consider responsibilities, consequences and the rights of other people."
+7:"Good character includes honesty, respect, kindness and responsibility.",
+8:"Peaceful community relations are supported by respectful dialogue, fairness and cooperation.",
+9:"Keeping promises helps build trust. Ethical choices should consider responsibilities and consequences."
 },
 "HRE":{
-7:"Respect includes listening politely and recognising that people may hold different beliefs and views.",
-8:"Inclusive learning environments value participation and respect. Respond to exclusion by encouraging participation and seeking help from a trusted adult when needed.",
-9:"Fair decisions consider relevant facts, listen to different perspectives and avoid favouritism."
+7:"Respect includes listening politely and recognising different beliefs and views.",
+8:"Inclusive learning environments value participation and respect.",
+9:"Fair decisions consider facts, listen to different perspectives and avoid favouritism."
 },
 "French":{
-7:"Greetings: Bonjour (hello/good day), Bonsoir (good evening), Merci (thank you), Au revoir (goodbye). Introduce yourself with “Je m'appelle…” and ask “Comment tu t'appelles ?”",
+7:"Greetings: Bonjour (hello/good day), Bonsoir (good evening), Merci (thank you), Au revoir (goodbye). Introduce yourself with Je m'appelle…",
 8:"Être: je suis, tu es, il/elle est, nous sommes, vous êtes, ils/elles sont. Avoir: j'ai, tu as, il/elle a, nous avons, vous avez, ils/elles ont.",
-9:"The passé composé commonly uses avoir or être with a past participle. Example: “J'ai visité Paris.” The near future uses aller + infinitive: “Je vais visiter Paris.”"
+9:"The passé composé commonly uses avoir or être with a past participle. Example: J'ai visité Paris. The near future uses aller + infinitive: Je vais visiter Paris."
 }
 };
 function renderNotes(){
  const g=$("noteGrade").value,s=$("noteSubject").value;
- const body=(NOTES[s]&&NOTES[s][g])||"Starter notes for this grade and subject have not been added yet. You can add your own notes below and save them to this browser.";
+ const body=(NOTES[s]&&NOTES[s][g])||"Starter notes for this grade and subject have not yet been added. You can add your own notes below.";
  $("textbookNotes").innerHTML=`<div class="tile"><span class="pill">Grade ${g}</span><span class="pill">${esc(s)}</span><h3>${esc(s)} — Revision Notes</h3><p style="white-space:pre-wrap">${esc(body)}</p></div>`;
  renderSavedNotes();
 }
-$("noteGrade").onchange=renderNotes;$("noteSubject").onchange=renderNotes;
+$("noteGrade").onchange=renderNotes;
+$("noteSubject").onchange=renderNotes;
 $("saveNote").onclick=()=>{
  const title=$("customNoteTitle").value.trim(),subject=$("customNoteSubject").value.trim(),body=$("customNoteBody").value.trim();
- if(!title||!body){alert("Enter a title and some notes first.");return;}
+ if(!title||!body){alert("Enter a title and notes first.");return;}
  data.notes.push({title,subject:subject||"General",grade:$("customNoteGrade").value,body,date:new Date().toLocaleDateString()});
  persist();$("customNoteTitle").value="";$("customNoteSubject").value="";$("customNoteBody").value="";renderSavedNotes();
 };
 function renderSavedNotes(){
- const list=data.notes||[];
- $("savedNotes").innerHTML=list.length?`<h3>Your saved notes</h3>`+list.map((n,i)=>`<div class="question"><strong>${esc(n.title)}</strong> <span class="pill">Grade ${esc(n.grade)}</span><p class="small">${esc(n.subject)} • ${esc(n.date||"")}</p><p style="white-space:pre-wrap">${esc(n.body)}</p><button class="danger" onclick="deleteItem('notes',${i})">Delete</button></div>`).join(""):"<p class='small'>No custom notes saved yet.</p>";
+ $("savedNotes").innerHTML=data.notes.length?'<h3>Your saved notes</h3>'+data.notes.map((n,i)=>`<div class="question"><strong>${esc(n.title)}</strong><span class="pill">Grade ${esc(n.grade)}</span><p class="small">${esc(n.subject)} • ${esc(n.date||"")}</p><p style="white-space:pre-wrap">${esc(n.body)}</p><button class="danger" onclick="deleteItem('notes',${i})">Delete</button></div>`).join(""):"<p class='small'>No custom notes saved yet.</p>";
 }
-function deleteItem(key,i){if(!confirm("Delete this saved item?"))return;data[key].splice(i,1);persist();renderAll();}
+function deleteItem(key,i){
+ if(!confirm("Delete this saved item?"))return;
+ data[key].splice(i,1);persist();renderAll();
+}
 window.deleteItem=deleteItem;
 
-/* Shared local record renderers */
+/* Teacher tools */
 function renderList(id,key,fields){
  const arr=data[key]||[];
- $(id).innerHTML=arr.length?`<h3>Saved entries (${arr.length})</h3>`+arr.map((item,i)=>`<div class="question"><strong>${esc(item.title||item.task||item.learner||item.code||item.subject||"Saved entry")}</strong>${fields.map(f=>item[f]?`<p><strong>${esc(f)}:</strong> <span style="white-space:pre-wrap">${esc(item[f])}</span></p>`:"").join("")}<button class="danger" onclick="deleteItem('${key}',${i})">Delete</button></div>`).join(""):"<p class='small'>No entries saved yet.</p>";
+ $(id).innerHTML=arr.length?`<h3>Saved entries (${arr.length})</h3>`+arr.map((item,i)=>`<div class="question"><strong>${esc(item.title||item.task||item.learner||item.code||"Saved entry")}</strong>${fields.map(f=>item[f]?`<p><strong>${esc(f)}:</strong> <span style="white-space:pre-wrap">${esc(item[f])}</span></p>`:"").join("")}<button class="danger" onclick="deleteItem('${key}',${i})">Delete</button></div>`).join(""):"<p class='small'>No entries saved yet.</p>";
 }
 $("saveLesson").onclick=()=>{
- const topic=$("lpTopic").value.trim();if(!topic){alert("Enter the lesson topic first.");return;}
+ const topic=$("lpTopic").value.trim();
+ if(!topic){alert("Enter the lesson topic first.");return;}
  data.lessons.push({title:topic,grade:$("lpGrade").value,subject:$("lpSubject").value,date:$("lpDate").value,duration:$("lpDuration").value,objectives:$("lpObjectives").value,activities:$("lpActivities").value,assessment:$("lpAssessment").value});
  persist();renderAll();alert("Lesson saved on this device.");
 };
-$("printLesson").onclick=()=>window.print();
+$("printLesson").onclick=()=>{
+ $("lessonPrint").innerHTML="<h2>Lesson Plan</h2>"+["grade","subject","date","duration","topic","objectives","activities","assessment"].map((f)=>`<p><strong>${f}:</strong> ${esc(({grade:$("lpGrade").value,subject:$("lpSubject").value,date:$("lpDate").value,duration:$("lpDuration").value,topic:$("lpTopic").value,objectives:$("lpObjectives").value,activities:$("lpActivities").value,assessment:$("lpAssessment").value})[f])}</p>`).join("");
+ document.body.classList.add("print-lesson");window.print();document.body.classList.remove("print-lesson");
+};
 $("saveScheme").onclick=()=>{
- const strand=$("swStrand").value.trim();if(!strand){alert("Enter a strand or sub-strand first.");return;}
+ const strand=$("swStrand").value.trim();
+ if(!strand){alert("Enter a strand or sub-strand first.");return;}
  data.schemes.push({title:strand,grade:$("swGrade").value,subject:$("swSubject").value,term:$("swTerm").value,week:$("swWeek").value,outcomes:$("swOutcomes").value,activities:$("swActivities").value,assessment:$("swAssessment").value});
  persist();renderAll();alert("Scheme entry saved.");
 };
-$("printScheme").onclick=()=>window.print();
+$("printScheme").onclick=()=>{
+ $("schemePrint").innerHTML="<h2>Schemes of Work</h2>"+data.schemes.map(x=>`<div class="question"><strong>${esc(x.title)}</strong><p>Grade ${esc(x.grade)} | ${esc(x.subject)} | ${esc(x.term)} | Week ${esc(x.week)}</p><p>Outcomes: ${esc(x.outcomes)}</p><p>Activities: ${esc(x.activities)}</p><p>Assessment: ${esc(x.assessment)}</p></div>`).join("");
+ document.body.classList.add("print-scheme");window.print();document.body.classList.remove("print-scheme");
+};
 $("saveRubric").onclick=()=>{
  data.rubrics.push({title:$("rubricTask").value||"CBC rubric",grade:$("rubricGrade").value,subject:$("rubricSubject").value,r4:$("r4").value,r3:$("r3").value,r2:$("r2").value,r1:$("r1").value});
  persist();renderAll();alert("Rubric saved.");
 };
-$("printRubric").onclick=()=>window.print();
+$("printRubric").onclick=()=>{
+ $("rubricPrint").innerHTML="<h2>CBC Rubric</h2>"+data.rubrics.map(x=>`<div class="question"><strong>${esc(x.title)}</strong><p>Grade ${esc(x.grade)} | ${esc(x.subject)}</p><table><tr><th>Level</th><th>Descriptor</th></tr><tr><td>4 — Exceeds</td><td>${esc(x.r4)}</td></tr><tr><td>3 — Meets</td><td>${esc(x.r3)}</td></tr><tr><td>2 — Approaching</td><td>${esc(x.r2)}</td></tr><tr><td>1 — Beginning</td><td>${esc(x.r1)}</td></tr></table></div>`).join("");
+ document.body.classList.add("print-rubric");window.print();document.body.classList.remove("print-rubric");
+};
 $("saveRecord").onclick=()=>{
  const learner=$("recordLearner").value.trim(),score=$("recordScore").value;
- if(!learner||score===""||Number(score)<0||Number(score)>100){alert("Enter a learner code and a score from 0 to 100.");return;}
+ if(!learner||score===""||Number(score)<0||Number(score)>100){alert("Enter a learner code and score from 0 to 100.");return;}
  data.records.push({learner,grade:$("recordGrade").value,subject:$("recordSubject").value,score:score+"%",comment:$("recordComment").value,date:new Date().toLocaleDateString()});
  persist();renderAll();alert("Assessment record saved.");
 };
@@ -531,8 +587,10 @@ function renderAll(){
  renderList("supportList","supports",["grade","need","strategy","review"]);
  renderList("parentList","parents",["activity"]);
 }
+
+/* Backup and restore */
 $("exportData").onclick=()=>{
- const blob=new Blob([JSON.stringify({version:2,exportedAt:new Date().toISOString(),data},null,2)],{type:"application/json"});
+ const blob=new Blob([JSON.stringify({version:3,exportedAt:new Date().toISOString(),data},null,2)],{type:"application/json"});
  const url=URL.createObjectURL(blob),a=document.createElement("a");
  a.href=url;a.download="somahub-backup.json";a.click();URL.revokeObjectURL(url);
  $("backupStatus").textContent="Backup export requested. Check your downloads.";
@@ -540,19 +598,18 @@ $("exportData").onclick=()=>{
 $("importFile").onchange=async e=>{
  const file=e.target.files[0];if(!file)return;
  try{
- const parsed=JSON.parse(await file.text());
- const incoming=parsed.data;
- if(!incoming||!Array.isArray(incoming.notes)||!Array.isArray(incoming.lessons))throw new Error("Invalid backup format");
+ const parsed=JSON.parse(await file.text()),incoming=parsed.data;
+ if(!incoming||!Array.isArray(incoming.notes)||!Array.isArray(incoming.lessons))throw new Error("Invalid backup");
  if(!confirm("Importing replaces saved records in this browser. Continue?"))return;
- data={notes:[],lessons:[],schemes:[],rubrics:[],records:[],supports:[],parents:[],...incoming};
+ data={...emptyData(),...incoming};
  ["notes","lessons","schemes","rubrics","records","supports","parents"].forEach(safeArray);
  persist();renderAll();$("backupStatus").textContent="Backup imported successfully.";
- }catch(err){$("backupStatus").textContent="Could not import this file. Please select a valid SomaHub JSON backup.";}
+ }catch(err){$("backupStatus").textContent="Could not import this file. Select a valid SomaHub JSON backup.";}
  e.target.value="";
 };
 $("clearData").onclick=()=>{
- if(!confirm("This permanently clears SomaHub records saved in this browser. Export a backup first if you need it. Continue?"))return;
- data={notes:[],lessons:[],schemes:[],rubrics:[],records:[],supports:[],parents:[]};persist();renderAll();$("backupStatus").textContent="Local saved records cleared.";
+ if(!confirm("This clears records saved in this browser. Export a backup first if needed. Continue?"))return;
+ data=emptyData();persist();renderAll();$("backupStatus").textContent="Local saved records cleared.";
 };
 renderAll();
 </script>
