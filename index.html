@@ -1,959 +1,833 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#155eef">
-
-  <title>SomaHub - Learning Together</title>
-
-  <meta name="description"
-    content="SomaHub is a learning platform for students and teachers to share notes, practise quizzes and set learning goals.">
-
-  <link rel="manifest" href="/Somahub/manifest.json">
+  <meta name="theme-color" content="#123c69">
+  <meta name="description" content="SomaHub helps students and teachers learn together through quizzes, notes and educational resources.">
+  <title>SomaHub | Learn Together</title>
 
   <style>
     :root {
-      --blue: #155eef;
-      --dark-blue: #103c9e;
-      --light-blue: #edf4ff;
-      --white: #ffffff;
-      --text: #172b4d;
-      --muted: #667085;
-      --border: #dce5f2;
-      --green: #16803c;
+      --primary: #123c69;
+      --secondary: #176b87;
+      --accent: #f4b942;
+      --background: #f3f7fb;
+      --surface: #ffffff;
+      --text: #192536;
+      --muted: #65748b;
+      --border: #dce5ef;
+      --success: #18794e;
+      --danger: #b42318;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: #f4f7fc;
+      background: var(--background);
       color: var(--text);
       line-height: 1.6;
     }
 
     header {
-      background: var(--white);
-      padding: 15px 6%;
+      background: var(--primary);
+      color: white;
+      padding: 16px 5%;
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .logo {
-      color: var(--blue);
-      font-size: 25px;
-      font-weight: 800;
-    }
-
-    .logo span {
-      color: var(--text);
-    }
-
-    nav {
-      display: flex;
       gap: 16px;
       flex-wrap: wrap;
     }
 
-    nav a {
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
+    .brand {
+      font-size: 1.65rem;
+      font-weight: 800;
     }
 
-    nav a:hover {
-      color: var(--blue);
+    nav {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
     }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: .9rem;
+    }
+
+    nav a:hover { color: var(--accent); }
 
     .hero {
-      background: linear-gradient(135deg, #155eef, #103c9e);
+      background: linear-gradient(135deg, #123c69, #176b87);
       color: white;
-      padding: 65px 6%;
       text-align: center;
+      padding: 58px 20px;
     }
 
     .hero h1 {
-      font-size: clamp(30px, 5vw, 48px);
-      margin: 0 0 12px;
+      font-size: clamp(2rem, 6vw, 3.2rem);
       line-height: 1.2;
+      margin: 0 0 16px;
     }
 
     .hero p {
       max-width: 650px;
-      margin: 0 auto 25px;
-      font-size: 17px;
+      margin: 0 auto 24px;
     }
 
-    .hero-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 12px 18px;
-      border: none;
-      border-radius: 9px;
-      background: var(--blue);
-      color: white;
-      text-decoration: none;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .button:hover {
-      opacity: 0.9;
-    }
-
-    .button-white {
-      background: white;
-      color: var(--blue);
-    }
-
-    .button-light {
-      background: var(--light-blue);
-      color: var(--blue);
-    }
-
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 25px 18px 45px;
-    }
-
-    .section-heading {
-      margin: 30px 0 15px;
-    }
-
-    .section-heading h2 {
-      margin-bottom: 5px;
-      font-size: 25px;
-    }
-
-    .section-heading p {
-      margin-top: 0;
-      color: var(--muted);
+    .container {
+      width: min(1100px, 92%);
+      margin: 32px auto;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
       gap: 18px;
     }
 
     .card {
-      background: white;
-      padding: 22px;
-      border-radius: 15px;
+      background: var(--surface);
       border: 1px solid var(--border);
-      box-shadow: 0 4px 15px rgba(23, 43, 77, 0.04);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 5px 18px rgba(18, 60, 105, .05);
       min-width: 0;
     }
 
-    .card h3 {
-      margin-top: 0;
+    .section-heading { margin: 36px 0 18px; }
+
+    .section-heading h2 { margin-bottom: 4px; }
+
+    .muted { color: var(--muted); font-size: .92rem; }
+
+    .button {
+      display: inline-block;
+      border: 0;
+      border-radius: 9px;
+      padding: 11px 17px;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    .feature-icon {
-      font-size: 30px;
+    .button:hover { background: var(--secondary); }
+
+    .button-light {
+      background: #e8eef6;
+      color: var(--primary);
     }
 
-    .muted {
-      color: var(--muted);
-      font-size: 14px;
-    }
+    .button-light:hover { background: #d8e4f2; }
+
+    button:disabled { opacity: .6; cursor: not-allowed; }
 
     label {
       display: block;
-      font-weight: 700;
-      margin: 12px 0 5px;
+      font-weight: 600;
+      margin: 8px 0;
     }
 
-    input,
-    textarea,
-    select {
-      display: block;
+    input:not([type="radio"]),
+    select,
+    textarea {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #cbd5e1;
+      padding: 11px;
+      border: 1px solid #c5d2e1;
       border-radius: 8px;
-      font: inherit;
       background: white;
+      font: inherit;
       color: var(--text);
     }
 
-    textarea {
-      resize: vertical;
-      min-height: 100px;
+    input[type="radio"] {
+      margin-right: 8px;
+      accent-color: var(--primary);
     }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
-      outline: 2px solid #9bbcff;
-      border-color: var(--blue);
+    input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible {
+      outline: 3px solid #f4b942;
+      outline-offset: 2px;
     }
 
     .form-actions {
       display: flex;
-      gap: 8px;
       flex-wrap: wrap;
-      margin-top: 12px;
-    }
-
-    .note {
-      background: var(--light-blue);
-      border-radius: 9px;
-      padding: 13px;
-      margin-top: 12px;
-      overflow-wrap: anywhere;
-    }
-
-    .note h4 {
-      margin: 0 0 5px;
-    }
-
-    .note p {
-      white-space: pre-wrap;
-      margin: 5px 0;
-    }
-
-    .note button {
-      margin-top: 7px;
+      gap: 10px;
+      margin-top: 20px;
     }
 
     .question {
+      padding: 16px 0;
       border-bottom: 1px solid var(--border);
-      padding: 12px 0;
     }
 
-    .question p {
-      font-weight: 700;
-      margin: 0 0 8px;
-    }
+    .question h3 { font-size: 1.05rem; }
 
     .question label {
-      font-weight: 400;
-      margin: 7px 0;
+      font-weight: normal;
+      padding: 9px;
+      border-radius: 8px;
+      background: #f7f9fc;
+      cursor: pointer;
     }
 
-    .question input {
-      display: inline-block;
-      width: auto;
-      margin-right: 8px;
-    }
+    .question label:hover { background: #eaf1f8; }
 
     .result {
-      margin-top: 15px;
-      padding: 12px;
-      background: var(--light-blue);
-      border-radius: 9px;
-      font-weight: 700;
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 12px;
+      background: #edf7f1;
+      border: 1px solid #b8dfc7;
     }
 
-    .success {
-      color: var(--green);
+    .result h3 { color: var(--success); }
+
+    .feedback-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #cfe5d7;
     }
 
-    .goal-progress {
-      height: 10px;
-      background: #e6edf8;
-      border-radius: 20px;
-      overflow: hidden;
-      margin: 12px 0;
-    }
+    .correct { color: var(--success); font-weight: bold; }
+    .incorrect { color: var(--danger); font-weight: bold; }
 
-    .goal-progress div {
-      height: 100%;
-      width: 0;
-      background: var(--blue);
-      transition: width 0.2s;
-    }
+    .goal-list li, .resource-list li { margin: 10px 0; }
 
-    .goal-list {
-      padding-left: 22px;
-    }
-
-    .goal-list li {
-      padding: 6px 0;
-      overflow-wrap: anywhere;
-    }
-
-    .goal-list input {
+    .badge {
       display: inline-block;
-      width: auto;
-      margin-right: 8px;
+      background: #e8eef6;
+      color: var(--primary);
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: .8rem;
+      font-weight: bold;
     }
 
-    .resource-link {
-      display: block;
+    .notice {
       padding: 12px;
-      margin-top: 10px;
-      background: var(--light-blue);
-      color: var(--blue);
       border-radius: 8px;
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    .resource-link:hover {
-      text-decoration: underline;
+      background: #fff5dc;
+      border: 1px solid #f0d38d;
+      font-size: .9rem;
     }
 
     footer {
-      background: #102c63;
+      background: #102b49;
       color: white;
+      padding: 25px 5%;
+      margin-top: 50px;
       text-align: center;
-      padding: 25px 15px;
     }
 
-    footer p {
-      margin: 5px;
-    }
+    footer a { color: white; }
 
-    .small-print {
-      font-size: 12px;
-      color: var(--muted);
-    }
+    section { scroll-margin-top: 20px; }
 
     @media (max-width: 600px) {
-      header {
-        padding: 14px 5%;
-      }
-
-      nav {
-        gap: 12px;
-      }
-
-      .hero {
-        padding: 45px 5%;
-      }
-
-      main {
-        padding: 15px 12px 35px;
-      }
-
-      .card {
-        padding: 17px;
-      }
+      header { padding: 14px 4%; }
+      .hero { padding: 42px 18px; }
+      .container { width: 94%; margin: 20px auto; }
+      .card { padding: 16px; }
+      nav { gap: 10px; }
     }
   </style>
 </head>
 
 <body>
-
   <header>
-    <div class="logo">Soma<span>Hub</span> 📚</div>
-
-    <nav aria-label="Main navigation">
-      <a href="#home">Home</a>
-      <a href="#notes">Notes</a>
-      <a href="#quiz">Quizzes</a>
-      <a href="#goals">My Goals</a>
-      <a href="#teachers">Teachers</a>
-    </nav>
+    <div class="nav">
+      <div class="brand">📚 SomaHub</div>
+      <nav aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#quiz">Quizzes</a>
+        <a href="#notes">Notes</a>
+        <a href="#goals">Goals</a>
+        <a href="#teachers">Teachers</a>
+      </nav>
+    </div>
   </header>
 
-  <section class="hero" id="home">
-    <h1>Your learning journey starts here!</h1>
-
-    <p>
-      Learn together, share knowledge and grow together.
-      SomaHub connects students and teachers in one learning space.
-    </p>
-
-    <div class="hero-buttons">
-      <a class="button button-white" href="#notes">Explore Notes</a>
-      <a class="button button-white" href="#quiz">Try a Quiz</a>
-    </div>
-  </section>
-
   <main>
+    <section class="hero" id="home">
+      <h1>Your Learning Journey Starts Here!</h1>
+      <p>
+        Learn together, test your knowledge, improve your skills
+        and discover something new every day with SomaHub.
+      </p>
+      <a class="button" href="#quiz"
+        style="background:#f4b942;color:#123c69">
+        Start Learning →
+      </a>
+    </section>
 
-    <section>
-      <div class="section-heading">
-        <h2>Welcome to SomaHub 👋</h2>
-        <p>Your learning space for study, practice and teaching.</p>
-      </div>
-
+    <div class="container">
       <div class="grid">
         <article class="card">
-          <div class="feature-icon">📖</div>
-          <h3>Study Notes</h3>
-          <p>Write and save your own revision notes in your browser.</p>
-          <a class="button" href="#notes">Open Notes</a>
+          <h2>🧠 Interactive Quizzes</h2>
+          <p>Practise with randomized questions and instant explanations.</p>
+          <a href="#quiz">Take a quiz →</a>
         </article>
 
         <article class="card">
-          <div class="feature-icon">🧠</div>
-          <h3>Quizzes</h3>
-          <p>Test your knowledge with a short educational quiz.</p>
-          <a class="button" href="#quiz">Start Quiz</a>
+          <h2>📝 Study Notes</h2>
+          <p>Explore useful revision ideas and organize your learning.</p>
+          <a href="#notes">Explore notes →</a>
         </article>
 
         <article class="card">
-          <div class="feature-icon">🎯</div>
-          <h3>Learning Goals</h3>
-          <p>Set learning targets and track the tasks you complete.</p>
-          <a class="button" href="#goals">Set a Goal</a>
-        </article>
-
-        <article class="card">
-          <div class="feature-icon">👩‍🏫</div>
-          <h3>Teacher Resources</h3>
-          <p>Find useful starting points for lesson planning and teaching.</p>
-          <a class="button" href="#teachers">Explore Resources</a>
+          <h2>🎯 Learning Goals</h2>
+          <p>Set targets and keep track of the goals you complete.</p>
+          <a href="#goals">View goals →</a>
         </article>
       </div>
-    </section>
 
-    <!-- STUDENT NOTES -->
-
-    <section id="notes">
-      <div class="section-heading">
-        <h2>📚 My Study Notes</h2>
-        <p>Create notes for your subjects and keep them for revision.</p>
-      </div>
-
-      <div class="card">
-        <form id="noteForm">
-          <label for="noteTitle">Note title</label>
-          <input
-            id="noteTitle"
-            type="text"
-            placeholder="e.g. Introduction to Geography"
-            required
-          >
-
-          <label for="noteSubject">Subject</label>
-          <input
-            id="noteSubject"
-            type="text"
-            placeholder="e.g. French, Geography or Education"
-            required
-          >
-
-          <label for="noteContent">Your notes</label>
-          <textarea
-            id="noteContent"
-            placeholder="Write your study notes here..."
-            required
-          ></textarea>
-
-          <div class="form-actions">
-            <button class="button" type="submit">Save Note</button>
-            <button class="button button-light" type="reset">Clear Form</button>
-          </div>
-        </form>
-
-        <p class="muted" id="notesMessage" aria-live="polite"></p>
-        <div id="notesList"></div>
-      </div>
-    </section>
-
-    <!-- QUIZ -->
-
-    <section id="quiz">
-      <div class="section-heading">
-        <h2>🧠 Quick Learning Quiz</h2>
-        <p>Choose one answer for each question and check your score.</p>
-      </div>
-
-      <div class="card">
-        <form id="quizForm">
-
-          <div class="question">
-            <p>1. Which planet is known as the Red Planet?</p>
-            <label>
-              <input type="radio" name="q1" value="a">
-              Earth
-            </label>
-            <label>
-              <input type="radio" name="q1" value="b">
-              Mars
-            </label>
-            <label>
-              <input type="radio" name="q1" value="c">
-              Jupiter
-            </label>
-          </div>
-
-          <div class="question">
-            <p>2. What is the French word for "hello"?</p>
-            <label>
-              <input type="radio" name="q2" value="a">
-              Merci
-            </label>
-            <label>
-              <input type="radio" name="q2" value="b">
-              Au revoir
-            </label>
-            <label>
-              <input type="radio" name="q2" value="c">
-              Bonjour
-            </label>
-          </div>
-
-          <div class="question">
-            <p>3. Which of these is a core competency in CBC?</p>
-            <label>
-              <input type="radio" name="q3" value="a">
-              Communication and collaboration
-            </label>
-            <label>
-              <input type="radio" name="q3" value="b">
-              Memorisation only
-            </label>
-            <label>
-              <input type="radio" name="q3" value="c">
-              Silence at all times
-            </label>
-          </div>
-
-          <button class="button" type="submit">Check My Answers</button>
-          <button class="button button-light" type="reset">Try Again</button>
-        </form>
-
-        <div
-          id="quizResult"
-          class="result"
-          aria-live="polite"
-          hidden
-        ></div>
-      </div>
-    </section>
-
-    <!-- LEARNING GOALS -->
-
-    <section id="goals">
-      <div class="section-heading">
-        <h2>🎯 My Learning Goals</h2>
-        <p>Write down what you want to learn and track your progress.</p>
-      </div>
-
-      <div class="card">
-        <form id="goalForm">
-          <label for="goalInput">What do you want to achieve?</label>
-          <input
-            id="goalInput"
-            type="text"
-            placeholder="e.g. Revise French grammar"
-            required
-          >
-
-          <button class="button" type="submit" style="margin-top:12px">
-            Add Goal
-          </button>
-        </form>
-
-        <h3>My progress</h3>
-        <div
-          class="goal-progress"
-          role="progressbar"
-          aria-label="Learning goal completion"
-          aria-valuemin="0"
-          aria-valuemax="100"
-          aria-valuenow="0"
-          id="goalProgressBar"
-        >
-          <div id="goalProgress"></div>
+      <section id="quiz">
+        <div class="section-heading">
+          <h2>🧠 SomaHub Learning Quiz</h2>
+          <p class="muted">
+            Every new quiz shuffles the available questions.
+            Select a subject and difficulty to get started.
+          </p>
         </div>
 
-        <p id="goalProgressText" class="muted" aria-live="polite">
-          No goals yet.
-        </p>
+        <div class="card">
+          <div class="grid">
+            <div>
+              <label for="quizCategory">Subject category</label>
+              <select id="quizCategory">
+                <option value="All">All Subjects</option>
+                <option value="CBC">CBC</option>
+                <option value="French">French</option>
+                <option value="Geography">Geography</option>
+                <option value="General Knowledge">General Knowledge</option>
+                <option value="Science">Science</option>
+              </select>
+            </div>
 
-        <ul id="goalList" class="goal-list"></ul>
-      </div>
-    </section>
+            <div>
+              <label for="quizDifficulty">Difficulty level</label>
+              <select id="quizDifficulty">
+                <option value="All">All Levels</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+            </div>
 
-    <!-- TEACHER RESOURCES -->
+            <div>
+              <label for="playerName">Display name</label>
+              <input id="playerName" maxlength="20"
+                autocomplete="nickname" placeholder="Enter a nickname">
+            </div>
+          </div>
 
-    <section id="teachers">
-      <div class="section-heading">
-        <h2>👩‍🏫 Teacher Resources</h2>
-        <p>Useful starting points for teachers and student teachers.</p>
-      </div>
+          <p id="quizInfo" class="muted" aria-live="polite"></p>
 
-      <div class="grid">
-        <article class="card">
-          <div class="feature-icon">📝</div>
-          <h3>Lesson Planning</h3>
-          <p>
-            Organise lesson objectives, learning activities,
-            teaching materials and assessment.
+          <form id="quizForm">
+            <div id="quizQuestions"></div>
+            <div class="form-actions">
+              <button class="button" id="submitQuiz" type="submit">
+                Check My Answers
+              </button>
+              <button class="button button-light" id="newQuiz" type="button">
+                New Quiz
+              </button>
+            </div>
+          </form>
+
+          <div id="quizResult" class="result" aria-live="polite" hidden></div>
+        </div>
+
+        <div class="section-heading">
+          <h2>🏆 Leaderboard</h2>
+          <p class="muted">Your top scores saved in this browser.</p>
+        </div>
+
+        <div class="card">
+          <ol id="quizLeaderboard" class="goal-list"></ol>
+          <button class="button button-light" id="clearLeaderboard" type="button">
+            Clear Leaderboard
+          </button>
+          <p class="muted">
+            This is a local leaderboard, not a shared online ranking.
+            Scores are stored in this browser and can be cleared.
           </p>
-          <a
-            class="resource-link"
-            href="https://kicd.ac.ke/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Visit KICD →
-          </a>
-        </article>
+        </div>
+      </section>
 
-        <article class="card">
-          <div class="feature-icon">📘</div>
-          <h3>Curriculum Resources</h3>
-          <p>
-            Explore curriculum information and educational
-            materials relevant to Kenyan schools.
+      <section id="notes">
+        <div class="section-heading">
+          <h2>📝 Study Notes</h2>
+          <p class="muted">Simple ways to make revision more effective.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <h3>📖 Active Recall</h3>
+            <p>Close your book and try to explain a concept from memory.
+              Then check your notes and correct any mistakes.</p>
+          </article>
+
+          <article class="card">
+            <h3>🗓️ Spaced Revision</h3>
+            <p>Review a topic over several days instead of leaving
+              everything until the last minute.</p>
+          </article>
+
+          <article class="card">
+            <h3>🤝 Study Groups</h3>
+            <p>Discuss difficult concepts, ask each other questions
+              and explain ideas in your own words.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="goals">
+        <div class="section-heading">
+          <h2>🎯 Learning Goals</h2>
+          <p class="muted">Tick off your goals as you complete them.</p>
+        </div>
+
+        <div class="card">
+          <ul class="goal-list">
+            <li><label><input type="checkbox"> Complete one practice quiz.</label></li>
+            <li><label><input type="checkbox"> Revise one difficult topic.</label></li>
+            <li><label><input type="checkbox"> Explain a concept to a classmate.</label></li>
+            <li><label><input type="checkbox"> Review mistakes and learn from them.</label></li>
+          </ul>
+          <p class="muted">These goal checkboxes reset when the page is reloaded.</p>
+        </div>
+      </section>
+
+      <section id="teachers">
+        <div class="section-heading">
+          <h2>👩‍🏫 Teacher Resources</h2>
+          <p class="muted">Ideas for teaching and assessment.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <h3>Lesson Planning</h3>
+            <p>Identify learning outcomes, select activities and plan
+              how to assess learner progress.</p>
+          </article>
+
+          <article class="card">
+            <h3>CBC Assessment</h3>
+            <p>Use questions, practical tasks, observation and feedback
+              to understand learners' progress.</p>
+          </article>
+
+          <article class="card">
+            <h3>Inclusive Learning</h3>
+            <p>Provide different ways for learners to participate
+              and demonstrate their understanding.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="rules">
+        <div class="section-heading">
+          <h2>🛡️ Learning Rules</h2>
+        </div>
+        <div class="card">
+          <ul>
+            <li>Respect other learners and teachers.</li>
+            <li>Use learning resources responsibly.</li>
+            <li>Do your own work and acknowledge sources.</li>
+            <li>Do not share private information unnecessarily.</li>
+          </ul>
+          <p class="notice">
+            These are basic learning guidelines, not a complete
+            privacy policy or a guarantee of website security.
           </p>
-          <a
-            class="resource-link"
-            href="https://www.education.go.ke/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ministry of Education →
-          </a>
-        </article>
-
-        <article class="card">
-          <div class="feature-icon">💻</div>
-          <h3>Digital Learning</h3>
-          <p>
-            Explore digital tools that can support classroom
-            teaching, research and collaboration.
-          </p>
-          <a
-            class="resource-link"
-            href="https://www.google.com/intl/en/education/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Google for Education →
-          </a>
-        </article>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-
-    <section id="about">
-      <div class="section-heading">
-        <h2>About SomaHub</h2>
-      </div>
-
-      <div class="card">
-        <p>
-          SomaHub is an educational platform concept designed to
-          bring students and teachers together through learning
-          resources, revision notes, quizzes and goal setting.
-        </p>
-
-        <p>
-          Our mission is to make learning more organised,
-          accessible and collaborative.
-        </p>
-
-        <p class="muted">
-          This is an early-stage MVP. Notes and goals are saved
-          locally in the browser on the device being used.
-          A shared student-teacher account system is not yet included.
-        </p>
-      </div>
-    </section>
-
+        </div>
+      </section>
+    </div>
   </main>
 
   <footer>
-    <p><strong>SomaHub 📚</strong></p>
-    <p>Learn Together. Grow Together.</p>
-    <p>© <span id="year"></span> SomaHub</p>
+    <p><strong>SomaHub — Learn Together, Grow Together.</strong></p>
+    <p>Supporting students and teachers through learning.</p>
+    <p>Educational practice website.</p>
   </footer>
 
   <script>
     "use strict";
 
-    // LOCAL STORAGE
-    // Data stays in this browser on this device.
+    const $ = (id) => document.getElementById(id);
 
-    const STORAGE_KEYS = {
-      notes: "somahub_notes_v1",
-      goals: "somahub_goals_v1"
-    };
+    const quizForm = $("quizForm");
+    const quizQuestions = $("quizQuestions");
+    const quizResult = $("quizResult");
+    const quizInfo = $("quizInfo");
+    const quizCategory = $("quizCategory");
+    const quizDifficulty = $("quizDifficulty");
+    const playerName = $("playerName");
+    const submitQuiz = $("submitQuiz");
+    const leaderboard = $("quizLeaderboard");
 
-    function loadData(key) {
+    const STORAGE_KEY = "somahub_quiz_leaderboard_v2";
+    const QUESTIONS_PER_QUIZ = 5;
+
+    // Add more questions here whenever you want to expand SomaHub.
+    const questionBank = [
+      {
+        category: "CBC", difficulty: "Easy",
+        question: "Which is a core competency in CBC?",
+        options: ["Silence at all times", "Communication and collaboration", "Memorisation only"],
+        answer: 1,
+        explanation: "Communication and collaboration help learners work together."
+      },
+      {
+        category: "CBC", difficulty: "Medium",
+        question: "What is a key purpose of formative assessment?",
+        options: ["Support learning through feedback", "Punish learners", "Replace all activities"],
+        answer: 0,
+        explanation: "Formative assessment helps identify progress and learning needs."
+      },
+      {
+        category: "CBC", difficulty: "Hard",
+        question: "Which approach best supports learner-centred teaching?",
+        options: ["Copy notes only", "Teacher speaks throughout", "Learners investigate meaningful problems"],
+        answer: 2,
+        explanation: "Inquiry and problem-solving encourage active learning."
+      },
+      {
+        category: "French", difficulty: "Easy",
+        question: 'What does "Bonjour" mean?',
+        options: ["Goodbye", "Hello / Good day", "Thank you"],
+        answer: 1,
+        explanation: "Bonjour is a common French greeting."
+      },
+      {
+        category: "French", difficulty: "Medium",
+        question: 'Choose the correct translation of "I am going to school."',
+        options: ["Je vais à l'école.", "Je suis école aller.", "Je va au école."],
+        answer: 0,
+        explanation: "Je vais à l'école is the correct construction."
+      },
+      {
+        category: "French", difficulty: "Hard",
+        question: "Complete: Je peux améliorer mon français en _____ chaque jour.",
+        options: ["pratiquer", "pratique", "pratiquant"],
+        answer: 2,
+        explanation: "The gerund uses en followed by the present participle: en pratiquant."
+      },
+      {
+        category: "Geography", difficulty: "Easy",
+        question: "Which is the largest ocean on Earth?",
+        options: ["Indian Ocean", "Atlantic Ocean", "Pacific Ocean"],
+        answer: 2,
+        explanation: "The Pacific Ocean is the world's largest ocean."
+      },
+      {
+        category: "Geography", difficulty: "Medium",
+        question: "What causes day and night?",
+        options: ["Earth rotating on its axis", "The Moon orbiting Earth", "Earth's yearly orbit"],
+        answer: 0,
+        explanation: "Earth's rotation changes which areas face the Sun."
+      },
+      {
+        category: "Geography", difficulty: "Hard",
+        question: "What do contour lines connect on a topographic map?",
+        options: ["Equal rainfall", "Equal elevation", "Equal population"],
+        answer: 1,
+        explanation: "Each contour line connects places of equal elevation."
+      },
+      {
+        category: "General Knowledge", difficulty: "Easy",
+        question: "Which planet is known as the Red Planet?",
+        options: ["Earth", "Mars", "Jupiter"],
+        answer: 1,
+        explanation: "Mars appears reddish due to iron-rich minerals on its surface."
+      },
+      {
+        category: "General Knowledge", difficulty: "Medium",
+        question: "What is the capital of Kenya?",
+        options: ["Mombasa", "Kisumu", "Nairobi"],
+        answer: 2,
+        explanation: "Nairobi is the capital city of Kenya."
+      },
+      {
+        category: "General Knowledge", difficulty: "Hard",
+        question: "How many Sustainable Development Goals are there?",
+        options: ["10", "17", "25"],
+        answer: 1,
+        explanation: "The United Nations has 17 Sustainable Development Goals."
+      },
+      {
+        category: "Science", difficulty: "Easy",
+        question: "Which organ pumps blood around the body?",
+        options: ["Lungs", "Heart", "Stomach"],
+        answer: 1,
+        explanation: "The heart pumps blood through the circulatory system."
+      },
+      {
+        category: "Science", difficulty: "Medium",
+        question: "Which gas do plants absorb during photosynthesis?",
+        options: ["Oxygen", "Nitrogen", "Carbon dioxide"],
+        answer: 2,
+        explanation: "Plants use carbon dioxide, water and light to produce sugars."
+      },
+      {
+        category: "Science", difficulty: "Hard",
+        question: "What is the SI unit of electric current?",
+        options: ["Ampere", "Volt", "Ohm"],
+        answer: 0,
+        explanation: "The ampere is the SI base unit of electric current."
+      }
+    ];
+
+    let currentQuestions = [];
+    let completed = false;
+
+    function shuffle(items) {
+      const result = [...items];
+
+      for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
+      }
+
+      return result;
+    }
+
+    function readScores() {
       try {
-        const value = localStorage.getItem(key);
-        return value ? JSON.parse(value) : [];
-      } catch (error) {
-        console.error("Could not load saved data:", error);
+        const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        return Array.isArray(data) ? data.filter(item =>
+          item &&
+          typeof item.name === "string" &&
+          Number.isFinite(item.score) &&
+          Number.isFinite(item.total) &&
+          Number.isFinite(item.percentage) &&
+          typeof item.date === "string"
+        ) : [];
+      } catch {
         return [];
       }
     }
 
-    function saveData(key, data) {
+    function writeScores(scores) {
       try {
-        localStorage.setItem(key, JSON.stringify(data));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(scores));
         return true;
-      } catch (error) {
-        console.error("Could not save data:", error);
-        alert("Your browser could not save this data. Check your browser storage settings.");
+      } catch {
+        alert("Scores could not be saved in this browser.");
         return false;
       }
     }
 
-    let notes = loadData(STORAGE_KEYS.notes);
-    let goals = loadData(STORAGE_KEYS.goals);
+    function renderLeaderboard() {
+      leaderboard.replaceChildren();
 
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
+      const scores = readScores().sort((a, b) =>
+        b.percentage - a.percentage ||
+        b.score - a.score ||
+        a.date.localeCompare(b.date)
+      ).slice(0, 10);
 
-    // NOTES
-
-    const noteForm = document.getElementById("noteForm");
-    const notesList = document.getElementById("notesList");
-    const notesMessage = document.getElementById("notesMessage");
-
-    function renderNotes() {
-      notesList.replaceChildren();
-
-      if (notes.length === 0) {
-        const message = document.createElement("p");
-        message.className = "muted";
-        message.textContent = "Your saved notes will appear here.";
-        notesList.appendChild(message);
+      if (!scores.length) {
+        const li = document.createElement("li");
+        li.textContent = "No scores yet. Complete a quiz to get started!";
+        leaderboard.appendChild(li);
         return;
       }
 
-      notes.forEach(function(note, index) {
-        const article = document.createElement("article");
-        article.className = "note";
-
-        const title = document.createElement("h4");
-        title.textContent = note.title;
-
-        const subject = document.createElement("p");
-        subject.className = "muted";
-        subject.textContent = "Subject: " + note.subject;
-
-        const content = document.createElement("p");
-        content.textContent = note.content;
-
-        const deleteButton = document.createElement("button");
-        deleteButton.type = "button";
-        deleteButton.className = "button button-light";
-        deleteButton.textContent = "Delete Note";
-
-        deleteButton.addEventListener("click", function() {
-          if (!confirm("Delete this note?")) return;
-
-          notes.splice(index, 1);
-
-          if (saveData(STORAGE_KEYS.notes, notes)) {
-            renderNotes();
-            notesMessage.textContent = "Note deleted.";
-          }
-        });
-
-        article.append(title, subject, content, deleteButton);
-        notesList.appendChild(article);
+      scores.forEach((entry, index) => {
+        const li = document.createElement("li");
+        li.textContent =
+          (index + 1) + ". " + entry.name + " — " +
+          entry.score + "/" + entry.total + " (" +
+          entry.percentage + "%) · " + entry.category +
+          " · " + entry.difficulty;
+        leaderboard.appendChild(li);
       });
     }
 
-    noteForm.addEventListener("submit", function(event) {
-      event.preventDefault();
+    function renderQuiz() {
+      completed = false;
+      quizForm.reset();
+      quizQuestions.replaceChildren();
+      quizResult.replaceChildren();
+      quizResult.hidden = true;
+      submitQuiz.disabled = false;
 
-      const title = document.getElementById("noteTitle").value.trim();
-      const subject = document.getElementById("noteSubject").value.trim();
-      const content = document.getElementById("noteContent").value.trim();
+      const category = quizCategory.value;
+      const difficulty = quizDifficulty.value;
 
-      if (!title || !subject || !content) {
-        notesMessage.textContent = "Please complete all fields.";
+      const filtered = questionBank.filter(q =>
+        (category === "All" || q.category === category) &&
+        (difficulty === "All" || q.difficulty === difficulty)
+      );
+
+      currentQuestions = shuffle(filtered).slice(
+        0, Math.min(QUESTIONS_PER_QUIZ, filtered.length)
+      );
+
+      if (!currentQuestions.length) {
+        quizInfo.textContent = "No questions match this selection yet.";
+        submitQuiz.disabled = true;
         return;
       }
 
-      notes.unshift({
-        title: title,
-        subject: subject,
-        content: content,
-        createdAt: new Date().toISOString()
+      quizInfo.textContent =
+        currentQuestions.length + " random questions · " +
+        category + " · " + difficulty;
+
+      currentQuestions.forEach((q, index) => {
+        const article = document.createElement("article");
+        article.className = "question";
+
+        const heading = document.createElement("h3");
+        heading.textContent =
+          (index + 1) + ". " + q.question;
+
+        const badge = document.createElement("span");
+        badge.className = "badge";
+        badge.textContent = q.category + " · " + q.difficulty;
+        heading.appendChild(document.createTextNode(" "));
+        heading.appendChild(badge);
+        article.appendChild(heading);
+
+        q.options.forEach((option, optionIndex) => {
+          const label = document.createElement("label");
+          const radio = document.createElement("input");
+
+          radio.type = "radio";
+          radio.name = "question" + index;
+          radio.value = String(optionIndex);
+          radio.required = true;
+
+          label.appendChild(radio);
+          label.appendChild(document.createTextNode(option));
+          article.appendChild(label);
+        });
+
+        quizQuestions.appendChild(article);
       });
+    }
 
-      if (saveData(STORAGE_KEYS.notes, notes)) {
-        noteForm.reset();
-        renderNotes();
-        notesMessage.textContent = "Your note has been saved!";
-      }
-    });
+    function showFeedback(score) {
+      const total = currentQuestions.length;
+      const percentage = Math.round(score / total * 100);
 
-    // QUIZ
+      const heading = document.createElement("h3");
+      heading.textContent = "Your score: " + score + "/" + total +
+        " (" + percentage + "%)";
 
-    const quizForm = document.getElementById("quizForm");
-    const quizResult = document.getElementById("quizResult");
+      const message = document.createElement("p");
+      message.textContent = percentage === 100
+        ? "Excellent work! You answered every question correctly."
+        : "Keep practising. Read the explanations below to improve.";
 
-    quizForm.addEventListener("submit", function(event) {
-      event.preventDefault();
+      quizResult.append(heading, message);
 
-      const answers = {
-        q1: "b",
-        q2: "c",
-        q3: "a"
-      };
-
-      let score = 0;
-      let unanswered = 0;
-
-      Object.keys(answers).forEach(function(question) {
+      currentQuestions.forEach((q, index) => {
         const selected = quizForm.querySelector(
-          'input[name="' + question + '"]:checked'
+          'input[name="question' + index + '"]:checked'
         );
 
-        if (!selected) {
-          unanswered++;
-        } else if (selected.value === answers[question]) {
-          score++;
-        }
+        const isCorrect = selected &&
+          Number(selected.value) === q.answer;
+
+        const item = document.createElement("div");
+        item.className = "feedback-item";
+
+        const resultLine = document.createElement("p");
+        resultLine.className = isCorrect ? "correct" : "incorrect";
+        resultLine.textContent = (index + 1) + ". " +
+          (isCorrect ? "Correct!" : "Incorrect.");
+
+        const answerLine = document.createElement("p");
+        answerLine.textContent = "Correct answer: " + q.options[q.answer];
+
+        const explanation = document.createElement("p");
+        explanation.textContent = q.explanation;
+
+        item.append(resultLine, answerLine, explanation);
+        quizResult.appendChild(item);
       });
 
       quizResult.hidden = false;
-      quizResult.className = "result";
-
-      if (unanswered > 0) {
-        quizResult.textContent =
-          "You scored " + score + "/3. You left " +
-          unanswered + " question(s) unanswered.";
-      } else if (score === 3) {
-        quizResult.textContent =
-          "Excellent! You scored 3/3. Keep learning!";
-      } else {
-        quizResult.textContent =
-          "You scored " + score + "/3. Review your answers and try again.";
-      }
-    });
-
-    quizForm.addEventListener("reset", function() {
-      quizResult.hidden = true;
-      quizResult.textContent = "";
-    });
-
-    // LEARNING GOALS
-
-    const goalForm = document.getElementById("goalForm");
-    const goalInput = document.getElementById("goalInput");
-    const goalList = document.getElementById("goalList");
-    const goalProgress = document.getElementById("goalProgress");
-    const goalProgressText = document.getElementById("goalProgressText");
-    const goalProgressBar = document.getElementById("goalProgressBar");
-
-    function renderGoals() {
-      goalList.replaceChildren();
-
-      goals.forEach(function(goal, index) {
-        const item = document.createElement("li");
-        const checkbox = document.createElement("input");
-
-        checkbox.type = "checkbox";
-        checkbox.checked = Boolean(goal.completed);
-        checkbox.setAttribute("aria-label", "Mark goal as completed");
-
-        checkbox.addEventListener("change", function() {
-          goals[index].completed = checkbox.checked;
-
-          if (saveData(STORAGE_KEYS.goals, goals)) {
-            renderGoals();
-          } else {
-            checkbox.checked = !checkbox.checked;
-          }
-        });
-
-        const text = document.createElement("span");
-        text.textContent = goal.text;
-
-        if (goal.completed) {
-          text.style.textDecoration = "line-through";
-          text.style.color = "#667085";
-        }
-
-        const deleteButton = document.createElement("button");
-        deleteButton.type = "button";
-        deleteButton.className = "button button-light";
-        deleteButton.textContent = "Remove";
-        deleteButton.style.marginLeft = "8px";
-
-        deleteButton.addEventListener("click", function() {
-          goals.splice(index, 1);
-
-          if (saveData(STORAGE_KEYS.goals, goals)) {
-            renderGoals();
-          }
-        });
-
-        item.append(checkbox, text, deleteButton);
-        goalList.appendChild(item);
-      });
-
-      const total = goals.length;
-      const completed = goals.filter(function(goal) {
-        return goal.completed;
-      }).length;
-
-      const percentage = total === 0
-        ? 0
-        : Math.round((completed / total) * 100);
-
-      goalProgress.style.width = percentage + "%";
-      goalProgressBar.setAttribute("aria-valuenow", percentage);
-
-      goalProgressText.textContent = total === 0
-        ? "No goals yet. Add your first learning goal above."
-        : completed + " of " + total +
-          " goals completed (" + percentage + "%).";
     }
 
-    goalForm.addEventListener("submit", function(event) {
+    quizForm.addEventListener("submit", event => {
       event.preventDefault();
 
-      const text = goalInput.value.trim();
-      if (!text) return;
+      if (completed || !currentQuestions.length) return;
 
-      goals.push({
-        text: text,
-        completed: false,
-        createdAt: new Date().toISOString()
+      if (!quizForm.reportValidity()) return;
+
+      let score = 0;
+
+      currentQuestions.forEach((q, index) => {
+        const selected = quizForm.querySelector(
+          'input[name="question' + index + '"]:checked'
+        );
+
+        if (selected && Number(selected.value) === q.answer) score++;
       });
 
-      if (saveData(STORAGE_KEYS.goals, goals)) {
-        goalForm.reset();
-        renderGoals();
+      completed = true;
+      showFeedback(score);
+
+      const total = currentQuestions.length;
+      const name = playerName.value.trim().slice(0, 20) || "Learner";
+
+      const entry = {
+        name,
+        score,
+        total,
+        percentage: Math.round(score / total * 100),
+        category: quizCategory.value,
+        difficulty: quizDifficulty.value,
+        date: new Date().toISOString()
+      };
+
+      const scores = readScores();
+      scores.push(entry);
+
+      if (writeScores(scores.slice(-200))) renderLeaderboard();
+
+      quizForm.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.disabled = true;
+      });
+
+      submitQuiz.disabled = true;
+    });
+
+    $("newQuiz").addEventListener("click", renderQuiz);
+
+    quizCategory.addEventListener("change", renderQuiz);
+    quizDifficulty.addEventListener("change", renderQuiz);
+
+    $("clearLeaderboard").addEventListener("click", () => {
+      if (confirm("Are you sure you want to clear the saved leaderboard?")) {
+        if (writeScores([])) renderLeaderboard();
       }
     });
 
-    // INITIALISE THE PAGE
-
-    renderNotes();
-    renderGoals();
-
-    // SERVICE WORKER: OFFLINE SUPPORT
-
-    if ("serviceWorker" in navigator && location.protocol === "https:") {
-      window.addEventListener("load", function() {
-        navigator.serviceWorker.register("/Somahub/service-worker.js")
-          .catch(function(error) {
-            console.error("Service worker registration failed:", error);
-          });
-      });
-    }
+    renderLeaderboard();
+    renderQuiz();
   </script>
-
 </body>
-  </html>
+</html>
