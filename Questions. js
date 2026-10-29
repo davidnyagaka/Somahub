@@ -1,0 +1,43 @@
+async function loadSomaHubQuestions() {
+  const response = await fetch(
+    "https://opentdb.com/api.php?amount=15&type=multiple"
+  );
+
+  if (!response.ok) {
+    throw new Error("Could not load questions. Try again.");
+  }
+
+  const data = await response.json();
+
+  if (data.response_code !== 0 || data.results.length !== 15) {
+    throw new Error("Questions are temporarily unavailable. Try again shortly.");
+  }
+
+  function decode(text) {
+    const element = document.createElement("textarea");
+    element.innerHTML = text;
+    return element.value;
+  }
+
+  return data.results.map(function(item, index) {
+    const correct = decode(item.correct_answer);
+    const options = [
+      ...item.incorrect_answers.map(decode),
+      correct
+    ];
+
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+
+    return {
+      id: index + 1,
+      category: decode(item.category),
+      question: decode(item.question),
+      options: options,
+      answer: options.indexOf(correct),
+      explanation: "Correct answer: " + correct
+    };
+  });
+}
