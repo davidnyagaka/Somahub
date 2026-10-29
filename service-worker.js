@@ -1,59 +1,40 @@
 
-const CACHE_NAME = "somahub-v1";
-const FILES_TO_CACHE = [
-  "/Somahub/",
-  "/Somahub/index.html",
-  "/Somahub/manifest.json"
+const CACHE_NAME = "somahub-cache-v1";
+const FILES = [
+  "./",
+  "./index.html",
+  "./manifest.json"
 ];
 
-self.addEventListener("install", function (event) {
+self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(function (cache) {
-      return cache.addAll(FILES_TO_CACHE);
-    })
+    caches.open(CACHE_NAME).then(cache =>
+      cache.addAll(FILES).catch(() => Promise.resolve())
+    )
   );
   self.skipWaiting();
 });
 
-self.addEventListener("activate", function (event) {
+self.addEventListener("activate", event => {
   event.waitUntil(
-    caches.keys().then(function (keys) {
-      return Promise.all(
-        keys
-          .filter(function (key) {
-            return key !== CACHE_NAME;
-          })
-          .map(function (key) {
-            return caches.delete(key);
-          })
-      );
-    })
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))
+    )
   );
   self.clients.claim();
 });
 
-self.addEventListener("fetch", function (event) {
-  const request = event.request;
-  if (request.method !== "GET") return;
-
-  const url = new URL(request.url);
-  if (url.origin !== self.location.origin) return;
-
+self.addEventListener("fetch", event => {
+  if (event.request.method !== "GET") return;
   event.respondWith(
-    fetch(request)
-      .then(function (response) {
-        if (response.ok) {
+    caches.match(event.request).then(cached =>
+      cached || fetch(event.request).then(response => {
+        if (response.ok && new URL(event.request.url).origin === self.location.origin) {
           const copy = response.clone();
-          caches.open(CACHE_NAME).then(function (cache) {
-            cache.put(request, copy);
-          });
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
         }
         return response;
-      })
-      .catch(function () {
-        return caches.match(request).then(function (cached) {
-          return cached || caches.match("/Somahub/");
-        });
-      })
+      }).catch(() => caches.match("./index.html"))
+    )
   );
 });
