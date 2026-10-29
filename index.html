@@ -3,409 +3,898 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#123b66">
-<title>SomaHub — Learn Together</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123c69">
+<title>SomaHub | Learn, Teach, Grow</title>
+<meta name="description" content="SomaHub CBC learning, quizzes, revision papers, lesson planning and assessment tools.">
+<link rel="manifest" href="manifest.json">
 <style>
-:root{--blue:#123b66;--green:#168568;--bg:#f2f6fb;--line:#dce5ef}
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#243247;line-height:1.5}
-header{background:var(--blue);color:white;text-align:center;padding:23px 12px}
-header h1{margin:0;font-size:30px}
-nav{display:flex;gap:7px;overflow-x:auto;padding:10px;background:white;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px #0001}
-nav button{white-space:nowrap;border:0;border-radius:20px;padding:10px 13px;background:#edf3fa;color:var(--blue);font-weight:bold}
-nav button.active{background:var(--blue);color:white}
-main{max-width:1050px;margin:auto;padding:12px}
-.page{display:none}.page.active{display:block}
-.card{background:white;padding:17px;border-radius:13px;margin:13px 0;box-shadow:0 3px 12px #123b660b}
-h2{color:var(--blue);margin-top:0}h3{margin-bottom:6px}
-label{display:block;font-weight:bold;margin-top:12px}
-input,select,textarea{width:100%;padding:11px;margin:4px 0;border:1px solid #cbd7e5;border-radius:8px;font:inherit;background:white}
-input[type=checkbox]{width:auto}
-textarea{min-height:85px}
-button{cursor:pointer}
-.action{border:0;background:var(--green);color:white;padding:10px 14px;border-radius:8px;margin:7px 4px 3px 0;font-weight:bold}
-.secondary{background:#e8eff8;color:var(--blue)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.item{border:1px solid var(--line);border-radius:9px;padding:12px;margin:9px 0}
-.muted{font-size:13px;color:#66758a}
-.output{white-space:pre-wrap;background:#f0f6fc;border-radius:8px;padding:13px;margin-top:12px;overflow-wrap:anywhere}
-a{color:#135c9a}
-.result{padding:12px;border-bottom:1px solid var(--line)}
-footer{text-align:center;padding:25px;color:#64748b}
-@media(min-width:700px){main{padding:22px}header{padding:30px}}
+:root {
+  --navy:#123c69; --blue:#1769aa; --light:#eef5fc;
+  --gold:#f4b942; --ink:#192638; --muted:#637083;
+  --white:#fff; --border:#dce4ee; --green:#16794b;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; font-family:Arial,Helvetica,sans-serif;
+  background:#f5f7fb; color:var(--ink); line-height:1.55;
+}
+header {
+  background:linear-gradient(135deg,#123c69,#1769aa);
+  color:white; padding:22px 16px;
+}
+.header-inner { max-width:1150px; margin:auto; }
+.brand { font-size:29px; font-weight:800; letter-spacing:.3px; }
+.brand span { color:var(--gold); }
+header p { margin:5px 0 0; }
+nav {
+  display:flex; flex-wrap:wrap; gap:7px; padding:12px;
+  background:white; border-bottom:1px solid var(--border);
+  position:sticky; top:0; z-index:10;
+}
+nav button {
+  border:0; border-radius:8px; padding:10px 12px;
+  background:var(--light); color:var(--navy); font-weight:700;
+  cursor:pointer;
+}
+nav button.active, nav button:hover { background:var(--navy); color:white; }
+main { max-width:1150px; margin:22px auto; padding:0 14px 40px; }
+.panel { display:none; }
+.panel.active { display:block; }
+h1,h2,h3 { line-height:1.25; }
+h1 { font-size:27px; }
+h2 { color:var(--navy); }
+h3 { margin-top:0; }
+.card {
+  background:white; border:1px solid var(--border);
+  border-radius:13px; padding:17px; margin-bottom:15px;
+  box-shadow:0 2px 7px #152b4409;
+}
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; }
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(145px,1fr)); gap:12px; }
+.stat { background:var(--light); border-radius:10px; padding:15px; }
+.stat strong { display:block; color:var(--navy); font-size:25px; }
+label { display:block; margin:10px 0 5px; font-weight:700; }
+input,select,textarea {
+  width:100%; padding:11px; border:1px solid #cbd5e1;
+  border-radius:8px; font:inherit; background:white; color:var(--ink);
+}
+textarea { min-height:100px; resize:vertical; }
+button,.btn {
+  font:inherit; cursor:pointer; border:0; border-radius:8px;
+  padding:10px 14px; background:var(--blue); color:white;
+  font-weight:700; margin:5px 4px 5px 0;
+}
+button.secondary { background:#e8eef6; color:var(--navy); }
+button.success { background:var(--green); }
+button.danger { background:#a32d35; }
+.small { font-size:13px; color:var(--muted); }
+.muted { color:var(--muted); }
+.tag { display:inline-block; background:#eaf2fb; color:var(--navy);
+  padding:3px 8px; border-radius:20px; font-size:12px; margin:2px; }
+.question { border-top:1px solid var(--border); padding:14px 0; }
+.question:first-child { border-top:0; }
+.option { display:block; padding:7px; border-radius:6px; font-weight:400; }
+.option input { width:auto; margin-right:8px; }
+.result { padding:12px; border-radius:8px; background:var(--light); margin:12px 0; }
+.paper-head { text-align:center; border-bottom:2px solid #222; padding-bottom:12px; }
+.paper-question { margin:18px 0; page-break-inside:avoid; }
+.paper-question p { margin:5px 0; }
+table { border-collapse:collapse; width:100%; margin:10px 0; background:white; }
+th,td { border:1px solid var(--border); text-align:left; padding:9px; }
+th { background:var(--light); }
+footer { text-align:center; padding:22px; color:var(--muted); }
+hr { border:0; border-top:1px solid var(--border); margin:18px 0; }
+@media(max-width:600px) {
+  .brand { font-size:25px; }
+  nav { position:static; }
+  nav button { flex:1 1 42%; }
+  main { margin-top:12px; }
+}
+@media print {
+  body { background:white; }
+  header,nav,footer,.no-print,.screen-only { display:none!important; }
+  main { margin:0; padding:0; max-width:none; }
+  .panel { display:none!important; }
+  .panel.active { display:block!important; }
+  .card { border:0; box-shadow:none; padding:0; }
+  input,select,textarea { border:0; padding:0; }
+  .paper-head { display:block; }
+  .paper-question { break-inside:avoid; }
+  .answer-key { break-before:page; }
+}
 </style>
 </head>
 <body>
 <header>
-<h1>📚 SomaHub</h1>
-<p>Learn together. Teach better. Grow every day.</p>
-<p>For Kenyan students, teachers and parents</p>
+  <div class="header-inner">
+    <div class="brand">Soma<span>Hub</span></div>
+    <p>Learn together. Teach better. Grow every day.</p>
+    <p class="small" style="color:#e3edf9">CBC learning and teaching tools for Kenyan schools</p>
+  </div>
 </header>
 
-<nav id="nav">
-<button class="active" data-id="home">Home</button>
-<button data-id="search">Search Questions</button>
-<button data-id="teacher">Teacher Tools</button>
-<button data-id="student">Student Hub</button>
-<button data-id="parent">Parent Hub</button>
-<button data-id="quinnex">Quinnex Library</button>
-<button data-id="notes">Notes</button>
-<button data-id="quiz">Quizzes</button>
-<button data-id="progress">Progress</button>
+<nav id="navigation">
+  <button class="active" data-panel="home">Home</button>
+  <button data-panel="quizzes">Quizzes</button>
+  <button data-panel="papers">Past papers</button>
+  <button data-panel="search">Search questions</button>
+  <button data-panel="quinnex">Quinnex textbook</button>
+  <button data-panel="lesson">Lesson planner</button>
+  <button data-panel="schemes">Schemes of work</button>
+  <button data-panel="rubric">CBC rubric builder</button>
+  <button data-panel="assessment">Assessment tracker</button>
+  <button data-panel="iep">Learner support / IEP</button>
+  <button data-panel="parents">Parent resources</button>
+  <button data-panel="backup">Backup & settings</button>
 </nav>
 
 <main>
-<section id="home" class="page active">
-<div class="card">
-<h2>Welcome to SomaHub</h2>
-<p>One place to revise, read, prepare lessons, create assessments, and track learning.</p>
-<label for="globalSearch">What do you want to learn today?</label>
-<input id="globalSearch" placeholder="Search a question, topic, subject or resource">
-<button class="action" onclick="runSearch('globalSearch','globalResults')">Search SomaHub</button>
-<div id="globalResults"></div>
-</div>
-<div class="grid">
-<div class="card"><h3>🔎 Find answers</h3><p>Search sample questions and learning resources.</p><button class="action" onclick="go('search')">Search</button></div>
-<div class="card"><h3>👩‍🏫 Teacher tools</h3><p>Lesson plans, schemes, rubrics and assessment trackers.</p><button class="action" onclick="go('teacher')">Open tools</button></div>
-<div class="card"><h3>📖 Reading library</h3><p>Read sample notes and add authorised textbook material.</p><button class="action" onclick="go('quinnex')">Read</button></div>
-<div class="card"><h3>📈 Progress</h3><p>Review quiz scores and saved learning activities.</p><button class="action" onclick="go('progress')">View progress</button></div>
-</div>
-<p class="muted">This is an MVP. Saved information is stored in this browser, not in a shared online account.</p>
+<section class="panel active" id="home">
+  <div class="card">
+    <h1>Welcome to SomaHub</h1>
+    <p>Your learning workspace for CBC revision, teaching preparation, assessment and learner support.</p>
+    <div class="stats">
+      <div class="stat"><strong id="quizCount">0</strong>Quiz attempts saved</div>
+      <div class="stat"><strong id="paperCount">0</strong>Papers generated</div>
+      <div class="stat"><strong id="lessonCount">0</strong>Lesson plans saved</div>
+      <div class="stat"><strong id="recordCount">0</strong>Assessment records</div>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="card"><h3>📚 Revise</h3><p>Generate practice papers for Grades 7–9 and read study notes.</p><button onclick="showPanel('papers')">Open papers</button></div>
+    <div class="card"><h3>🧠 Practise</h3><p>Answer randomized questions, receive a score and review explanations.</p><button onclick="showPanel('quizzes')">Start a quiz</button></div>
+    <div class="card"><h3>👩‍🏫 Teach</h3><p>Prepare lessons, schemes of work and CBC assessment rubrics.</p><button onclick="showPanel('lesson')">Plan a lesson</button></div>
+    <div class="card"><h3>📊 Assess</h3><p>Keep simple learner assessment and support records on this device.</p><button onclick="showPanel('assessment')">Open tracker</button></div>
+  </div>
+  <div class="card">
+    <h2>Important note</h2>
+    <p>Practice questions and notes in this first version are starter resources. Generated papers are original CBC-style practice papers, not official KNEC examination papers. Check current KICD curriculum designs and approved materials when preparing lessons.</p>
+  </div>
 </section>
 
-<section id="search" class="page">
-<div class="card">
-<h2>🔎 Search Questions and Learning Resources</h2>
-<p>Search the sample question bank, saved notes, and reading material.</p>
-<label for="questionSearch">Enter a question or keyword</label>
-<input id="questionSearch" placeholder="e.g. What is formative assessment?">
-<button class="action" onclick="runSearch('questionSearch','searchResults')">Find results</button>
-<div id="searchResults"></div>
-<p class="muted">Need broader results? These links open external search engines. Their results are not produced or verified by SomaHub.</p>
-<button class="action secondary" onclick="externalSearch('google')">Search Google</button>
-<button class="action secondary" onclick="externalSearch('bing')">Search Bing</button>
-</div>
+<section class="panel" id="quizzes">
+  <div class="card">
+    <h1>Interactive quiz</h1>
+    <div class="grid">
+      <div><label>Grade</label><select id="quizGrade"><option>7</option><option>8</option><option>9</option></select></div>
+      <div><label>Subject</label><select id="quizSubject"></select></div>
+      <div><label>Number of questions</label><select id="quizAmount"><option>5</option><option>10</option><option>15</option></select></div>
+    </div>
+    <button onclick="startQuiz()">Generate new quiz</button>
+    <div id="quizArea"></div>
+  </div>
 </section>
 
-<section id="teacher" class="page">
-<div class="card">
-<h2>👩‍🏫 Teacher Toolkit</h2>
-<h3>1. Editable CBC / 5E Lesson Plan</h3>
-<p class="muted">Use the 5E sequence: Engage, Explore, Explain, Elaborate, Evaluate. Adapt the draft to the applicable KICD curriculum design.</p>
-<label>Grade / class</label><input id="grade" placeholder="Grade 7">
-<label>Learning area</label><input id="subject" placeholder="Social Studies">
-<label>Strand and sub-strand</label><input id="strand" placeholder="Enter strand and sub-strand">
-<label>Learning outcomes</label><textarea id="outcomes" placeholder="By the end of the lesson, learners should be able to..."></textarea>
-<label>Resources</label><input id="resources" placeholder="Textbooks, charts, maps, digital content">
-<label>Assessment methods</label><input id="assessment" placeholder="Observation, oral questions, task">
-<button class="action" onclick="lessonPlan()">Generate 5E Lesson Plan</button>
-<button class="action secondary" onclick="copy('lessonOut')">Copy plan</button>
-<div id="lessonOut" class="output"></div>
-</div>
-
-<div class="card">
-<h3>2. Scheme of Work Generator</h3>
-<label>Subject and grade</label><input id="schemeSubject" placeholder="e.g. Grade 8 Geography">
-<label>Term and number of weeks</label><input id="schemeWeeks" placeholder="e.g. Term 1, 13 weeks">
-<label>Strands / topics, one per line</label><textarea id="schemeTopics"></textarea>
-<button class="action" onclick="makeScheme()">Generate scheme draft</button>
-<button class="action secondary" onclick="copy('schemeOut')">Copy scheme</button>
-<div id="schemeOut" class="output"></div>
-</div>
-
-<div class="card">
-<h3>3. Continuous Assessment Tracker</h3>
-<p>Record learner marks locally. This tracker is not an official KNEC submission system.</p>
-<label>Learner name or identifier</label><input id="learner" placeholder="Use an appropriate learner identifier">
-<label>Assessment / task</label><input id="task" placeholder="e.g. Map-reading exercise">
-<div class="grid">
-<div><label>Score obtained</label><input id="score" type="number" min="0" step="any"></div>
-<div><label>Maximum score</label><input id="maximum" type="number" min="1" step="any" value="10"></div>
-</div>
-<label>Assessment type</label><select id="assessmentType"><option>Formative assessment</option><option>Summative assessment</option><option>Project</option><option>Practical activity</option></select>
-<button class="action" onclick="addAssessment()">Save assessment</button>
-<div id="assessmentList"></div>
-<button class="action secondary" onclick="downloadData('somahubAssessments','assessment-records.json')">Export records</button>
-</div>
-
-<div class="card">
-<h3>4. CBC Rubric Builder</h3>
-<label>Task / project</label><input id="rubricTask" placeholder="Group presentation">
-<label>Criteria, one per line</label><textarea id="criteria" placeholder="Accuracy of content&#10;Communication&#10;Collaboration&#10;Creativity"></textarea>
-<label>Number of levels</label><select id="levels"><option value="4">4 levels</option><option value="8">8 levels</option></select>
-<button class="action" onclick="rubric()">Generate rubric</button>
-<button class="action secondary" onclick="copy('rubricOut')">Copy rubric</button>
-<div id="rubricOut" class="output"></div>
-</div>
-
-<div class="card">
-<h3>5. IEP Template</h3>
-<p class="muted">Individual Education Plan draft. Store sensitive learner information securely and only with proper authorisation.</p>
-<label>Learning goals</label><textarea id="iepGoals"></textarea>
-<label>Learning strengths and support needs</label><textarea id="iepNeeds"></textarea>
-<label>Accommodations / strategies</label><textarea id="iepSupport"></textarea>
-<label>Review date</label><input id="iepDate" type="date">
-<button class="action" onclick="makeIEP()">Create IEP draft</button>
-<button class="action secondary" onclick="copy('iepOut')">Copy template</button>
-<div id="iepOut" class="output"></div>
-</div>
-
-<div class="card">
-<h3>6. Peer Resource Sharing</h3>
-<p>Share a link to a resource or add its details for your own browser. This does not upload it to a shared server.</p>
-<label>Resource title</label><input id="resourceTitle">
-<label>Subject / grade</label><input id="resourceSubject">
-<label>Resource link (optional)</label><input id="resourceLink" type="url" placeholder="https://...">
-<label>Description</label><textarea id="resourceDescription"></textarea>
-<button class="action" onclick="addResource()">Save resource</button>
-<div id="resourceList"></div>
-</div>
+<section class="panel" id="papers">
+  <div class="card">
+    <h1>Grade 7–9 practice papers</h1>
+    <p>Choose a grade and subject to generate a printable paper with instructions, marks and a suggested answer guide.</p>
+    <div class="grid">
+      <div><label>Grade</label><select id="paperGrade"><option>7</option><option>8</option><option>9</option></select></div>
+      <div><label>Subject</label><select id="paperSubject"></select></div>
+      <div><label>Paper type</label><select id="paperType"><option value="mixed">Mixed practice paper</option><option value="short">Short revision test</option><option value="challenge">Challenge paper</option></select></div>
+    </div>
+    <button onclick="generatePaper()">Generate paper</button>
+    <button class="secondary" onclick="window.print()">Print / Save as PDF</button>
+    <div id="paperArea"></div>
+  </div>
 </section>
 
-<section id="student" class="page">
-<div class="card">
-<h2>🎓 Student Learning Hub</h2>
-<h3>1. Sub-strand lesson and revision builder</h3>
-<label>Subject</label><input id="studentSubject" placeholder="e.g. French">
-<label>Strand / sub-strand / topic</label><input id="studentTopic" placeholder="e.g. Present tense">
-<button class="action" onclick="studentLesson()">Create revision guide</button>
-<div id="studentLessonOut" class="output"></div>
-<p class="muted">This creates a study outline, not an official curriculum lesson or a verified media-rich course.</p>
-</div>
-
-<div class="card">
-<h3>2. Practical Project Portfolio</h3>
-<label>Project title</label><input id="projectTitle">
-<label>What did you do and learn?</label><textarea id="projectDesc"></textarea>
-<label>Add a project file or photo</label><input id="projectFile" type="file" accept="image/*,.pdf,.doc,.docx">
-<button class="action" onclick="saveProject()">Save project details</button>
-<div id="projectList"></div>
-<p class="muted">File selection is available, but this MVP does not upload files to a server. Project details are saved locally.</p>
-</div>
-
-<div class="card">
-<h3>3. Senior School Pathway Advisor</h3>
-<p>Select interests to receive general guidance. Confirm current pathway options with your school and official Ministry of Education guidance.</p>
-<label>What do you enjoy?</label>
-<select id="pathInterest">
-<option value="stem">Mathematics, science and technology</option>
-<option value="arts">Languages, music, creative arts and performance</option>
-<option value="social">Humanities, society and social sciences</option>
-</select>
-<label>Career interests</label><input id="careerInterest" placeholder="e.g. teaching, engineering, design">
-<button class="action" onclick="pathway()">Explore pathway</button>
-<div id="pathOut" class="output"></div>
-</div>
-
-<div class="card">
-<h3>4. Virtual STEM Lab</h3>
-<p>Explore simple science models and change values to see calculated results.</p>
-<label>Distance travelled (metres)</label><input id="distance" type="number" value="100" min="0">
-<label>Time taken (seconds)</label><input id="time" type="number" value="20" min="0.01">
-<button class="action" onclick="calculateSpeed()">Calculate speed</button>
-<div id="labOut" class="output"></div>
-</div>
-
-<div class="card">
-<h3>5. PCIs and Core Values Hub</h3>
-<label>Select a theme</label>
-<select id="pci">
-<option>Environmental conservation</option>
-<option>Health and well-being</option>
-<option>Digital citizenship and safety</option>
-<option>Financial literacy</option>
-<option>Peace, integrity and responsibility</option>
-<option>Community service</option>
-</select>
-<button class="action" onclick="pciGuide()">Get activity idea</button>
-<div id="pciOut" class="output"></div>
-</div>
-
-<div class="card">
-<h3>6. Group Study</h3>
-<label>Group name / topic</label><input id="groupTopic">
-<label>Meeting date</label><input id="groupDate" type="date">
-<label>Tasks and member responsibilities</label><textarea id="groupTasks"></textarea>
-<button class="action" onclick="groupPlan()">Create group plan</button>
-<div id="groupOut" class="output"></div>
-</div>
+<section class="panel" id="search">
+  <div class="card">
+    <h1>Search questions and revision topics</h1>
+    <label>Enter a question, topic or keyword</label>
+    <input id="searchInput" placeholder="e.g. fractions, climate, nutrition..." oninput="searchQuestions()">
+    <div class="grid">
+      <div><label>Grade</label><select id="searchGrade" onchange="searchQuestions()"><option value="">All grades</option><option>7</option><option>8</option><option>9</option></select></div>
+      <div><label>Subject</label><select id="searchSubject" onchange="searchQuestions()"><option value="">All subjects</option></select></div>
+    </div>
+    <div id="searchResults"></div>
+  </div>
 </section>
 
-<section id="parent" class="page">
-<div class="card">
-<h2>👨‍👩‍👧 Parent and Guardian Hub</h2>
-<h3>1. Learning Progress</h3>
-<p>Progress is based on assessment records entered on this device.</p>
-<div id="parentProgress"></div>
-<button class="action secondary" onclick="refreshParent()">Refresh progress</button>
-</div>
-<div class="card">
-<h3>2. Community Service Learning (CSL) Log</h3>
-<label>Activity</label><input id="cslActivity" placeholder="e.g. School clean-up">
-<label>Date</label><input id="cslDate" type="date">
-<label>What was learned / contribution made?</label><textarea id="cslReflection"></textarea>
-<button class="action" onclick="saveCSL()">Save CSL log</button>
-<div id="cslList"></div>
-</div>
-<div class="card">
-<h3>3. Home Activity Checklist</h3>
-<label>Activity</label><input id="homeActivity" placeholder="e.g. Read notes for 20 minutes">
-<label>Due date</label><input id="homeDate" type="date">
-<button class="action" onclick="addHomeTask()">Add home activity</button>
-<div id="homeTasks"></div>
-</div>
+<section class="panel" id="quinnex">
+  <div class="card">
+    <h1>Quinnex combined textbook</h1>
+    <p class="muted">A starter study library. Select a grade and subject to read notes and revision prompts.</p>
+    <div class="grid">
+      <div><label>Grade</label><select id="noteGrade" onchange="showNotes()"><option>7</option><option>8</option><option>9</option></select></div>
+      <div><label>Subject</label><select id="noteSubject" onchange="showNotes()"></select></div>
+    </div>
+    <div id="notesArea"></div>
+    <hr>
+    <h3>Add your own textbook notes</h3>
+    <label>Topic title</label><input id="customNoteTitle" placeholder="Topic name">
+    <label>Grade</label><select id="customNoteGrade"><option>7</option><option>8</option><option>9</option></select>
+    <label>Subject</label><select id="customNoteSubject"></select>
+    <label>Notes</label><textarea id="customNoteText" placeholder="Type or paste notes you have permission to use"></textarea>
+    <button onclick="saveCustomNote()">Save notes</button>
+    <div id="customNotesList"></div>
+  </div>
 </section>
 
-<section id="quinnex" class="page">
-<div class="card">
-<h2>📚 Quinnex Combined Textbook Library</h2>
-<p>Search the reading library, read sample notes, and add material you own or are authorised to use.</p>
-<p class="muted">This is the library feature, not a supplied copy of the complete copyrighted Quinnex textbook.</p>
-<label>Search the library</label><input id="bookSearch" placeholder="Search subject, chapter, keyword..." oninput="renderBooks()">
-<label>Filter subject</label><select id="bookFilter" onchange="renderBooks()"><option value="">All subjects</option><option>Education</option><option>Geography</option><option>French</option><option>Science</option><option>General</option></select>
-<div id="bookList"></div>
-</div>
-<div class="card">
-<h3>Add authorised textbook notes</h3>
-<label>Book / chapter title</label><input id="bookTitle">
-<label>Subject</label><select id="bookSubject"><option>General</option><option>Education</option><option>Geography</option><option>French</option><option>Science</option></select>
-<label>Notes / summary</label><textarea id="bookContent" placeholder="Write your own notes or an authorised summary..."></textarea>
-<button class="action" onclick="addBook()">Save reading material</button>
-<label>Choose a local textbook file</label><input type="file" id="bookFile" accept=".pdf,.txt,.doc,.docx">
-<p class="muted">A selected file is not automatically uploaded or permanently saved. To publish a textbook file for other users, you need a properly licensed source and file hosting.</p>
-</div>
+<section class="panel" id="lesson">
+  <div class="card">
+    <h1>Lesson planner</h1>
+    <label>Teacher / trainee name</label><input id="lpTeacher" placeholder="Teacher name">
+    <div class="grid">
+      <div><label>Grade</label><select id="lpGrade"><option>7</option><option>8</option><option>9</option></select></div>
+      <div><label>Subject</label><select id="lpSubject"></select></div>
+      <div><label>Date</label><input id="lpDate" type="date"></div>
+    </div>
+    <label>Strand and sub-strand</label><input id="lpStrand">
+    <label>Specific learning outcomes</label><textarea id="lpOutcomes"></textarea>
+    <label>Learning resources</label><textarea id="lpResources"></textarea>
+    <label>Introduction / prior knowledge</label><textarea id="lpIntro"></textarea>
+    <label>Lesson development and learner activities</label><textarea id="lpActivities"></textarea>
+    <label>Assessment methods</label><textarea id="lpAssessment"></textarea>
+    <label>Reflection / follow-up</label><textarea id="lpReflection"></textarea>
+    <button onclick="saveLesson()">Save lesson plan</button>
+    <button class="secondary" onclick="printRecord('lessonOutput')">Print current plan</button>
+    <div id="lessonOutput"></div>
+    <div id="savedLessons"></div>
+  </div>
 </section>
 
-<section id="notes" class="page">
-<div class="card">
-<h2>📝 Notes Library</h2>
-<label>Title</label><input id="noteTitle">
-<label>Subject</label><input id="noteSubject">
-<label>Notes</label><textarea id="noteContent"></textarea>
-<button class="action" onclick="saveNote()">Save note</button>
-<div id="notesList"></div>
-</div>
+<section class="panel" id="schemes">
+  <div class="card">
+    <h1>Schemes of work</h1>
+    <label>Teacher / school</label><input id="swTeacher">
+    <div class="grid">
+      <div><label>Grade</label><select id="swGrade"><option>7</option><option>8</option><option>9</option></select></div>
+      <div><label>Subject</label><select id="swSubject"></select></div>
+      <div><label>Term</label><select id="swTerm"><option>Term 1</option><option>Term 2</option><option>Term 3</option></select></div>
+    </div>
+    <div class="grid">
+      <div><label>Week</label><input id="swWeek" type="number" min="1" max="20" value="1"></div>
+      <div><label>Strand</label><input id="swStrand"></div>
+      <div><label>Sub-strand</label><input id="swSubstrand"></div>
+    </div>
+    <label>Learning outcomes</label><textarea id="swOutcomes"></textarea>
+    <label>Learning experiences / resources</label><textarea id="swActivities"></textarea>
+    <label>Assessment</label><textarea id="swAssessment"></textarea>
+    <button onclick="saveScheme()">Save scheme entry</button>
+    <div id="schemeList"></div>
+  </div>
 </section>
 
-<section id="quiz" class="page">
-<div class="card">
-<h2>🧠 Micro-Quizzes</h2>
-<label>Quiz category</label><select id="quizCategory"><option value="all">Mixed topics</option><option value="education">CBC / Education</option><option value="geography">Geography</option><option value="french">French</option><option value="science">Science</option></select>
-<button class="action" onclick="startQuiz()">Start shuffled quiz</button>
-<div id="quizArea"></div>
-</div>
+<section class="panel" id="rubric">
+  <div class="card">
+    <h1>CBC rubric builder</h1>
+    <label>Task / project title</label><input id="rubTitle" placeholder="e.g. Group presentation">
+    <div class="grid">
+      <div><label>Grade</label><select id="rubGrade"><option>7</option><option>8</option><option>9</option></select></div>
+      <div><label>Subject</label><select id="rubSubject"></select></div>
+      <div><label>Total marks</label><input id="rubTotal" type="number" value="20" min="1"></div>
+    </div>
+    <label>Criteria (one per line)</label>
+    <textarea id="rubCriteria">Understanding of content
+Application of knowledge
+Communication
+Collaboration
+Creativity and presentation</textarea>
+    <button onclick="buildRubric()">Build rubric</button>
+    <button class="secondary" onclick="window.print()">Print rubric</button>
+    <div id="rubricOutput"></div>
+  </div>
 </section>
 
-<section id="progress" class="page">
-<div class="card">
-<h2>📈 Learning Dashboard</h2>
-<div id="progressDetails"></div>
-<button class="action secondary" onclick="refreshProgress()">Refresh</button>
-</div>
+<section class="panel" id="assessment">
+  <div class="card">
+    <h1>Student assessment tracker</h1>
+    <p class="small">Keep records private and use learner codes where possible. Records are stored only in this browser.</p>
+    <label>Learner name or code</label><input id="asLearner">
+    <div class="grid">
+      <div><label>Grade</label><select id="asGrade"><option>7</option><option>8</option><option>9</option></select></div>
+      <div><label>Subject</label><select id="asSubject"></select></div>
+      <div><label>Assessment / task</label><input id="asTask"></div>
+      <div><label>Score achieved</label><input id="asScore" type="number" min="0"></div>
+      <div><label>Maximum score</label><input id="asMax" type="number" min="1" value="20"></div>
+      <div><label>Date</label><input id="asDate" type="date"></div>
+    </div>
+    <label>Feedback / next step</label><textarea id="asFeedback"></textarea>
+    <button onclick="saveAssessment()">Save assessment</button>
+    <div id="assessmentList"></div>
+  </div>
+</section>
+
+<section class="panel" id="iep">
+  <div class="card">
+    <h1>Learner support / IEP planner</h1>
+    <p>Use this to plan inclusive learning support with the learner, family and appropriate school staff. Avoid recording unnecessary sensitive details.</p>
+    <label>Learner code</label><input id="iepLearner">
+    <label>Learning strength / interest</label><textarea id="iepStrength"></textarea>
+    <label>Learning barrier observed</label><textarea id="iepBarrier"></textarea>
+    <label>Support goal</label><textarea id="iepGoal"></textarea>
+    <label>Classroom adjustment / support strategy</label><textarea id="iepStrategy"></textarea>
+    <label>Responsible person</label><input id="iepResponsible">
+    <label>Review date</label><input id="iepReview" type="date">
+    <label>Progress / next steps</label><textarea id="iepProgress"></textarea>
+    <button onclick="saveIEP()">Save support plan</button>
+    <div id="iepList"></div>
+  </div>
+</section>
+
+<section class="panel" id="parents">
+  <div class="card">
+    <h1>Parent and caregiver resources</h1>
+    <div class="grid">
+      <div class="card"><h3>Build a study routine</h3><p>Agree on a regular study time, short breaks and a quiet learning space.</p></div>
+      <div class="card"><h3>Encourage reading</h3><p>Ask the learner to explain what they read and connect it to everyday life.</p></div>
+      <div class="card"><h3>Support mathematics</h3><p>Practise everyday calculations through shopping, time, measurement and budgeting.</p></div>
+      <div class="card"><h3>Communicate with school</h3><p>Discuss progress, strengths and learning needs respectfully with the teacher.</p></div>
+      <div class="card"><h3>Promote wellbeing</h3><p>Encourage sleep, play, physical activity, belonging and a balanced routine.</p></div>
+      <div class="card"><h3>Support CBC projects</h3><p>Let learners investigate, make decisions and explain what they have learned.</p></div>
+    </div>
+    <label>Write a home-learning plan</label><textarea id="parentPlan" placeholder="Weekly goals, reading activities, materials and check-in dates..."></textarea>
+    <button onclick="saveParentPlan()">Save family learning plan</button>
+    <div id="parentSaved"></div>
+  </div>
+</section>
+
+<section class="panel" id="backup">
+  <div class="card">
+    <h1>Backup, restore and settings</h1>
+    <p>Export your SomaHub records before changing files, clearing browser data or switching devices.</p>
+    <button onclick="exportData()">Download backup (JSON)</button>
+    <label>Restore a previous SomaHub backup</label>
+    <input type="file" id="restoreFile" accept=".json,application/json">
+    <button onclick="importData()">Restore backup</button>
+    <hr>
+    <h3>Manage local data</h3>
+    <button class="danger" onclick="clearData()">Clear all saved SomaHub data on this device</button>
+    <p class="small">This does not delete the GitHub website. Clearing data is irreversible unless you have a backup.</p>
+    <div id="backupMessage"></div>
+  </div>
 </section>
 </main>
 
-<footer>SomaHub · Learn together, grow together.</footer>
+<footer>SomaHub • CBC learning and teaching workspace</footer>
 
 <script>
-const $=id=>document.getElementById(id);
-const get=(k,d=[])=>{try{return JSON.parse(localStorage.getItem('sh_'+k))??d}catch(e){return d}};
-const put=(k,v)=>localStorage.setItem('sh_'+k,JSON.stringify(v));
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function out(id,text){$(id).textContent=text}
-function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.id===id));if(id==='quinnex')renderBooks();if(id==='notes')renderNotes();if(id==='parent')refreshParent();if(id==='progress')refreshProgress();window.scrollTo(0,0)}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.id));
-function copy(id){const s=$(id).innerText;if(!s.trim())return alert('Create content first.');if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(s).then(()=>alert('Copied.')).catch(()=>alert(s));else alert('Select and copy the displayed text.')}
-function downloadData(key,name){const blob=new Blob([JSON.stringify(get(key),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href)}
-function externalSearch(engine){const q=$('questionSearch').value||$('globalSearch').value;if(!q.trim())return alert('Enter a search term first.');window.open((engine==='bing'?'https://www.bing.com/search?q=':'https://www.google.com/search?q=')+encodeURIComponent(q),'_blank','noopener')}
-const questions=[
-{c:'education',q:'What is formative assessment?',a:'Assessment during learning that helps identify progress and next steps.'},
-{c:'education',q:'What does CBC emphasise?',a:'Developing and applying competencies, knowledge, skills, values and attitudes.'},
-{c:'education',q:'Name one learner-centred activity.',a:'Examples include group problem-solving, projects, discussion and practical tasks.'},
-{c:'geography',q:'What does a map scale show?',a:'The relationship between map distance and ground distance.'},
-{c:'geography',q:'Name one element of a map.',a:'Examples include title, key, scale, direction and symbols.'},
-{c:'french',q:'What does bonjour mean?',a:'Hello or good day.'},
-{c:'french',q:'Complete: Nous ___ à l’école. (aller)',a:'Allons: “Nous allons à l’école.”'},
-{c:'science',q:'What is photosynthesis?',a:'The process by which green plants use light energy to make sugars.'},
-{c:'science',q:'What is the function of mitochondria?',a:'They are a major site of cellular respiration and energy conversion.'}
+"use strict";
+
+const SUBJECTS = [
+  "English",
+  "Kiswahili",
+  "Mathematics",
+  "Integrated Science",
+  "Social Studies",
+  "Agriculture and Nutrition",
+  "Creative Arts and Sports",
+  "Pre-Technical Studies",
+  "Christian Religious Education (CRE)",
+  "Islamic Religious Education (IRE)",
+  "Hindu Religious Education (HRE)",
+  "French"
 ];
-function runSearch(inputId,resultId){
- const q=$(inputId).value.trim().toLowerCase(),res=[];
- if(!q){$(resultId).innerHTML='<p>Enter a question or keyword.</p>';return}
- questions.forEach(x=>{if((x.q+' '+x.a+' '+x.c).toLowerCase().includes(q))res.push({title:x.q,body:x.a,type:'Question bank'})});
- get('notes',[]).forEach(x=>{if((x.title+' '+x.subject+' '+x.body).toLowerCase().includes(q))res.push({title:x.title,body:x.body,type:'Saved note'})});
- get('books',[]).forEach(x=>{if((x.title+' '+x.subject+' '+x.body).toLowerCase().includes(q))res.push({title:x.title,body:x.body,type:'Reading library'})});
- $(resultId).innerHTML=res.length?res.map(x=>`<div class="result"><b>${esc(x.title)}</b><p>${esc(x.body)}</p><small>${esc(x.type)}</small></div>`).join(''):'<p>No matching local results. Try different keywords or use an external search.</p>'
+
+const DB_KEY = "somahub_complete_v2";
+let db = loadDB();
+let currentPaper = null;
+let currentQuiz = [];
+
+function emptyDB() {
+  return {
+    quizAttempts: [], paperCount: 0, lessons: [], schemes: [],
+    assessments: [], ieps: [], customNotes: [], parentPlan: ""
+  };
 }
-function lessonPlan(){
- const fields=['grade','subject','strand'];if(fields.some(id=>!$(id).value.trim()))return alert('Enter grade, subject and strand.');
- out('lessonOut',`EDITABLE CBC LESSON PLAN\nGrade: ${$('grade').value}\nLearning area: ${$('subject').value}\nStrand/sub-strand: ${$('strand').value}\nLearning outcomes: ${$('outcomes').value}\nResources: ${$('resources').value}\nAssessment: ${$('assessment').value}\n\nENGAGE: Introduce the topic and connect with prior learning.\nEXPLORE: Learners investigate through a suitable task or group activity.\nEXPLAIN: Learners share findings; teacher clarifies key concepts.\nELABORATE: Apply the concept to a new example or real-life situation.\nEVALUATE: Use questions, observation or a task aligned to the outcomes.\nREFLECTION: Record what worked, learner needs and next steps.\n\nAdapt to the current official curriculum design and lesson duration.`)
+function loadDB() {
+  try {
+    const d = JSON.parse(localStorage.getItem(DB_KEY) || "null");
+    return d && typeof d === "object" ? {...emptyDB(), ...d} : emptyDB();
+  } catch(e) { return emptyDB(); }
 }
-function makeScheme(){const topics=$('schemeTopics').value.split('\n').map(x=>x.trim()).filter(Boolean);if(!topics.length)return alert('Enter topics, one per line.');out('schemeOut',`DRAFT SCHEME OF WORK\nSubject: ${$('schemeSubject').value}\nTerm: ${$('schemeWeeks').value}\n\n`+topics.map((t,i)=>`Week ${i+1}: ${t}\nExpected learning: define outcomes for this topic\nLearning experiences: discussion, practical task or group activity\nResources: select relevant resources\nAssessment: align task with expected outcomes`).join('\n\n'))}
-function rubric(){
- const cs=$('criteria').value.split('\n').map(x=>x.trim()).filter(Boolean),n=Number($('levels').value);
- if(!cs.length)return alert('Add at least one criterion.');
- let s=`CBC RUBRIC DRAFT\nTask: ${$('rubricTask').value}\n\nCriterion | ${Array.from({length:n},(_,i)=>'Level '+(i+1)).join(' | ')}\n`;
- cs.forEach(c=>s+=`\n${c} | ${Array.from({length:n},(_,i)=>`Level ${i+1}: ${i===0?'Needs support':i===n-1?'Advanced application':'Developing performance'}; add a specific observable indicator`).join(' | ')}\n`);
- s+='\nReplace generic descriptors with observable, task-specific evidence. Check the applicable assessment requirements.';
- out('rubricOut',s)
+function saveDB() {
+  try {
+    localStorage.setItem(DB_KEY, JSON.stringify(db));
+    updateDashboard();
+  } catch(e) {
+    alert("Could not save. Your browser storage may be full. Export a backup and remove unnecessary records.");
+  }
 }
-function makeIEP(){out('iepOut',`INDIVIDUAL EDUCATION PLAN — DRAFT\nLearning goals:\n${$('iepGoals').value}\n\nStrengths and support needs:\n${$('iepNeeds').value}\n\nAccommodations and strategies:\n${$('iepSupport').value}\n\nReview date: ${$('iepDate').value}\n\nAgree on appropriate goals, accommodations and review arrangements with the authorised school support team and family.`)}
-function addAssessment(){
- const name=$('learner').value.trim(),task=$('task').value.trim(),score=Number($('score').value),max=Number($('maximum').value);
- if(!name||!task||$('score').value===''||max<=0||score<0||score>max)return alert('Enter a learner identifier, task and valid score within the maximum.');
- const a=get('assessments');a.push({name,task,score,max,type:$('assessmentType').value,date:new Date().toLocaleDateString()});put('assessments',a);renderAssessments();refreshParent();refreshProgress()
+function esc(v) {
+  return String(v ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
 }
-function renderAssessments(){$('assessmentList').innerHTML=get('assessments').map(a=>`<div class="item">${esc(a.name)} — ${esc(a.task)}: ${a.score}/${a.max} (${Math.round(a.score/a.max*100)}%)<br><small>${esc(a.type)} · ${esc(a.date)}</small></div>`).join('')}
-function addResource(){const title=$('resourceTitle').value.trim();if(!title)return alert('Add a title.');const r=get('resources');r.unshift({title,subject:$('resourceSubject').value,link:$('resourceLink').value,desc:$('resourceDescription').value});put('resources',r);renderResources()}
-function renderResources(){$('resourceList').innerHTML=get('resources').map((r,i)=>`<div class="item"><b>${esc(r.title)}</b><p>${esc(r.subject)} — ${esc(r.desc)}</p>${/^https?:\/\//i.test(r.link)?`<a href="${esc(r.link)}" target="_blank" rel="noopener">Open resource</a>`:''}</div>`).join('')}
-function studentLesson(){const s=$('studentSubject').value,t=$('studentTopic').value;if(!s||!t)return alert('Enter a subject and topic.');out('studentLessonOut',`REVISION GUIDE\nSubject: ${s}\nTopic: ${t}\n\n1. Write the key terms and their definitions.\n2. Identify the main concepts.\n3. Find examples from your notes or authorised textbook.\n4. Explain the topic in your own words.\n5. Practise questions and check your answers.\n6. Record what you need to revise next.`)}
-function saveProject(){const title=$('projectTitle').value.trim();if(!title)return alert('Enter a project title.');const file=$('projectFile').files[0];const p=get('projects');p.unshift({title,desc:$('projectDesc').value,file:file?file.name:'No file attached',date:new Date().toLocaleDateString()});put('projects',p);renderProjects()}
-function renderProjects(){$('projectList').innerHTML=get('projects').map(p=>`<div class="item"><b>${esc(p.title)}</b><p>${esc(p.desc)}</p><small>${esc(p.file)} · ${esc(p.date)}</small></div>`).join('')}
-function pathway(){const v=$('pathInterest').value;const data={stem:'Explore science, technology, engineering and mathematics-related learning and careers. Check subject requirements and practical opportunities with your school.',arts:'Explore languages, creative arts, design, performance and related careers. Build a portfolio and confirm current pathway options with your school.',social:'Explore humanities, languages, geography, history and social science-related interests. Review subject choices and official pathway guidance with your school.'};out('pathOut',data[v]+'\nCareer interests: '+$('careerInterest').value)}
-function calculateSpeed(){const d=Number($('distance').value),t=Number($('time').value);if(d<0||t<=0)return alert('Use a non-negative distance and a time greater than zero.');out('labOut',`Speed = distance ÷ time\n${d} ÷ ${t} = ${(d/t).toFixed(2)} metres per second (m/s).`)}
-function pciGuide(){const v=$('pci').value;const ideas={'Environmental conservation':'Audit waste at school and propose a recycling or tree-care activity.','Health and well-being':'Design an age-appropriate poster promoting hygiene and healthy routines.','Digital citizenship and safety':'Discuss privacy, strong passwords, respectful communication and checking information.','Financial literacy':'Prepare a simple needs-versus-wants budget using fictional amounts.','Peace, integrity and responsibility':'Use a scenario to practise fair decisions, honesty and conflict resolution.','Community service':'Identify a community need, plan a safe activity and reflect on the contribution.'};out('pciOut',v+'\nSuggested activity: '+ideas[v])}
-function groupPlan(){out('groupOut',`GROUP STUDY PLAN\nTopic: ${$('groupTopic').value}\nDate: ${$('groupDate').value}\nTasks:\n${$('groupTasks').value}\n\nAgenda: set goals, share notes, discuss difficult ideas, practise questions and agree on next steps.`)}
-function saveCSL(){if(!$('cslActivity').value.trim())return alert('Enter an activity.');const a=get('csl');a.unshift({activity:$('cslActivity').value,date:$('cslDate').value,reflection:$('cslReflection').value});put('csl',a);renderCSL()}
-function renderCSL(){$('cslList').innerHTML=get('csl').map(a=>`<div class="item"><b>${esc(a.activity)}</b><p>${esc(a.date)} — ${esc(a.reflection)}</p></div>`).join('')}
-function addHomeTask(){if(!$('homeActivity').value.trim())return alert('Enter an activity.');const a=get('homeTasks');a.push({text:$('homeActivity').value,date:$('homeDate').value,done:false});put('homeTasks',a);renderHomeTasks()}
-function toggleHome(i,v){const a=get('homeTasks');a[i].done=v;put('homeTasks',a);renderHomeTasks()}
-function renderHomeTasks(){$('homeTasks').innerHTML=get('homeTasks').map((a,i)=>`<div class="item"><label><input type="checkbox" ${a.done?'checked':''} onchange="toggleHome(${i},this.checked)"> ${esc(a.text)}</label><small>${esc(a.date)}</small></div>`).join('')}
-function refreshParent(){const a=get('assessments');$('parentProgress').innerHTML=`<p>Assessment records: <b>${a.length}</b></p><p>Average recorded percentage: <b>${a.length?Math.round(a.reduce((n,x)=>n+x.score/x.max*100,0)/a.length):0}%</b></p><p>These figures summarise only records entered in this browser.</p>`}
-function addBook(){const title=$('bookTitle').value.trim(),body=$('bookContent').value.trim();if(!title||!body)return alert('Enter a title and content.');const a=get('books');a.unshift({title,subject:$('bookSubject').value,body});put('books',a);$('bookTitle').value='';$('bookContent').value='';renderBooks()}
-function renderBooks(){
- const q=($('bookSearch').value||'').toLowerCase(),f=$('bookFilter').value;
- const sample=[
- {title:'CBC Core Competencies — Sample Notes',subject:'Education',body:'CBC learning aims to develop competencies, knowledge, skills, values and the ability to apply learning. Examples of commonly identified core competencies include communication and collaboration, critical thinking and problem solving, creativity and imagination, citizenship, digital literacy, learning to learn and self-efficacy.'},
- {title:'Geography — Map Reading',subject:'Geography',body:'A map represents all or part of the Earth’s surface. Common elements include a title, scale, key, direction and symbols. A map scale relates map distance to ground distance.'},
- {title:'French — Present Tense',subject:'French',body:'For regular -er verbs, common present-tense endings are -e, -es, -e, -ons, -ez and -ent. Example: je parle, tu parles, il parle, nous parlons, vous parlez, ils parlent.'},
- {title:'Science — Photosynthesis',subject:'Science',body:'Photosynthesis is the process through which green plants use light energy to make sugars from carbon dioxide and water, releasing oxygen.'},
- {title:'Education — Formative Assessment',subject:'Education',body:'Formative assessment gathers evidence during learning so teachers and learners can adjust teaching, identify progress and plan next steps.'}
- ];
- const all=[...sample,...get('books')].filter(b=>(!f||b.subject===f)&&(b.title+' '+b.subject+' '+b.body).toLowerCase().includes(q));
- $('bookList').innerHTML=all.length?all.map((b,i)=>`<article class="item"><h3>${esc(b.title)}</h3><small>${esc(b.subject)}</small><p style="white-space:pre-wrap">${esc(b.body)}</p><button class="action secondary" onclick="saveNoteFromBook(${JSON.stringify(b.title).replace(/'/g,'&#39;')},${JSON.stringify(b.subject).replace(/'/g,'&#39;')},${JSON.stringify(b.body).replace(/'/g,'&#39;')})">Save as note</button></article>`).join(''):'<p>No matching reading material found. Add authorised notes above.</p>'
+function val(id) { return document.getElementById(id).value.trim(); }
+function setHTML(id, html) { document.getElementById(id).innerHTML = html; }
+
+function fillSubjects(id, allOption=false) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = (allOption ? '<option value="">All subjects</option>' : "") +
+    SUBJECTS.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join("");
 }
-function saveNoteFromBook(title,subject,body){const n=get('notes');n.unshift({title,subject,body});put('notes',n);alert('Saved to Notes.');renderNotes()}
-function saveNote(){const title=$('noteTitle').value.trim(),body=$('noteContent').value.trim();if(!title||!body)return alert('Enter a title and notes.');const n=get('notes');n.unshift({title,subject:$('noteSubject').value,body});put('notes',n);$('noteTitle').value='';$('noteSubject').value='';$('noteContent').value='';renderNotes();refreshProgress()}
-function renderNotes(){$('notesList').innerHTML=get('notes').map(n=>`<div class="item"><h3>${esc(n.title)}</h3><small>${esc(n.subject)}</small><p style="white-space:pre-wrap">${esc(n.body)}</p></div>`).join('')||'<p>No saved notes yet.</p>'}
-function startQuiz(){
- const cat=$('quizCategory').value;
- const pool=questions.filter(q=>cat==='all'||q.c===cat).sort(()=>Math.random()-.5).slice(0,5);
- if(!pool.length)return alert('No questions available in this category.');
- let i=0,score=0;
- function show(){
-  if(i>=pool.length){const h=get('quizHistory');h.push({score,total:pool.length,date:new Date().toLocaleDateString()});put('quizHistory',h);$('quizArea').innerHTML=`<h3>Quiz complete: ${score}/${pool.length}</h3><button class="action" onclick="startQuiz()">Try another shuffled quiz</button>`;refreshProgress();return}
-  const q=pool[i];const choices=[q.a,'Not enough information','None of these','All answers are incorrect'].sort(()=>Math.random()-.5);
-  $('quizArea').innerHTML=`<h3>Question ${i+1} of ${pool.length}</h3><p>${esc(q.q)}</p>`+choices.map(c=>`<button class="action secondary" style="display:block;width:100%;text-align:left" data-answer="${esc(c)}">${esc(c)}</button>`).join('');
-  $('quizArea').querySelectorAll('button[data-answer]').forEach(b=>b.onclick=()=>{const ok=b.dataset.answer===q.a;if(ok)score++;$('quizArea').innerHTML+=`<div class="output">${ok?'Correct!':'Not quite.'} ${esc(q.a)}<p>${esc(q.q)}</p><button class="action" id="nextQ">Next</button></div>`;$('nextQ').onclick=()=>{i++;show()}})
- }
- show()
+[
+  "quizSubject","paperSubject","noteSubject","customNoteSubject","lpSubject",
+  "swSubject","rubSubject","asSubject","searchSubject"
+].forEach(id => fillSubjects(id, id === "searchSubject"));
+
+document.querySelectorAll("nav button[data-panel]").forEach(btn => {
+  btn.addEventListener("click", () => showPanel(btn.dataset.panel));
+});
+function showPanel(id) {
+  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", p.id === id));
+  document.querySelectorAll("nav button").forEach(b => b.classList.toggle("active", b.dataset.panel === id));
+  window.scrollTo({top:0,behavior:"smooth"});
+  if (id === "quinnex") { showNotes(); showCustomNotes(); }
+  if (id === "lesson") renderLessons();
+  if (id === "schemes") renderSchemes();
+  if (id === "assessment") renderAssessments();
+  if (id === "iep") renderIEPs();
 }
-function refreshProgress(){const h=get('quizHistory'),n=get('notes'),p=get('projects'),a=get('assessments');$('progressDetails').innerHTML=`<p>Quiz attempts: <b>${h.length}</b></p><p>Correct answers across quizzes: <b>${h.reduce((s,x)=>s+x.score,0)}</b></p><p>Notes saved: <b>${n.length}</b></p><p>Projects recorded: <b>${p.length}</b></p><p>Assessment records: <b>${a.length}</b></p>`}
-function renderAll(){renderBooks();renderNotes();renderAssessments();renderResources();renderProjects();renderCSL();renderHomeTasks();refreshProgress();refreshParent()}
-renderAll();
-if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+function updateDashboard() {
+  document.getElementById("quizCount").textContent = db.quizAttempts.length;
+  document.getElementById("paperCount").textContent = db.paperCount;
+  document.getElementById("lessonCount").textContent = db.lessons.length;
+  document.getElementById("recordCount").textContent = db.assessments.length;
+}
+updateDashboard();
+
+/* Original CBC-style question bank.
+   Add verified, age-appropriate curriculum questions as the library grows. */
+const BANK = {
+"Mathematics": [
+ ["What is 3/4 + 1/8?",["4/12","7/8","1/2","5/8"],1,"Use a common denominator: 6/8 + 1/8 = 7/8."],
+ ["Find the area of a rectangle 8 cm long and 5 cm wide.",["13 cm²","26 cm²","40 cm²","80 cm²"],2,"Area = length × width = 8 × 5 = 40 cm²."],
+ ["Express 0.25 as a fraction in simplest form.",["1/2","1/4","2/5","3/4"],1,"0.25 = 25/100 = 1/4."],
+ ["Solve: 4x + 3 = 19.",["x=3","x=4","x=5","x=6"],1,"Subtract 3, then divide 16 by 4."],
+ ["What is the mean of 4, 6 and 8?",["5","6","7","8"],1,"(4 + 6 + 8) ÷ 3 = 6."],
+ ["A book costs KSh 240. What is the cost of 3 books?",["KSh 480","KSh 620","KSh 720","KSh 840"],2,"240 × 3 = 720."],
+ ["How many degrees are in a right angle?",["45°","90°","180°","360°"],1,"A right angle measures 90 degrees."],
+ ["Find 15% of 200.",["15","20","30","40"],2,"0.15 × 200 = 30."]
+],
+"English": [
+ ["Which word is a noun?",["quickly","happiness","run","beautiful"],1,"Happiness names a state or quality."],
+ ["Choose the correct sentence.",["She go to school.","She going school.","She goes to school.","She gone to school."],2,"The singular subject 'she' takes 'goes' in the simple present."],
+ ["A synonym for 'brave' is:",["fearful","courageous","careless","weak"],1,"Courageous has a similar meaning to brave."],
+ ["Which punctuation mark ends a direct question?",["Full stop","Comma","Question mark","Colon"],2,"A direct question ends with a question mark."],
+ ["The past tense of 'teach' is:",["teached","taught","teaching","teaches"],1,"Teach is an irregular verb; its past tense is taught."],
+ ["A person who writes poems is a:",["pilot","poet","tailor","farmer"],1,"A poet writes poetry."]
+],
+"Kiswahili": [
+ ["Wingi wa 'mtoto' ni upi?",["watoto","mitoto","vitoto","mwatoto"],0,"Wingi wa mtoto ni watoto."],
+ ["Kinyume cha 'refu' ni:",["ndefu","fupi","kubwa","pana"],1,"Kinyume cha refu ni fupi."],
+ ["Neno 'haraka' lina maana gani?",["polepole","kwa upesi","kimya","kwa huzuni"],1,"Haraka humaanisha kwa upesi."],
+ ["Nomino ni nini?",["Neno la tendo","Neno la jina","Neno la sifa pekee","Alama ya uandishi"],1,"Nomino ni neno linalotaja mtu, kitu, mahali au hali."],
+ ["Wakati uliopita wa 'anasoma' ni:",["atasoma","alisoma","atasomea","soma"],1,"Alisoma huonyesha tendo lililotokea zamani."],
+ ["Methali 'Haraka haraka haina baraka' hufunza nini?",["Kukimbia kila mara","Kufanya mambo kwa uangalifu","Kutopumzika","Kukataa kazi"],1,"Methali hii hukumbusha umuhimu wa kutofanya mambo kwa pupa."]
+],
+"Integrated Science": [
+ ["Which organ pumps blood around the human body?",["Lungs","Heart","Kidneys","Stomach"],1,"The heart pumps blood through blood vessels."],
+ ["Which of these is a renewable energy source?",["Coal","Petrol","Solar energy","Diesel"],2,"Sunlight is naturally replenished."],
+ ["What is the main function of roots in most plants?",["Make seeds only","Absorb water and minerals","Attract insects only","Produce flowers"],1,"Roots absorb water and mineral salts and help anchor the plant."],
+ ["Which state of matter has a fixed volume but no fixed shape?",["Solid","Liquid","Gas","Vacuum"],1,"A liquid takes the shape of its container."],
+ ["Which practice helps prevent the spread of many infections?",["Sharing dirty towels","Handwashing with soap","Ignoring waste","Drinking unsafe water"],1,"Proper handwashing helps reduce transmission of germs."],
+ ["What force pulls objects towards Earth?",["Friction","Magnetism only","Gravity","Electricity"],2,"Gravity attracts objects towards Earth."]
+],
+"Social Studies": [
+ ["A map key is used to:",["Measure rainfall","Explain map symbols","Show population only","Name oceans only"],1,"The key explains the symbols used on a map."],
+ ["Which direction is opposite to east?",["North","South","West","North-east"],2,"West is opposite east."],
+ ["Why are rules important in a community?",["They create confusion","They support order and safety","They stop all discussion","They remove responsibilities"],1,"Rules help guide behaviour and protect people."],
+ ["Which activity is an example of environmental conservation?",["Dumping waste in rivers","Planting trees","Burning all vegetation","Wasting water"],1,"Tree planting can help protect soil and habitats."],
+ ["A population census helps a country to:",["Count its people","Change the weather","Stop migration completely","Measure mountains only"],0,"A census collects information about the population."],
+ ["Which is a responsibility of a citizen?",["Destroy public property","Respect lawful rules","Prevent others from voting","Waste public resources"],1,"Responsible citizens respect laws and public property."]
+],
+"Agriculture and Nutrition": [
+ ["Which soil property affects how well water drains?",["Colour alone","Soil texture","Plant height","Seed shape"],1,"Texture and particle size influence drainage."],
+ ["Why should food handlers wash their hands?",["To change food colour","To reduce contamination","To increase food price","To remove nutrients"],1,"Handwashing helps prevent food contamination."],
+ ["Which is a common method of preserving food?",["Leaving it uncovered","Drying","Adding dirty water","Storing it in sunlight indefinitely"],1,"Drying removes moisture that many microorganisms need."],
+ ["What is compost mainly made from?",["Organic waste","Glass only","Metal only","Plastic bags"],0,"Compost is made from decomposed organic materials."],
+ ["Which practice can reduce soil erosion?",["Removing all vegetation","Terracing on suitable slopes","Leaving soil bare","Burning crop residues everywhere"],1,"Terraces can slow runoff on suitable slopes."],
+ ["A balanced diet contains:",["Only carbohydrates","Only proteins","Different nutrients in suitable amounts","Only fats"],2,"A balanced diet supplies a range of nutrients."]
+],
+"Creative Arts and Sports": [
+ ["Which element of art refers to how light or dark a colour appears?",["Tone","Pitch","Tempo","Balance only"],0,"Tone describes lightness or darkness."],
+ ["Why is warming up before exercise useful?",["It prepares the body for activity","It replaces drinking water","It guarantees no injury","It ends the need for rest"],0,"A suitable warm-up gradually prepares the body for exercise."],
+ ["In music, tempo refers to:",["Speed of music","Size of a stage","Colour of costume","Shape of a drum"],0,"Tempo is the speed of a musical piece."],
+ ["What is fair play in sport?",["Cheating to win","Respecting rules and opponents","Ignoring safety","Preventing teamwork"],1,"Fair play involves honesty, respect and following rules."],
+ ["Which material can be used for a simple collage?",["Paper cut-outs","Only water","Only sound","Light alone"],0,"A collage combines materials such as paper and fabric."],
+ ["What should a learner do before using unfamiliar sports equipment?",["Ignore instructions","Check safety and seek guidance","Throw it","Use it without checking"],1,"Safety checks and teacher guidance reduce risks."]
+],
+"Pre-Technical Studies": [
+ ["Which tool is commonly used to measure length?",["Ruler","Spoon","Plate","Brush"],0,"A ruler measures length."],
+ ["Why should tools be stored properly after use?",["To make them disappear","For safety and maintenance","To damage them","To waste time"],1,"Correct storage reduces damage and accidents."],
+ ["A simple electrical circuit needs:",["A complete conducting path","Only a picture","Only a switch with no source","A broken wire only"],0,"Current flows when a suitable circuit is complete."],
+ ["Which drawing tool helps create a straight line?",["Ruler","Compass only","Eraser only","Paintbrush only"],0,"A ruler guides straight lines."],
+ ["What is the purpose of a prototype?",["To test an idea or design","To avoid all planning","To replace safety rules","To guarantee a product never fails"],0,"A prototype helps test and improve a design."],
+ ["Which is a sensible workshop practice?",["Wear appropriate protection","Run between workbenches","Leave tools on the floor","Ignore instructions"],0,"Appropriate protective equipment and safe behaviour matter."]
+],
+"Christian Religious Education (CRE)": [
+ ["Which book is part of the Bible?",["Genesis","The Constitution only","An atlas","A dictionary only"],0,"Genesis is a book in the Bible."],
+ ["Which value encourages telling the truth?",["Honesty","Greed","Dishonesty","Cruelty"],0,"Honesty involves being truthful."],
+ ["How can learners show care for others?",["Bullying classmates","Helping someone in need","Damaging property","Spreading rumours"],1,"Helping others is an expression of care."],
+ ["A parable is generally:",["A story used to teach a lesson","A map symbol","A mathematical unit","A type of machine"],0,"Parables use stories to communicate lessons."],
+ ["Which action supports peaceful relationships?",["Listening respectfully","Threatening others","Spreading conflict","Refusing every discussion"],0,"Respectful listening supports understanding."],
+ ["Why do communities have places of worship?",["For spiritual practice and community gathering","Only for sports","To replace all schools","For storing rubbish"],0,"Places of worship support religious practice and community life."]
+],
+"Islamic Religious Education (IRE)": [
+ ["What is the holy book of Islam?",["Qur'an","Bible","Atlas","Dictionary"],0,"The Qur'an is the holy book of Islam."],
+ ["Which value is encouraged in good conduct?",["Honesty","Cheating","Cruelty","Wastefulness"],0,"Honesty is an important ethical value."],
+ ["What is the name of the month of fasting in Islam?",["Ramadan","Shawwal only","Safar only","Muharram only"],0,"Muslims observe fasting during Ramadan."],
+ ["Zakat is associated with:",["Charitable giving","Map drawing","Crop harvesting only","Sports training"],0,"Zakat is a form of obligatory charitable giving."],
+ ["Which action shows respect?",["Speaking kindly","Insulting others","Destroying property","Mocking differences"],0,"Kindness and respect support good relationships."],
+ ["Muslims face the direction of the Kaaba during:",["Salah","Every meal","Every journey","Every conversation"],0,"The qibla is the direction faced during salah."]
+],
+"Hindu Religious Education (HRE)": [
+ ["Which value supports peaceful living?",["Compassion","Cruelty","Dishonesty","Bullying"],0,"Compassion means caring about the wellbeing of others."],
+ ["Diwali is widely known as a festival associated with:",["Light","Only farming tools","Map reading","School examinations"],0,"Diwali is commonly called the festival of lights."],
+ ["Which action shows respect for living things?",["Caring for animals","Hurting animals for fun","Wasting resources","Destroying habitats"],0,"Care for living things reflects respect and responsibility."],
+ ["Yoga can include practices involving:",["Posture and breathing","Map colouring only","Cooking only","Road construction only"],0,"Yoga may include postures, breathing and meditation."],
+ ["Which quality helps build trust?",["Truthfulness","Cheating","Dishonesty","Mockery"],0,"Truthfulness helps people trust one another."],
+ ["A place of worship is used for:",["Religious practice","Dumping waste","Breaking equipment","Traffic control only"],0,"Places of worship are used for religious activities."]
+],
+"French": [
+ ["Choose the correct greeting for the morning.",["Bonsoir","Bonjour","Au revoir","Merci"],1,"Bonjour is commonly used during the day."],
+ ["'Je m'appelle Amina' means:",["I live in Amina","My name is Amina","I am going to Amina","I like Amina"],1,"Je m'appelle introduces a person's name."],
+ ["What is the French word for 'school'?",["Maison","École","Livre","Chaise"],1,"École means school."],
+ ["Complete: Nous ___ élèves.",["suis","êtes","sommes","est"],2,"The correct form with nous is sommes."],
+ ["What does 'merci' mean?",["Please","Thank you","Goodbye","Tomorrow"],1,"Merci means thank you."],
+ ["Choose the correct article: ___ livre.",["La","Les","Le","Une"],2,"Livre is masculine singular: le livre."]
+]
+};
+
+const SUBJECT_TOPICS = {
+"Mathematics":["Numbers and operations","Fractions and decimals","Measurement and geometry","Algebra and patterns","Data handling"],
+"English":["Grammar and sentence construction","Reading comprehension","Writing skills","Oral communication","Literature and response"],
+"Kiswahili":["Sarufi","Ufahamu","Insha","Msamiati","Fasihi"],
+"Integrated Science":["Living things","Matter and materials","Energy","Environment","Health and safety"],
+"Social Studies":["Maps and environment","Citizenship","Culture and heritage","Resources and economic activities","Community life"],
+"Agriculture and Nutrition":["Soil and crop production","Food safety","Nutrition","Food preservation","Sustainable agriculture"],
+"Creative Arts and Sports":["Visual art","Music and performance","Movement","Fitness and safety","Fair play"],
+"Pre-Technical Studies":["Design process","Tools and materials","Safety","Simple systems","Problem solving"],
+"Christian Religious Education (CRE)":["Values and relationships","Biblical stories","Responsible living","Community service","Religious practices"],
+"Islamic Religious Education (IRE)":["Values and conduct","Qur'anic teachings","Worship","Community and responsibility","Islamic history"],
+"Hindu Religious Education (HRE)":["Values and conduct","Stories and teachings","Worship and festivals","Respect for living things","Community responsibility"],
+"French":["Salutations et présentations","La famille et l'école","Grammaire de base","Vocabulaire","Communication"]
+};
+
+const NOTES = {
+"Mathematics":"Mathematics involves using numbers, patterns, shapes and data to solve problems. Revise place value, operations, fractions, percentages, measurement and geometry. Show your working and include correct units.",
+"English":"Effective communication includes listening, speaking, reading and writing. Revise parts of speech, sentence structure, punctuation, vocabulary and comprehension. Plan writing, organise ideas into paragraphs and proofread your work.",
+"Kiswahili":"Lugha hutusaidia kuwasiliana. Jifunze sarufi, aina za maneno, nyakati, ufahamu, msamiati na uandishi wa insha. Soma swali kwa makini na utoe majibu yanayolingana na maagizo.",
+"Integrated Science":"Science uses observation, investigation and evidence to explain the natural world. Revise living things, materials, energy, environmental care, health and safe scientific procedures. Record observations clearly.",
+"Social Studies":"Social Studies explores people, places, environment, history and citizenship. Practise map reading, direction, interpreting information and explaining how people use and conserve resources.",
+"Agriculture and Nutrition":"Agriculture includes soil care, crop and animal production, sustainable practices and food systems. Nutrition concerns a balanced diet, hygiene, safe food preparation and appropriate food storage.",
+"Creative Arts and Sports":"Creative Arts and Sports develop expression, creativity, movement, fitness and teamwork. Practise techniques safely, respect others, reflect on performance and follow rules.",
+"Pre-Technical Studies":"Pre-Technical Studies develops design, practical problem-solving and safe use of tools and materials. Identify a need, plan a solution, create or model it, test it and suggest improvements.",
+"Christian Religious Education (CRE)":"Study the selected Bible passages and curriculum themes. Reflect on values such as honesty, compassion, responsibility and peaceful relationships. Support answers with relevant examples.",
+"Islamic Religious Education (IRE)":"Study the prescribed Qur'anic teachings, worship practices, history and ethical themes. Reflect on honesty, compassion, responsibility and respect, using appropriate examples.",
+"Hindu Religious Education (HRE)":"Study prescribed teachings, stories, values, festivals and practices. Reflect on truthfulness, compassion, respect for living things and responsible community life.",
+"French":"Révisez les salutations, les présentations, les articles, les pronoms personnels et les verbes courants. Écrivez des phrases simples et pratiquez le vocabulaire de l'école, de la famille et de la vie quotidienne."
+};
+
+function bankFor(subject) {
+  return BANK[subject] || [
+    [`Explain one important idea you have learned in ${subject}.`,
+      ["Give a relevant explanation","Copy the question","Leave the answer blank","Give an unrelated answer"],0,
+      "A strong answer explains the idea and gives a relevant example."],
+    [`Give two examples related to ${subject}.`,
+      ["Two relevant examples","Two unrelated words","No examples","Only the question"],0,
+      "Use examples that fit the topic being studied."],
+    [`Explain why safety or responsibility matters in ${subject}.`,
+      ["It supports responsible practice","It is never important","It prevents learning","It replaces all skills"],0,
+      "Explain the reason and include a practical example."]
+  ];
+}
+function shuffle(items) {
+  const a = [...items];
+  for (let i=a.length-1;i>0;i--) {
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function startQuiz() {
+  const subject = val("quizSubject");
+  const grade = val("quizGrade");
+  const amount = Number(val("quizAmount"));
+  const bank = shuffle(bankFor(subject));
+  currentQuiz = Array.from({length:amount},(_,i)=>({...bank[i % bank.length],id:i}));
+  let html = `<h2>Grade ${esc(grade)} • ${esc(subject)}</h2>
+    <p class="small">New questions are shuffled each time you generate a quiz.</p><form id="quizForm">`;
+  currentQuiz.forEach((q,i)=>{
+    html += `<div class="question"><strong>${i+1}. ${esc(q[0])}</strong>`;
+    q[1].forEach((opt,j)=>{
+      html += `<label class="option"><input type="radio" name="q${i}" value="${j}"> ${esc(opt)}</label>`;
+    });
+    html += `</div>`;
+  });
+  html += `<button type="submit">Submit answers</button></form><div id="quizResult"></div>`;
+  setHTML("quizArea",html);
+  document.getElementById("quizForm").addEventListener("submit",e=>{
+    e.preventDefault();
+    let score=0, feedback="";
+    currentQuiz.forEach((q,i)=>{
+      const chosen=document.querySelector(`input[name="q${i}"]:checked`);
+      const right=Number(q[2]);
+      if(chosen && Number(chosen.value)===right) score++;
+      feedback += `<div class="question"><strong>${i+1}. ${esc(q[0])}</strong><p>Your answer: ${chosen ? esc(q[1][Number(chosen.value)]) : "Not answered"}</p><p>Correct answer: <strong>${esc(q[1][right])}</strong></p><p>${esc(q[3])}</p></div>`;
+    });
+    const pct=Math.round(score/currentQuiz.length*100);
+    db.quizAttempts.push({date:new Date().toISOString(),grade,subject,score,total:currentQuiz.length,pct});
+    saveDB();
+    setHTML("quizResult",`<div class="result"><h3>Score: ${score}/${currentQuiz.length} (${pct}%)</h3>${pct>=50?"Good work! Review the explanations to strengthen your learning.":"Keep practising. Review the explanations and try another quiz."}</div>${feedback}<button onclick="startQuiz()">Try a different quiz</button>`);
+    document.getElementById("quizResult").scrollIntoView({behavior:"smooth"});
+  });
+}
+
+/* Searchable question library */
+function searchQuestions() {
+  const term=val("searchInput").toLowerCase();
+  const grade=val("searchGrade"), subject=val("searchSubject");
+  let out="";
+  SUBJECTS.filter(s=>!subject || s===subject).forEach(s=>{
+    bankFor(s).forEach((q,i)=>{
+      const text=(q[0]+" "+q[3]+" "+s).toLowerCase();
+      if(!term || text.includes(term)) {
+        out+=`<div class="question"><span class="tag">${esc(s)}</span><span class="tag">Grades 7–9 practice</span><strong>${esc(q[0])}</strong><p class="small">Options: ${q[1].map(esc).join(" • ")}</p><details><summary>Show answer and explanation</summary><p><strong>Answer:</strong> ${esc(q[1][q[2]])}</p><p>${esc(q[3])}</p></details></div>`;
+      }
+    });
+  });
+  if(!out) out="<p>No matching starter questions found. Try a broader keyword or add notes to the library.</p>";
+  setHTML("searchResults",out);
+}
+searchQuestions();
+
+/* Practice-paper generator: original questions, clearly labelled as practice. */
+function paperQuestions(subject,grade,type) {
+  const bank=shuffle(bankFor(subject));
+  const topics=SUBJECT_TOPICS[subject] || ["Core concepts","Application","Reasoning","Revision"];
+  const count=type==="short"?5:(type==="challenge"?10:8);
+  const questions=[];
+  for(let i=0;i<count;i++){
+    const base=bank[i%bank.length];
+    const marks=type==="short"?2:(type==="challenge"?4:3);
+    let prompt=base[0];
+    if(i>=bank.length) {
+      const topic=topics[i%topics.length];
+      prompt = `Explain or apply your knowledge of "${topic}" in ${subject}. Use a relevant example.`;
+    }
+    questions.push({
+      prompt,marks, options:base[1], answer:base[1][base[2]], explanation:base[3],
+      multipleChoice:i<Math.min(3,bank.length)
+    });
+  }
+  return questions;
+}
+function generatePaper() {
+  const grade=val("paperGrade"),subject=val("paperSubject"),type=val("paperType");
+  const qs=paperQuestions(subject,grade,type);
+  const total=qs.reduce((sum,q)=>sum+q.marks,0);
+  currentPaper={grade,subject,type,qs,total,date:new Date().toLocaleDateString()};
+  db.paperCount++; saveDB();
+  let html=`<div id="printPaper" class="card">
+    <div class="paper-head">
+      <h2>SOMAHUB — CBC PRACTICE PAPER</h2>
+      <p><strong>Grade ${esc(grade)} • ${esc(subject)}</strong></p>
+      <p>Original practice paper — not an official KNEC paper</p>
+    </div>
+    <p><strong>Name:</strong> __________________________________</p>
+    <p><strong>School:</strong> _________________________________</p>
+    <p><strong>Date:</strong> ${esc(currentPaper.date)} &nbsp; <strong>Total:</strong> ${total} marks</p>
+    <h3>Instructions</h3><ol>
+      <li>Answer all questions.</li>
+      <li>Read each question carefully.</li>
+      <li>Show your working where appropriate.</li>
+      <li>Use examples where requested.</li>
+    </ol><hr>`;
+  qs.forEach((q,i)=>{
+    html+=`<div class="paper-question"><p><strong>${i+1}. (${q.marks} marks)</strong> ${esc(q.prompt)}</p>`;
+    if(q.multipleChoice) {
+      q.options.forEach((op,j)=>html+=`<p>${"ABCD"[j]}. ${esc(op)}</p>`);
+    } else {
+      html+=`<p>................................................................................................</p><p>................................................................................................</p>`;
+    }
+    html+=`</div>`;
+  });
+  html+=`<p><strong>END OF PAPER</strong></p>
+    <div class="answer-key"><hr><h2>Suggested answer guide</h2>
+    <p class="small">For practice and self-checking. Some open-ended questions may have several valid answers.</p>`;
+  qs.forEach((q,i)=>{
+    html+=`<div class="paper-question"><p><strong>${i+1}.</strong> ${esc(q.answer)}</p><p>${esc(q.explanation)}</p></div>`;
+  });
+  html+=`</div></div>`;
+  setHTML("paperArea",html);
+  document.getElementById("paperArea").scrollIntoView({behavior:"smooth"});
+}
+
+/* Quinnex notes and learner-added notes */
+function showNotes() {
+  const s=val("noteSubject"),g=val("noteGrade");
+  const topics=SUBJECT_TOPICS[s] || [];
+  let html=`<div class="card"><span class="tag">Grade ${esc(g)}</span><span class="tag">${esc(s)}</span><h2>${esc(s)} — study notes</h2><p>${esc(NOTES[s] || "Use your approved curriculum design and class notes to revise this subject. Organise your revision by strand, sub-strand, learning outcomes and examples.")}</p><h3>Revision topics</h3><ul>`;
+  topics.forEach(t=>html+=`<li>${esc(t)}</li>`);
+  html+=`</ul><h3>Revision method</h3><ol><li>Read your notes and identify key ideas.</li><li>Write a short summary in your own words.</li><li>Answer practice questions without looking at the notes.</li><li>Check your answers and correct mistakes.</li></ol></div>`;
+  const own=db.customNotes.filter(n=>n.grade===g && n.subject===s);
+  own.forEach(n=>html+=`<div class="card"><h3>${esc(n.title)}</h3><p>${esc(n.text).replace(/\n/g,"<br>")}</p><button class="danger" onclick="deleteCustomNote('${n.id}')">Delete note</button></div>`);
+  setHTML("notesArea",html);
+}
+function saveCustomNote() {
+  const title=val("customNoteTitle"),text=val("customNoteText");
+  if(!title||!text) return alert("Enter a title and some notes first.");
+  db.customNotes.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),title,text,grade:val("customNoteGrade"),subject:val("customNoteSubject")});
+  saveDB(); document.getElementById("customNoteTitle").value="";
+  document.getElementById("customNoteText").value="";
+  showNotes();showCustomNotes();
+}
+function deleteCustomNote(id) {
+  if(!confirm("Delete this note?")) return;
+  db.customNotes=db.customNotes.filter(n=>n.id!==id);saveDB();showNotes();showCustomNotes();
+}
+function showCustomNotes() {
+  setHTML("customNotesList",db.customNotes.length?
+    `<h3>Your saved notes (${db.customNotes.length})</h3><p class="small">Notes are stored in this browser.</p>`:"");
+}
+
+/* Lesson plans */
+function saveLesson() {
+  const lesson={
+    id:Date.now(),teacher:val("lpTeacher"),grade:val("lpGrade"),subject:val("lpSubject"),
+    date:val("lpDate"),strand:val("lpStrand"),outcomes:val("lpOutcomes"),
+    resources:val("lpResources"),intro:val("lpIntro"),activities:val("lpActivities"),
+    assessment:val("lpAssessment"),reflection:val("lpReflection")
+  };
+  if(!lesson.strand || !lesson.outcomes) return alert("Please add the strand and learning outcomes.");
+  db.lessons.push(lesson);saveDB();renderLessons();
+  setHTML("lessonOutput",lessonHTML(lesson));
+}
+function lessonHTML(l) {
+  return `<div class="card"><h2>Lesson plan: Grade ${esc(l.grade)} ${esc(l.subject)}</h2>
+  <p><strong>Teacher:</strong> ${esc(l.teacher)} | <strong>Date:</strong> ${esc(l.date)}</p>
+  <p><strong>Strand/sub-strand:</strong> ${esc(l.strand)}</p>
+  <p><strong>Learning outcomes:</strong><br>${esc(l.outcomes).replace(/\n/g,"<br>")}</p>
+  <p><strong>Resources:</strong><br>${esc(l.resources).replace(/\n/g,"<br>")}</p>
+  <p><strong>Introduction:</strong><br>${esc(l.intro).replace(/\n/g,"<br>")}</p>
+  <p><strong>Learner activities:</strong><br>${esc(l.activities).replace(/\n/g,"<br>")}</p>
+  <p><strong>Assessment:</strong><br>${esc(l.assessment).replace(/\n/g,"<br>")}</p>
+  <p><strong>Reflection:</strong><br>${esc(l.reflection).replace(/\n/g,"<br>")}</p></div>`;
+}
+function renderLessons() {
+  setHTML("savedLessons",db.lessons.length?`<h2>Saved lesson plans</h2>`+
+    [...db.lessons].reverse().map(l=>`<div class="card"><strong>Grade ${esc(l.grade)} ${esc(l.subject)}</strong> — ${esc(l.strand)}<br><button class="secondary" onclick="viewLesson(${l.id})">View</button><button class="danger" onclick="deleteLesson(${l.id})">Delete</button></div>`).join(""):"<p>No saved lessons yet.</p>");
+}
+function viewLesson(id) {
+  const l=db.lessons.find(x=>x.id===id);if(l)setHTML("lessonOutput",lessonHTML(l));
+}
+function deleteLesson(id) {
+  if(!confirm("Delete this lesson plan?"))return;
+  db.lessons=db.lessons.filter(l=>l.id!==id);saveDB();renderLessons();
+}
+function printRecord(id) {
+  const html=document.getElementById(id).innerHTML;
+  if(!html.trim()) return alert("Save or display a record first.");
+  window.print();
+}
+
+/* Schemes of work */
+function saveScheme() {
+  const s={id:Date.now(),teacher:val("swTeacher"),grade:val("swGrade"),subject:val("swSubject"),
+    term:val("swTerm"),week:val("swWeek"),strand:val("swStrand"),substrand:val("swSubstrand"),
+    outcomes:val("swOutcomes"),activities:val("swActivities"),assessment:val("swAssessment")};
+  if(!s.strand||!s.outcomes)return alert("Add a strand and learning outcomes.");
+  db.schemes.push(s);saveDB();renderSchemes();
+}
+function renderSchemes() {
+  setHTML("schemeList",db.schemes.length?`<h2>Saved scheme entries</h2><table><thead><tr><th>Term/week</th><th>Grade/subject</th><th>Strand</th><th>Outcomes</th><th></th></tr></thead><tbody>`+
+  [...db.schemes].reverse().map(s=>`<tr><td>${esc(s.term)} / ${esc(s.week)}</td><td>${esc(s.grade)} / ${esc(s.subject)}</td><td>${esc(s.strand)}<br>${esc(s.substrand)}</td><td>${esc(s.outcomes)}</td><td><button class="danger" onclick="deleteScheme(${s.id})">Delete</button></td></tr>`).join("")+
+  `</tbody></table>`:"<p>No scheme entries saved.</p>");
+}
+function deleteScheme(id) {
+  if(!confirm("Delete this scheme entry?"))return;
+  db.schemes=db.schemes.filter(s=>s.id!==id);saveDB();renderSchemes();
+}
+
+/* Rubric builder */
+function buildRubric() {
+  const title=val("rubTitle")||"CBC assessment rubric";
+  const criteria=val("rubCriteria").split("\n").map(x=>x.trim()).filter(Boolean);
+  const total=Math.max(1,Number(val("rubTotal"))||20);
+  if(!criteria.length)return alert("Enter at least one criterion.");
+  const levels=["Beginning","Approaching expectation","Meeting expectation","Exceeding expectation"];
+  const per=total/criteria.length;
+  let html=`<div class="card"><h2>${esc(title)}</h2><p>Grade ${esc(val("rubGrade"))} • ${esc(val("rubSubject"))} • Total: ${total} marks</p><table><thead><tr><th>Criteria</th>${levels.map(x=>`<th>${x}</th>`).join("")}<th>Score</th></tr></thead><tbody>`;
+  criteria.forEach(c=>html+=`<tr><td>${esc(c)}</td><td>Needs substantial support</td><td>Shows emerging skill</td><td>Meets the task requirements</td><td>Applies skill independently and thoughtfully</td><td>____ / ${Number(per.toFixed(2))}</td></tr>`);
+  html+=`</tbody></table><p><strong>Teacher feedback:</strong> ______________________________________________</p></div>`;
+  setHTML("rubricOutput",html);
+}
+
+/* Assessment records */
+function saveAssessment() {
+  const score=Number(val("asScore")),max=Number(val("asMax"));
+  if(!val("asLearner")||!val("asTask")||!Number.isFinite(score)||!Number.isFinite(max)||max<=0||score<0||score>max)
+    return alert("Enter a learner code, task and valid score (not above the maximum).");
+  db.assessments.push({id:Date.now(),learner:val("asLearner"),grade:val("asGrade"),
+    subject:val("asSubject"),task:val("asTask"),score,max,date:val("asDate"),
+    feedback:val("asFeedback")});
+  saveDB();renderAssessments();
+}
+function renderAssessments() {
+  setHTML("assessmentList",db.assessments.length?`<h2>Saved assessments</h2><table><thead><tr><th>Learner</th><th>Grade/subject</th><th>Task</th><th>Score</th><th>Date</th><th>Feedback</th><th></th></tr></thead><tbody>`+
+  [...db.assessments].reverse().map(a=>`<tr><td>${esc(a.learner)}</td><td>${esc(a.grade)} / ${esc(a.subject)}</td><td>${esc(a.task)}</td><td>${a.score}/${a.max} (${Math.round(a.score/a.max*100)}%)</td><td>${esc(a.date)}</td><td>${esc(a.feedback)}</td><td><button class="danger" onclick="deleteAssessment(${a.id})">Delete</button></td></tr>`).join("")+
+  `</tbody></table>`:"<p>No assessment records saved.</p>");
+}
+function deleteAssessment(id) {
+  if(!confirm("Delete this assessment record?"))return;
+  db.assessments=db.assessments.filter(a=>a.id!==id);saveDB();renderAssessments();
+}
+
+/* Learner support planner */
+function saveIEP() {
+  if(!val("iepLearner")||!val("iepGoal"))return alert("Enter a learner code and a support goal.");
+  db.ieps.push({id:Date.now(),learner:val("iepLearner"),strength:val("iepStrength"),
+    barrier:val("iepBarrier"),goal:val("iepGoal"),strategy:val("iepStrategy"),
+    responsible:val("iepResponsible"),review:val("iepReview"),progress:val("iepProgress")});
+  saveDB();renderIEPs();
+}
+function renderIEPs() {
+  setHTML("iepList",db.ieps.length?`<h2>Saved learner support plans</h2>`+
+    [...db.ieps].reverse().map(i=>`<div class="card"><strong>Learner: ${esc(i.learner)}</strong>
+    <p><strong>Strength:</strong> ${esc(i.strength)}</p><p><strong>Observed barrier:</strong> ${esc(i.barrier)}</p>
+    <p><strong>Goal:</strong> ${esc(i.goal)}</p><p><strong>Strategy:</strong> ${esc(i.strategy)}</p>
+    <p><strong>Responsible person:</strong> ${esc(i.responsible)} | <strong>Review:</strong> ${esc(i.review)}</p>
+    <p><strong>Progress:</strong> ${esc(i.progress)}</p>
+    <button class="danger" onclick="deleteIEP(${i.id})">Delete plan</button></div>`).join(""):"<p>No learner support plans saved.</p>");
+}
+function deleteIEP(id) {
+  if(!confirm("Delete this support plan?"))return;
+  db.ieps=db.ieps.filter(i=>i.id!==id);saveDB();renderIEPs();
+}
+
+/* Parent learning plan */
+function saveParentPlan() {
+  db.parentPlan=val("parentPlan");saveDB();
+  setHTML("parentSaved",`<div class="result">Family learning plan saved on this device.</div>`);
+}
+
+/* Backup and restore */
+function exportData() {
+  const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="somahub-backup.json";a.click();
+  URL.revokeObjectURL(url);
+  setHTML("backupMessage","<p>Backup export started. Keep the file somewhere safe.</p>");
+}
+function importData() {
+  const file=document.getElementById("restoreFile").files[0];
+  if(!file)return alert("Choose a backup JSON file first.");
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try {
+      const parsed=JSON.parse(reader.result);
+      if(!parsed||typeof parsed!=="object"||Array.isArray(parsed))throw new Error("Invalid backup");
+      if(!confirm("Restoring replaces the current saved records on this device. Export a backup first. Continue?"))return;
+      db={...emptyDB(),...parsed};
+      saveDB();updateDashboard();renderLessons();renderSchemes();renderAssessments();renderIEPs();showNotes();
+      setHTML("backupMessage","<p>Backup restored successfully.</p>");
+    } catch(e) { alert("This file is not a valid SomaHub JSON backup."); }
+  };
+  reader.readAsText(file);
+}
+function clearData() {
+  if(!confirm("This permanently clears SomaHub records saved in this browser. Have you exported a backup?"))return;
+  db=emptyDB();saveDB();
+  renderLessons();renderSchemes();renderAssessments();renderIEPs();showNotes();showCustomNotes();
+  setHTML("backupMessage","<p>Local SomaHub records cleared.</p>");
+}
+
+/* First-load screen defaults */
+showNotes();
+showCustomNotes();
+renderLessons();
+renderSchemes();
+renderAssessments();
+renderIEPs();
+if("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
+  });
+}
 </script>
 </body>
 </html>
