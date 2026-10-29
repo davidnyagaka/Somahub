@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123c69">
+<title>SomaHub | CBC Revision Centre</title>
+<style>
+:root{--blue:#123c69;--teal:#087e8b;--light:#f2f6fb;--ink:#1d2939;--muted:#667085;--line:#dce4ed}
+*{box-sizing:border-box}
+body{margin:0;background:var(--light);color:var(--ink);font:16px/1.55 Arial,sans-serif}
+header{background:var(--blue);color:white;padding:22px 16px}
+header .wrap,main{max-width:1050px;margin:auto}
+header h1{margin:0;font-size:27px}
+header p{margin:5px 0 0;color:#e2edfa}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+nav a{color:white;border:1px solid #ffffff70;border-radius:8px;padding:7px 11px;text-decoration:none}
+main{padding:18px 12px 40px}
+.card{background:white;border:1px solid var(--line);border-radius:14px;padding:17px;margin-bottom:16px;box-shadow:0 3px 12px #102a4308}
+h2{font-size:21px;margin:0 0 10px;color:var(--blue)}
+h3{font-size:17px;margin:8px 0}
+.muted{color:var(--muted);font-size:14px}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px}
+label{display:block;font-weight:700;font-size:14px;margin-bottom:4px}
+select,input{width:100%;padding:11px;border:1px solid #c8d2df;border-radius:8px;background:white;font:inherit}
+button{border:0;border-radius:9px;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer}
+.primary{background:var(--teal);color:white}
+.secondary{background:#e7eef7;color:var(--blue)}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+.question{border:1px solid var(--line);border-radius:11px;padding:14px;margin:12px 0}
+.question p{margin:5px 0 10px}
+.option{display:flex;gap:9px;align-items:flex-start;font-weight:400;padding:7px 0;cursor:pointer}
+.option input{width:auto;margin-top:5px}
+.feedback{padding:10px;border-radius:8px;margin-top:9px;background:#eef5ff}
+.correct{color:#116b43;font-weight:700}
+.wrong{color:#a12626;font-weight:700}
+.pill{display:inline-block;border-radius:20px;background:#e8f0fa;padding:3px 9px;font-size:12px;margin:2px}
+#results,#paper{margin-top:15px}
+.paper-head{text-align:center}
+.paper-question{margin:16px 0;break-inside:avoid}
+.paper-question ol{margin-top:5px}
+.answer-key{border-top:2px dashed #9aa8b8;margin-top:25px;padding-top:15px}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:13px}
+@media print{
+ body{background:white;font-size:12pt}
+ header,nav,.no-print,#setup,#quizControls,footer{display:none!important}
+ main{max-width:none;padding:0}
+ .card{border:0;box-shadow:none;padding:0}
+ #paper{display:block!important}
+ .paper-question{break-inside:avoid}
+ .answer-key{break-before:page}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="wrap">
+  <h1>📚 SomaHub Revision Centre</h1>
+  <p>Grade 7–9 CBC practice • Quizzes • Practice papers • Answer explanations</p>
+  <nav>
+   <a href="index.html">SomaHub Home</a>
+   <a href="#quiz">Take a Quiz</a>
+   <a href="#generator">Practice Papers</a>
+  </nav>
+ </div>
+</header>
+
+<main>
+<section class="card" id="setup">
+ <h2>Choose your revision area</h2>
+ <p class="muted">Select a grade, learning area and topic. Leave the topic on “All topics” to mix questions. This starter bank contains original practice questions, not official KNEC examination papers.</p>
+ <div class="filters">
+  <div><label for="grade">Grade</label>
+   <select id="grade"><option value="7">Grade 7</option><option value="8">Grade 8</option><option value="9">Grade 9</option></select>
+  </div>
+  <div><label for="subject">Subject</label>
+   <select id="subject">
+    <option>Mathematics</option><option>English</option><option>Kiswahili</option>
+    <option>Integrated Science</option><option>Social Studies</option>
+    <option>Agriculture and Nutrition</option><option>Pre-Technical Studies</option>
+    <option>Creative Arts and Sports</option><option>CRE</option><option>IRE</option>
+    <option>HRE</option><option>French</option>
+   </select>
+  </div>
+  <div><label for="topic">Topic</label><select id="topic"><option value="all">All topics</option></select></div>
+  <div><label for="difficulty">Difficulty</label>
+   <select id="difficulty"><option value="all">All levels</option><option>Easy</option><option>Medium</option><option>Challenge</option></select>
+  </div>
+ </div>
+ <div class="actions">
+  <button class="primary" id="startQuiz">Start randomized quiz</button>
+  <button class="secondary" id="refreshQuestions">Shuffle questions</button>
+ </div>
+ <p id="bankCount" class="muted" aria-live="polite"></p>
+</section>
+
+<section class="card" id="quiz">
+ <h2>Interactive quiz</h2>
+ <p class="muted">Choose one answer per question. Submit to see your score, correct answers and explanations.</p>
+ <div id="quizArea"><p>Select your revision area above, then tap “Start randomized quiz”.</p></div>
+ <div id="quizControls" class="actions"></div>
+ <div id="results" aria-live="polite"></div>
+</section>
+
+<section class="card" id="generator">
+ <h2>Practice-paper generator</h2>
+ <p>Generate a printable practice paper from the selected grade, subject, topic and difficulty.</p>
+ <div class="filters">
+  <div><label for="paperCount">Number of questions</label>
+   <select id="paperCount"><option>5</option><option selected>10</option><option>15</option><option>20</option></select>
+  </div>
+  <div><label for="includeAnswers">Answer guide</label>
+   <select id="includeAnswers"><option value="yes">Include answer guide</option><option value="no">Questions only</option></select>
+  </div>
+ </div>
+ <div class="actions no-print">
+  <button class="primary" id="makePaper">Generate practice paper</button>
+  <button class="secondary" id="printPaper">Print / Save as PDF</button>
+ </div>
+ <div id="paper"></div>
+</section>
+
+<section class="card">
+ <h2>About this question bank</h2>
+ <p>Questions are original learning exercises designed for revision. Coverage is currently a starter collection, not a complete syllabus or a verified official examination archive. Teachers should check questions against the current KICD curriculum design before formal classroom assessment.</p>
+ <p class="muted">For curriculum designs, visit the <a href="https://kicd.ac.ke/cbc-materials/" target="_blank" rel="noopener">official KICD CBC materials page</a>.</p>
+</section>
+</main>
+<footer>SomaHub • Learn together, grow together</footer>
+
+<script>
+"use strict";
+
+/* Add more question objects to this bank as you expand each topic.
+   answer is the zero-based index of the correct option. */
+
+const BANK = [
+{g:7,s:"Mathematics",t:"Fractions",d:"Easy",q:"What is 1/2 + 1/4?",o:["2/6","3/4","1/6","2/4"],a:1,e:"Use a common denominator: 1/2 = 2/4, so 2/4 + 1/4 = 3/4."},
+{g:7,s:"Mathematics",t:"Fractions",d:"Medium",q:"Simplify 12/18 to its lowest terms.",o:["2/3","3/4","6/9","4/5"],a:0,e:"Divide the numerator and denominator by their highest common factor, 6: 12/18 = 2/3."},
+{g:7,s:"Mathematics",t:"Integers",d:"Easy",q:"What is -3 + 8?",o:["-11","-5","5","11"],a:2,e:"Starting at -3 and moving 8 units to the right gives 5."},
+{g:7,s:"Mathematics",t:"Geometry",d:"Easy",q:"What is the sum of angles in a triangle?",o:["90°","180°","270°","360°"],a:1,e:"The interior angles of every triangle add up to 180°."},
+{g:8,s:"Mathematics",t:"Percentages",d:"Medium",q:"A bag costs KSh 800. What is a 10% discount?",o:["KSh 8","KSh 40","KSh 80","KSh 100"],a:2,e:"10% of 800 = 0.10 × 800 = KSh 80."},
+{g:8,s:"Mathematics",t:"Algebra",d:"Medium",q:"If x + 7 = 15, what is x?",o:["7","8","15","22"],a:1,e:"Subtract 7 from both sides: x = 15 - 7 = 8."},
+{g:8,s:"Mathematics",t:"Ratio",d:"Medium",q:"Simplify the ratio 12:18.",o:["2:3","3:2","4:9","6:8"],a:0,e:"Divide both terms by 6 to get 2:3."},
+{g:9,s:"Mathematics",t:"Linear equations",d:"Medium",q:"Solve 3x - 4 = 11.",o:["3","4","5","7"],a:2,e:"Add 4 to both sides: 3x = 15. Divide by 3, so x = 5."},
+{g:9,s:"Mathematics",t:"Probability",d:"Challenge",q:"A fair six-sided die is rolled. What is the probability of rolling an even number?",o:["1/6","1/3","1/2","2/3"],a:2,e:"The even outcomes are 2, 4 and 6. There are 3 favourable outcomes out of 6, giving 3/6 = 1/2."},
+{g:9,s:"Mathematics",t:"Area",d:"Medium",q:"A rectangle is 9 cm long and 4 cm wide. Find its area.",o:["13 cm²","26 cm²","36 cm²","72 cm²"],a:2,e:"Area of a rectangle = length × width = 9 × 4 = 36 cm²."},
+
+{g:7,s:"English",t:"Parts of speech",d:"Easy",q:"Identify the adjective in: “The tall learner answered.”",o:["learner","answered","tall","the"],a:2,e:"“Tall” describes the noun “learner”, so it is an adjective."},
+{g:7,s:"English",t:"Tenses",d:"Easy",q:"Choose the correct past tense: “They ___ football yesterday.”",o:["play","played","playing","plays"],a:1,e:"“Yesterday” indicates the past; the correct form is “played”."},
+{g:8,s:"English",t:"Punctuation",d:"Medium",q:"Which sentence uses the apostrophe correctly?",o:["The girls book is here.","The girl's book is here.","The girls' is book here.","The girls book's is here."],a:1,e:"“Girl's” shows that the book belongs to one girl."},
+{g:8,s:"English",t:"Comprehension",d:"Medium",q:"A text says, “Despite the rain, Amina continued walking.” What does “despite” suggest?",o:["The rain stopped her","She continued even though it rained","She caused the rain","She stayed at home"],a:1,e:"“Despite” introduces a difficulty that did not prevent the action."},
+{g:9,s:"English",t:"Active and passive voice",d:"Medium",q:"Change to passive voice: “The teacher marked the books.”",o:["The books marked the teacher.","The books were marked by the teacher.","The teacher was marked by the books.","The books are marking."],a:1,e:"The object “the books” becomes the subject: “The books were marked by the teacher.”"},
+
+{g:7,s:"Kiswahili",t:"Aina za maneno",d:"Easy",q:"Katika sentensi “Mtoto mdogo anacheza”, neno “mdogo” ni aina gani ya neno?",o:["Kitenzi","Kivumishi","Kielezi","Kiunganishi"],a:1,e:"“Mdogo” linaeleza sifa ya mtoto; kwa hiyo ni kivumishi."},
+{g:8,s:"Kiswahili",t:"Nyakati",d:"Easy",q:"Chagua sentensi iliyo katika wakati uliopita.",o:["Ninasoma kitabu.","Nitasoma kitabu.","Nilisoma kitabu.","Ninasoma vitabu."],a:2,e:"Kiambishi “-li-” kinaonyesha wakati uliopita katika “nilisoma”."},
+{g:9,s:"Kiswahili",t:"Methali",d:"Medium",q:"Methali “Haraka haraka haina baraka” inafundisha nini?",o:["Kufanya mambo kwa pupa ni vizuri","Kufanya mambo kwa pupa kunaweza kuleta makosa","Kukimbia kila siku","Kuepuka kufanya kazi"],a:1,e:"Methali hii inashauri mtu afanye mambo kwa utulivu na umakini."},
+
+{g:7,s:"Integrated Science",t:"Living things",d:"Easy",q:"Which structure takes in water from the soil in most plants?",o:["Flower","Root hairs","Fruit","Petal"],a:1,e:"Root hairs increase the surface area for absorbing water and mineral salts."},
+{g:7,s:"Integrated Science",t:"Matter",d:"Easy",q:"Which state of matter has a fixed volume but takes the shape of its container?",o:["Solid","Liquid","Gas","Vacuum"],a:1,e:"A liquid has a fixed volume but changes shape to fit its container."},
+{g:8,s:"Integrated Science",t:"Forces",d:"Medium",q:"What force opposes motion between two surfaces in contact?",o:["Gravity","Magnetism","Friction","Upthrust"],a:2,e:"Friction acts between surfaces and opposes their relative movement."},
+{g:8,s:"Integrated Science",t:"Human body",d:"Easy",q:"Which organ pumps blood around the human body?",o:["Lungs","Kidneys","Heart","Stomach"],a:2,e:"The heart contracts to pump blood through the circulatory system."},
+{g:9,s:"Integrated Science",t:"Electricity",d:"Medium",q:"Which instrument is used to measure electric current?",o:["Voltmeter","Ammeter","Thermometer","Barometer"],a:1,e:"An ammeter measures electric current and is connected in series in a circuit."},
+{g:9,s:"Integrated Science",t:"Environment",d:"Medium",q:"Which action best reduces the amount of biodegradable waste sent to a landfill?",o:["Burning plastic","Composting food scraps","Mixing all waste","Dumping waste in rivers"],a:1,e:"Composting allows suitable organic waste to decompose into useful material."},
+
+{g:7,s:"Social Studies",t:"Maps",d:"Easy",q:"What does a map key explain?",o:["The age of a map","The meaning of map symbols","The weather forecast","The population of every place"],a:1,e:"A map key or legend explains the symbols used on a map."},
+{g:8,s:"Social Studies",t:"Environment",d:"Medium",q:"Which is a sustainable way to protect a water catchment?",o:["Clearing all vegetation","Planting suitable trees and protecting vegetation","Dumping waste","Blocking every drainage channel"],a:1,e:"Protecting vegetation helps reduce erosion and supports water infiltration."},
+{g:9,s:"Social Studies",t:"Citizenship",d:"Medium",q:"Which action demonstrates responsible citizenship?",o:["Destroying public property","Ignoring community concerns","Taking part in a lawful community clean-up","Spreading unverified claims"],a:2,e:"Participating constructively in community activities supports shared responsibility."},
+
+{g:7,s:"Agriculture and Nutrition",t:"Soil",d:"Easy",q:"Which soil type generally holds the most water?",o:["Sandy soil","Clay soil","Gravel","Coarse stones"],a:1,e:"Clay has small particles and generally retains more water than sandy soil."},
+{g:8,s:"Agriculture and Nutrition",t:"Crop production",d:"Medium",q:"Why should weeds be controlled around young crops?",o:["They increase competition","They produce rainfall","They replace sunlight","They make all soil fertile"],a:0,e:"Weeds compete with crops for light, water, nutrients and space."},
+{g:9,s:"Agriculture and Nutrition",t:"Food safety",d:"Easy",q:"What should you do before preparing food?",o:["Handle raw food and cooked food with the same unwashed hands","Wash hands with clean water and soap","Leave food uncovered near waste","Use dirty utensils"],a:1,e:"Handwashing helps prevent germs from contaminating food."},
+
+{g:7,s:"Pre-Technical Studies",t:"Workshop safety",d:"Easy",q:"Why should safety instructions be followed in a workshop?",o:["To increase accidents","To protect people and equipment","To waste materials","To avoid learning"],a:1,e:"Safety procedures reduce the risk of injury and damage."},
+{g:8,s:"Pre-Technical Studies",t:"Materials",d:"Medium",q:"Which property makes copper useful for electrical wiring?",o:["Poor electrical conductivity","Good electrical conductivity","High brittleness","Solubility in water"],a:1,e:"Copper conducts electricity well and is commonly used in electrical wiring."},
+{g:9,s:"Pre-Technical Studies",t:"Design process",d:"Medium",q:"What is a useful early step when solving a design problem?",o:["Ignore the user's needs","Identify the problem and requirements","Discard every idea","Build without planning"],a:1,e:"Understanding the problem and requirements helps guide an appropriate solution."},
+
+{g:7,s:"Creative Arts and Sports",t:"Art elements",d:"Easy",q:"Which art element describes how light or dark a colour appears?",o:["Value","Rhythm","Pitch","Tempo"],a:0,e:"Value describes the lightness or darkness of a colour or tone."},
+{g:8,s:"Creative Arts and Sports",t:"Sports safety",d:"Easy",q:"Why is warming up useful before vigorous exercise?",o:["It prepares the body for activity","It replaces drinking water","It guarantees no injury","It prevents all tiredness"],a:0,e:"A suitable warm-up gradually prepares the body for more intense movement."},
+{g:9,s:"Creative Arts and Sports",t:"Performance",d:"Medium",q:"In a musical performance, what does tempo describe?",o:["The speed of the music","The colour of a costume","The height of a stage","The shape of an instrument"],a:0,e:"Tempo is the speed or pace at which music is performed."},
+
+{g:7,s:"CRE",t:"Biblical teachings",d:"Easy",q:"In Christian teaching, which quality is shown by helping someone in need?",o:["Compassion","Greed","Dishonesty","Selfishness"],a:0,e:"Compassion involves caring about others and responding to their needs."},
+{g:8,s:"CRE",t:"Stewardship",d:"Medium",q:"What is one example of responsible stewardship of the environment?",o:["Wasting water","Carelessly dumping rubbish","Planting trees and reducing waste","Destroying habitats"],a:2,e:"Stewardship involves caring responsibly for resources and the environment."},
+{g:9,s:"CRE",t:"Moral values",d:"Medium",q:"A learner finds a lost wallet at school. Which action best demonstrates honesty?",o:["Keep the money","Hide the wallet","Hand it to a responsible teacher","Sell the wallet"],a:2,e:"Reporting and handing in lost property is an honest and responsible action."},
+
+{g:7,s:"IRE",t:"Good character",d:"Easy",q:"Which action best demonstrates honesty?",o:["Telling the truth","Cheating in a test","Taking another person's property","Blaming others unfairly"],a:0,e:"Honesty means being truthful and acting with integrity."},
+{g:8,s:"IRE",t:"Community responsibility",d:"Medium",q:"Which action supports peaceful relations in a community?",o:["Spreading rumours","Resolving disagreements respectfully","Encouraging discrimination","Damaging neighbours' property"],a:1,e:"Respectful dialogue helps people resolve disagreements peacefully."},
+{g:9,s:"IRE",t:"Responsible conduct",d:"Medium",q:"Why is fulfilling a promise important?",o:["It builds trust","It encourages dishonesty","It removes responsibility","It always avoids hard work"],a:0,e:"Keeping promises helps build trust and demonstrates responsibility."},
+
+{g:7,s:"HRE",t:"Values",d:"Easy",q:"Which action shows respect for another person's beliefs?",o:["Mocking their beliefs","Listening politely even when you disagree","Forcing them to agree","Preventing them from speaking"],a:1,e:"Respect includes listening courteously and allowing others to express their views."},
+{g:8,s:"HRE",t:"Care for others",d:"Medium",q:"A classmate is being excluded from a group activity. What is a constructive response?",o:["Join in the exclusion","Invite them to participate","Spread rumours about them","Ignore repeated bullying"],a:1,e:"Inclusion and empathy help create a safe, respectful learning environment."},
+{g:9,s:"HRE",t:"Ethical decisions",d:"Medium",q:"What should guide a fair decision when classmates disagree?",o:["Favouritism","Listening to evidence and each person's perspective","Choosing the loudest person","Ignoring the issue"],a:1,e:"Fair decisions consider relevant facts and give people a chance to be heard."},
+
+{g:7,s:"French",t:"Greetings",d:"Easy",q:"What does “Bonjour” usually mean?",o:["Good morning / hello","Good night","Goodbye forever","Thank you"],a:0,e:"“Bonjour” is a common French greeting used during the day."},
+{g:8,s:"French",t:"Être and avoir",d:"Easy",q:"Complete: “Nous ___ élèves.”",o:["suis","êtes","sommes","sont"],a:2,e:"With “nous”, the correct form of être is “sommes”."},
+{g:9,s:"French",t:"Past tense",d:"Medium",q:"Choose the correct sentence for “I visited Paris.”",o:["Je visite Paris.","Je vais visiter Paris.","J'ai visité Paris.","Je visiter Paris."],a:2,e:"The passé composé of visiter with avoir is “j'ai visité”."}
+];
+
+const $ = id => document.getElementById(id);
+let quizQuestions = [];
+let paperQuestions = [];
+let submitted = false;
+
+function shuffle(items){
+ const arr = [...items];
+ for(let i=arr.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [arr[i],arr[j]]=[arr[j],arr[i]];
+ }
+ return arr;
+}
+function filteredBank(){
+ const g=Number($("grade").value), s=$("subject").value;
+ const t=$("topic").value, d=$("difficulty").value;
+ return BANK.filter(x=>x.g===g && x.s===s &&
+  (t==="all"||x.t===t) && (d==="all"||x.d===d));
+}
+function updateTopics(){
+ const old=$("topic").value;
+ const topics=[...new Set(BANK.filter(x=>
+  x.g===Number($("grade").value)&&x.s===$("subject").value
+ ).map(x=>x.t))].sort();
+ $("topic").innerHTML='<option value="all">All topics</option>'+
+  topics.map(t=>`<option value="${escapeHTML(t)}">${escapeHTML(t)}</option>`).join("");
+ if(topics.includes(old)) $("topic").value=old;
+ updateCount();
+}
+function updateCount(){
+ const list=filteredBank();
+ $("bankCount").textContent=`${list.length} matching starter question(s) available for this selection.`;
+}
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+function startQuiz(){
+ const pool=shuffle(filteredBank());
+ if(!pool.length){
+  $("quizArea").innerHTML="<p>No questions match these filters yet. Choose another topic or subject.</p>";
+  $("quizControls").innerHTML="";
+  $("results").innerHTML="";
+  return;
+ }
+ quizQuestions=pool.slice(0,Math.min(10,pool.length));
+ submitted=false;
+ $("results").innerHTML="";
+ $("quizArea").innerHTML=quizQuestions.map((x,i)=>`
+  <article class="question">
+   <span class="pill">Question ${i+1}</span>
+   <span class="pill">${escapeHTML(x.t)}</span>
+   <span class="pill">${escapeHTML(x.d)}</span>
+   <p><strong>${i+1}. ${escapeHTML(x.q)}</strong></p>
+   ${x.o.map((o,j)=>`
+    <label class="option">
+     <input type="radio" name="q${i}" value="${j}">
+     <span>${String.fromCharCode(65+j)}. ${escapeHTML(o)}</span>
+    </label>`).join("")}
+   <div id="feedback${i}"></div>
+  </article>`).join("");
+ $("quizControls").innerHTML='<button class="primary" id="submitQuiz">Submit answers</button> <button class="secondary" id="anotherQuiz">New randomized quiz</button>';
+ $("submitQuiz").addEventListener("click",submitQuiz);
+ $("anotherQuiz").addEventListener("click",startQuiz);
+}
+function submitQuiz(){
+ if(submitted)return;
+ let score=0,answered=0;
+ quizQuestions.forEach((x,i)=>{
+  const selected=document.querySelector(`input[name="q${i}"]:checked`);
+  const box=$(`feedback${i}`);
+  if(selected){
+   answered++;
+   if(Number(selected.value)===x.a) score++;
+  }
+  box.className="feedback";
+  box.innerHTML=`
+   <div class="${selected&&Number(selected.value)===x.a?'correct':'wrong'}">
+    ${selected&&Number(selected.value)===x.a?'Correct!':selected?'Not quite.':'Not answered.'}
+    Correct answer: ${String.fromCharCode(65+x.a)}. ${escapeHTML(x.o[x.a])}
+   </div>
+   <div><strong>Explanation:</strong> ${escapeHTML(x.e)}</div>`;
+ });
+ submitted=true;
+ document.querySelectorAll('#quizArea input').forEach(el=>el.disabled=true);
+ $("results").innerHTML=`<h3>Your score: ${score}/${quizQuestions.length}</h3>
+  <p>You answered ${answered} of ${quizQuestions.length} questions. Review the explanations above to strengthen your understanding.</p>`;
+}
+function generatePaper(){
+ const pool=shuffle(filteredBank());
+ if(!pool.length){
+  $("paper").innerHTML="<p>No questions match these filters. Choose another selection.</p>";
+  return;
+ }
+ const count=Math.min(Number($("paperCount").value),pool.length);
+ paperQuestions=pool.slice(0,count);
+ const grade=$("grade").value, subject=$("subject").value;
+ const showAnswers=$("includeAnswers").value==="yes";
+ $("paper").innerHTML=`
+  <div class="paper-head">
+   <h2>SomaHub CBC Practice Paper</h2>
+   <p><strong>Grade:</strong> ${grade} &nbsp; <strong>Subject:</strong> ${escapeHTML(subject)}</p>
+   <p><strong>Topic:</strong> ${escapeHTML($("topic").value==="all"?"Mixed topics":$("topic").value)}
+   &nbsp; <strong>Questions:</strong> ${count}</p>
+   <p>Name: __________________________________ Date: __________________</p>
+  </div>
+  <hr>
+  <p><strong>Instructions:</strong> Answer all questions. Choose one answer for each multiple-choice question. This is original revision material, not an official KNEC paper.</p>
+  ${paperQuestions.map((x,i)=>`
+   <div class="paper-question">
+    <p><strong>${i+1}. ${escapeHTML(x.q)} (1 mark)</strong></p>
+    <ol type="A">${x.o.map(o=>`<li>${escapeHTML(o)}</li>`).join("")}</ol>
+   </div>`).join("")}
+  <p><strong>Total: ${count} marks</strong></p>
+  ${showAnswers?`<div class="answer-key"><h2>Answer Guide and Explanations</h2>
+   ${paperQuestions.map((x,i)=>`<p><strong>${i+1}. ${String.fromCharCode(65+x.a)}. ${escapeHTML(x.o[x.a])}</strong><br>${escapeHTML(x.e)}</p>`).join("")}
+  </div>`:""}`;
+}
+$("grade").addEventListener("change",()=>{updateTopics();$("quizArea").innerHTML="<p>Choose Start randomized quiz to begin.</p>";});
+$("subject").addEventListener("change",()=>{updateTopics();$("quizArea").innerHTML="<p>Choose Start randomized quiz to begin.</p>";});
+$("topic").addEventListener("change",updateCount);
+$("difficulty").addEventListener("change",updateCount);
+$("startQuiz").addEventListener("click",startQuiz);
+$("refreshQuestions").addEventListener("click",()=>{
+ updateCount();
+ if(quizQuestions.length) startQuiz();
+});
+$("makePaper").addEventListener("click",generatePaper);
+$("printPaper").addEventListener("click",()=>{
+ if(!paperQuestions.length) generatePaper();
+ if(paperQuestions.length) window.print();
+});
+updateTopics();
+</script>
+</body>
+</html>
