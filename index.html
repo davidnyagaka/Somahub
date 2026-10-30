@@ -613,5 +613,295 @@ $("clearData").onclick=()=>{
 };
 renderAll();
 </script>
+<!-- SOMAHUB REVISION CENTRE UPGRADE -->
+<style>
+#shRevisionButton{
+ position:fixed;right:15px;bottom:18px;z-index:9998;
+ background:#123c69;color:white;border:0;border-radius:30px;
+ padding:14px 19px;font-weight:bold;box-shadow:0 4px 15px #0004;
+}
+#shRevision{display:none;position:fixed;inset:0;z-index:9999;
+ background:#f3f6fb;overflow-y:auto;color:#172b45;
+ font-family:Arial,sans-serif;padding:16px}
+#shRevision .sh-wrap{max-width:850px;margin:auto}
+#shRevision .sh-card{background:white;padding:17px;border-radius:14px;
+ margin:12px 0;box-shadow:0 2px 9px #0001}
+#shRevision h2,#shRevision h3{color:#123c69}
+#shRevision button{background:#123c69;color:white;border:0;
+ padding:11px 15px;border-radius:8px;margin:5px;cursor:pointer}
+#shRevision button.secondary{background:#e5edf7;color:#123c69}
+#shRevision select,#shRevision input{width:100%;padding:12px;
+ border:1px solid #ccd5e1;border-radius:8px;margin:7px 0;
+ background:white;color:#172b45}
+#shRevision .sh-option{display:block;width:100%;text-align:left;
+ background:#edf2f8;color:#172b45;margin:8px 0}
+#shRevision .sh-option:disabled{opacity:1}
+#shRevision .correct{background:#d9f5df!important}
+#shRevision .wrong{background:#ffe0e0!important}
+#shRevision .sh-muted{color:#63758b;font-size:13px}
+#shRevision .sh-progress{height:9px;background:#e5eaf0;
+ border-radius:10px;overflow:hidden}
+#shRevision .sh-progress span{display:block;height:100%;
+ background:#16a085;width:0}
+</style>
+
+<button id="shRevisionButton" onclick="shOpenRevision()">
+📚 Revision Centre
+</button>
+
+<div id="shRevision">
+ <div class="sh-wrap">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+   <h2>📚 SomaHub Revision Centre</h2>
+   <button onclick="shCloseRevision()">✕ Close</button>
+  </div>
+
+  <p>Learn. Practise. Revise. Succeed.</p>
+
+  <div class="sh-card">
+   <h3>Choose your revision level</h3>
+   <select id="shGrade">
+    <option value="Grade 7">Grade 7</option>
+    <option value="Grade 8">Grade 8</option>
+    <option value="Grade 9">Grade 9</option>
+   </select>
+
+   <h3>Choose your subject</h3>
+   <select id="shSubject">
+    <option>Mathematics</option>
+    <option>English</option>
+    <option>Kiswahili</option>
+    <option>Integrated Science</option>
+    <option>Social Studies</option>
+    <option>Christian Religious Education</option>
+    <option>Islamic Religious Education</option>
+    <option>Agriculture and Nutrition</option>
+    <option>Creative Arts and Sports</option>
+    <option>Pre-Technical Studies</option>
+    <option>French</option>
+   </select>
+
+   <h3>Choose your activity</h3>
+   <button onclick="shStartQuiz('practice')">Start Practice</button>
+   <button onclick="shStartQuiz('paper')">Past Paper Practice</button>
+   <button onclick="shStartQuiz('timed')">Timed Examination</button>
+  </div>
+
+  <div class="sh-card">
+   <h3>📊 My Revision Progress</h3>
+   <p id="shStats">Questions answered: 0 | Correct: 0</p>
+   <div class="sh-progress"><span id="shProgress"></span></div>
+   <p class="sh-muted">Your progress is saved on this device.</p>
+  </div>
+
+  <div id="shQuizArea"></div>
+ </div>
+</div>
+
+<script>
+(function(){
+ const banks = {
+ "Mathematics":[
+  ["What is 25% of 200?",["25","40","50","75"],2],
+  ["Simplify 3x + 2x.",["5","5x","6x","x"],1],
+  ["What is the perimeter of a square of side 5 cm?",["10 cm","15 cm","20 cm","25 cm"],2],
+  ["Calculate 12 × 8.",["86","96","108","88"],1],
+  ["What is the value of 7²?",["14","21","42","49"],3],
+  ["Convert 0.5 into a fraction.",["1/2","1/4","2/5","5/2"],0],
+  ["What is the next number: 2, 4, 6, 8, ...?",["9","10","12","14"],1],
+  ["Find the area of a rectangle measuring 8 cm by 4 cm.",["12 cm²","24 cm²","32 cm²","36 cm²"],2]
+ ],
+ "English":[
+  ["Which word is a noun?",["Run","Beautiful","Teacher","Quickly"],2],
+  ["Choose the correct plural of child.",["Childs","Children","Childes","Childrens"],1],
+  ["What is the opposite of ancient?",["Old","Modern","Historic","Past"],1],
+  ["Which is a punctuation mark?",["Table","Comma","Book","Chair"],1],
+  ["Choose the correct sentence.",["She go to school.","She goes to school.","She going school.","She gone school."],1],
+  ["A word that describes a noun is called a...",["Verb","Adjective","Pronoun","Conjunction"],1]
+ ],
+ "Kiswahili":[
+  ["Wingi wa neno mtoto ni upi?",["Watoto","Mitoto","Vitu","Mtotoni"],0],
+  ["Kinyume cha neno furaha ni...",["Amani","Huzuni","Upendo","Tabasamu"],1],
+  ["Kitenzi katika sentensi ni...",["Jina","Kitendo","Mahali","Kivumishi"],1],
+  ["Nani ni mhusika mkuu katika hadithi?",["Mwandishi","Mhusika muhimu zaidi","Msomaji","Mchapishaji"],1],
+  ["Methali ni nini?",["Aina ya mchezo","Semi fupi yenye hekima","Jina la mtu","Aina ya chakula"],1]
+ ],
+ "Integrated Science":[
+  ["Which organ pumps blood around the body?",["Lungs","Heart","Kidney","Stomach"],1],
+  ["Which gas do plants absorb during photosynthesis?",["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"],2],
+  ["What is the boiling point of water at sea level?",["50°C","75°C","100°C","150°C"],2],
+  ["Which part of a plant absorbs water?",["Flower","Roots","Fruit","Stem"],1],
+  ["Which planet is known as the Red Planet?",["Venus","Mars","Jupiter","Saturn"],1],
+  ["Which state of matter has a fixed volume but no fixed shape?",["Solid","Liquid","Gas","Plasma"],1]
+ ],
+ "Social Studies":[
+  ["What is the capital city of Kenya?",["Kisumu","Nairobi","Mombasa","Nakuru"],1],
+  ["Which instrument is used to show direction?",["Thermometer","Compass","Ruler","Barometer"],1],
+  ["What is the largest ocean?",["Indian","Atlantic","Pacific","Arctic"],2],
+  ["What is a map key used for?",["Decorating maps","Explaining map symbols","Measuring time","Showing temperature"],1],
+  ["Which is a natural resource?",["Plastic","Water","Computer","Car"],1]
+ ],
+ "Christian Religious Education":[
+  ["Who built the ark according to the Bible?",["Moses","Noah","David","Abraham"],1],
+  ["Where was Jesus born?",["Jerusalem","Bethlehem","Nazareth","Rome"],1],
+  ["What is prayer?",["Communication with God","A type of food","A sport","A journey"],0],
+  ["Who received the Ten Commandments?",["Peter","Moses","Paul","Joseph"],1]
+ ],
+ "Islamic Religious Education":[
+  ["What is the holy book of Islam?",["Bible","Quran","Torah","Vedas"],1],
+  ["How many pillars of Islam are there?",["Three","Four","Five","Six"],2],
+  ["What is the month of fasting called?",["Shawwal","Ramadan","Muharram","Rajab"],1],
+  ["In which city is the Kaaba located?",["Madinah","Makkah","Cairo","Jerusalem"],1]
+ ],
+ "Agriculture and Nutrition":[
+  ["Which tool is used for digging?",["Hoe","Ruler","Needle","Compass"],0],
+  ["Which nutrient mainly builds and repairs body tissues?",["Carbohydrates","Proteins","Vitamins","Water"],1],
+  ["Which practice helps conserve soil?",["Deforestation","Terracing","Overgrazing","Burning"],1],
+  ["Which is a source of vitamin C?",["Orange","Rice","Cooking oil","Salt"],0]
+ ],
+ "Creative Arts and Sports":[
+  ["Which element of art refers to lightness or darkness?",["Tone","Texture","Shape","Space"],0],
+  ["Which activity improves cardiovascular fitness?",["Running","Sleeping","Reading","Drawing"],0],
+  ["Which is a primary colour?",["Green","Purple","Red","Orange"],2],
+  ["What is teamwork?",["Working alone","Working together","Avoiding others","Competing unfairly"],1]
+ ],
+ "Pre-Technical Studies":[
+  ["Which tool is used to tighten a screw?",["Hammer","Screwdriver","Saw","Pliers"],1],
+  ["What does PPE stand for?",["Personal Protective Equipment","Public Power Energy","Primary Practical Exercise","Personal Project Entry"],0],
+  ["Which material is a good electrical conductor?",["Rubber","Wood","Copper","Plastic"],2],
+  ["What is the purpose of a ruler?",["Cutting","Measuring","Drilling","Painting"],1]
+ ],
+ "French":[
+  ["What does 'Bonjour' mean?",["Good night","Good morning/Hello","Goodbye","Thank you"],1],
+  ["What is the French word for school?",["Maison","École","Livre","Stylo"],1],
+  ["Choose the correct form: Je ___ étudiant.",["suis","es","est","sommes"],0],
+  ["What does 'Merci' mean?",["Please","Sorry","Thank you","Welcome"],2]
+ ]
+ };
+
+ const extras = {
+ "Mathematics":[
+  ["Calculate {a} + {b}.", (a,b)=>a+b],
+  ["Calculate {a} × {b}.", (a,b)=>a*b],
+  ["Calculate {a} - {b}.", (a,b)=>a-b]
+ ]
+ };
+
+ let questions=[],current=0,score=0,answered=false,timer=null;
+ let stats=JSON.parse(localStorage.getItem("shRevisionStats")||'{"answered":0,"correct":0}');
+
+ function shuffle(a){return a.sort(()=>Math.random()-.5)}
+ function makeQuestion(subject){
+  if(subject==="Mathematics" && Math.random()<.55){
+   let a= Math.floor(Math.random()*20)+2;
+   let b= Math.floor(Math.random()*12)+2;
+   let op=Math.floor(Math.random()*3);
+   let answer=op===0?a+b:op===1?a*b:a-b;
+   let prompt=op===0?`${a} + ${b}`:op===1?`${a} × ${b}`:`${a} - ${b}`;
+   let choices=new Set([answer]);
+   while(choices.size<4) choices.add(answer+Math.floor(Math.random()*15)-7);
+   let opts=shuffle([...choices]);
+   return {q:`Calculate ${prompt}.`,o:opts.map(String),a:opts.indexOf(answer),why:`The correct answer is ${answer}.`};
+  }
+  let source=banks[subject]||banks["English"];
+  let item=source[Math.floor(Math.random()*source.length)];
+  return {q:item[0],o:item[1].slice(),a:item[2],
+   why:`The correct answer is ${item[1][item[2]]}.`};
+ }
+
+ window.shOpenRevision=function(){
+  document.getElementById("shRevision").style.display="block";
+  document.getElementById("shQuizArea").innerHTML="";
+  updateStats();
+ };
+ window.shCloseRevision=function(){
+  document.getElementById("shRevision").style.display="none";
+  if(timer)clearInterval(timer);
+ };
+ function updateStats(){
+  document.getElementById("shStats").textContent=
+   `Questions answered: ${stats.answered} | Correct: ${stats.correct}`;
+  document.getElementById("shProgress").style.width=
+   (stats.answered?stats.correct/stats.answered*100:0)+"%";
+ }
+ window.shStartQuiz=function(mode){
+  if(timer)clearInterval(timer);
+  current=0;score=0;answered=false;
+  const subject=document.getElementById("shSubject").value;
+  const grade=document.getElementById("shGrade").value;
+  const count=mode==="paper"?30:15;
+  questions=Array.from({length:count},()=>makeQuestion(subject));
+  const area=document.getElementById("shQuizArea");
+  area.innerHTML=`<div class="sh-card">
+   <h3>${mode==="paper"?"📝 Model Past Paper":mode==="timed"?"⏱ Timed Examination":"✏️ Practice Questions"}</h3>
+   <p>${grade} | ${subject} | ${count} questions</p>
+   <p id="shTimer"></p><div id="shQuestion"></div>
+   <p id="shFeedback"></p><div id="shNext"></div>
+   </div>`;
+  if(mode==="timed"){
+   let seconds=count*60;
+   document.getElementById("shTimer").textContent="Time remaining: "+seconds+" seconds";
+   timer=setInterval(()=>{
+    seconds--;
+    let el=document.getElementById("shTimer");
+    if(!el){clearInterval(timer);return;}
+    el.textContent="Time remaining: "+seconds+" seconds";
+    if(seconds<=0){clearInterval(timer);finish();}
+   },1000);
+  }
+  showQuestion();
+ };
+ function showQuestion(){
+  answered=false;
+  const q=questions[current];
+  document.getElementById("shQuestion").innerHTML=
+   `<p><b>Question ${current+1} of ${questions.length}</b></p>
+   <h3>${q.q}</h3>`+
+   q.o.map((v,i)=>`<button class="sh-option" data-answer="${i}">${String.fromCharCode(65+i)}. ${v}</button>`).join("");
+  document.getElementById("shFeedback").textContent="";
+  document.getElementById("shNext").innerHTML="";
+  document.querySelectorAll("#shQuestion button").forEach(btn=>{
+   btn.onclick=()=>choose(Number(btn.dataset.answer));
+  });
+ }
+ function choose(choice){
+  if(answered)return;
+  answered=true;
+  const q=questions[current];
+  const correct=choice===q.a;
+  if(correct)score++;
+  stats.answered++;if(correct)stats.correct++;
+  localStorage.setItem("shRevisionStats",JSON.stringify(stats));
+  document.querySelectorAll("#shQuestion button").forEach((btn,i)=>{
+   btn.disabled=true;
+   if(i===q.a)btn.classList.add("correct");
+   if(i===choice&&!correct)btn.classList.add("wrong");
+  });
+  document.getElementById("shFeedback").innerHTML=
+   `<b>${correct?"Correct! ✓":"Not quite."}</b><br>${q.why}`;
+  document.getElementById("shNext").innerHTML=
+   `<button id="shContinue">${current===questions.length-1?"See Results":"Next Question"}</button>`;
+  document.getElementById("shContinue").onclick=()=>{
+   current++;if(current<questions.length)showQuestion();else finish();
+  };
+  updateStats();
+ }
+ function finish(){
+  if(timer)clearInterval(timer);
+  document.getElementById("shQuestion").innerHTML=
+   `<h2>Revision completed!</h2>
+   <h3>Your score: ${score}/${questions.length}</h3>
+   <p>${Math.round(score/questions.length*100)}% achievement</p>
+   <p>${score===questions.length?"Excellent work!": "Keep practising. You are making progress!"}</p>`;
+  document.getElementById("shFeedback").textContent="";
+  document.getElementById("shNext").innerHTML=
+   `<button onclick="shStartQuiz('practice')">Try Another Set</button>
+    <button class="secondary" onclick="shCloseRevision()">Close</button>`;
+ }
+ updateStats();
+})();
+</script>
+<!-- END SOMAHUB REVISION CENTRE -->
+
 </body>
 </html>
