@@ -1,3 +1,4 @@
+
 // SOMAHUB AUTHENTICATION SYSTEM
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -22,30 +23,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
       message("Creating your account...");
 
-      const { data, error } = await supabaseClient.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: name,
-            role: "student"
+      try {
+        const { data, error } = await supabaseClient.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name: name,
+              role: "student"
+            }
           }
+        });
+
+        if (error) throw error;
+
+        if (data.session) {
+          await saveProfile(data.user, name);
+          message("Account created successfully!");
+          showUser(data.user);
+        } else {
+          message("Registration successful. Check your email to confirm your account.");
         }
-      });
 
-      if (error) {
+        signupForm.reset();
+      } catch (error) {
         message(error.message);
-        return;
       }
-
-      if (data.session) {
-        await saveProfile(data.user, name);
-        message("Account created successfully! Welcome to SomaHub.");
-      } else {
-        message("Registration successful. Check your email to confirm your account, then log in.");
-      }
-
-      signupForm.reset();
     });
   }
 
@@ -59,23 +62,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
       message("Logging in...");
 
-      const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password
-      });
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
 
-      if (error) {
+        if (error) throw error;
+
+        await saveProfile(
+          data.user,
+          data.user.user_metadata?.full_name || ""
+        );
+
+        message("Welcome back to SomaHub!");
+        showUser(data.user);
+      } catch (error) {
         message(error.message);
-        return;
       }
-
-      await saveProfile(
-        data.user,
-        data.user.user_metadata?.full_name || ""
-      );
-
-      message("Welcome back to SomaHub!");
-      showUser(data.user);
     });
   }
 
@@ -99,31 +103,35 @@ document.addEventListener("DOMContentLoaded", () => {
   // DISPLAY LOGGED-IN USER
   function showUser(user) {
     if (userDisplay) {
-      userDisplay.textContent =
-        "Logged in: " + user.email;
+      userDisplay.textContent = "Logged in: " + user.email;
     }
   }
 
   // LOGOUT
   if (logoutButton) {
     logoutButton.addEventListener("click", async () => {
-      const { error } = await supabaseClient.auth.signOut();
+      try {
+        const { error } = await supabaseClient.auth.signOut();
 
-      if (error) {
+        if (error) throw error;
+
+        message("You have logged out.");
+        if (userDisplay) userDisplay.textContent = "";
+      } catch (error) {
         message(error.message);
-        return;
       }
-
-      message("You have logged out.");
-      if (userDisplay) userDisplay.textContent = "";
     });
   }
 
   // RESTORE LOGIN SESSION
-  supabaseClient.auth.getSession().then(({ data }) => {
+  supabaseClient.auth.getSession().then(({ data, error }) => {
+    if (error) {
+      message(error.message);
+      return;
+    }
+
     if (data.session) {
       showUser(data.session.user);
     }
   });
 });
-
